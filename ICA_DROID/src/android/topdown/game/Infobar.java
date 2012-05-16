@@ -1,4 +1,4 @@
-package faito.dajo;
+package android.topdown.game;
 
 import android.gameengine.icadroids.objects.GameObject;
 import android.graphics.Canvas;

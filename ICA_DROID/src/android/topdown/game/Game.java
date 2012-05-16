@@ -1,4 +1,4 @@
-package faito.dajo;
+package android.topdown.game;
 
 import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
