@@ -69,4 +69,8 @@ public class LivingEntity extends MoveableGameObject {
 	public void collisionOccurred(List<Tile> collidedTiles) {
 	}
 	
+	public void update(){
+		super.update();
+	}
+	
 }

@@ -19,7 +19,7 @@ public class Game extends GameEngine {
 		player = new Player();
 		info = new Infobar();
 		addPlayer(player, 0, 0);
-		addGameObject(info, 200, 200);
+		addGameObject(info);
 		Viewport.useViewport = true;
 		
 

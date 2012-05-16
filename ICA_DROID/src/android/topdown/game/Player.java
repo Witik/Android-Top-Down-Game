@@ -28,12 +28,15 @@ public class Player extends LivingEntity {
 			yspeed++;
 
 		if (OnScreenButtons.dPadUp) {
-			yspeed = -getSpeeds();
-			// setFacing(UP);
+			double dx = Math.sin(Math.toRadians(getRotation()))*getSpeeds();
+			double dy = Math.cos(Math.toRadians(getRotation()))*getSpeeds();
+			movePlayer((int)Math.ceil(dx),(int)Math.ceil(dy));
 		}
 		if (OnScreenButtons.dPadDown) {
-			yspeed = getSpeeds();
-			// setFacing(DOWN);
+			double dx = Math.sin(Math.toRadians(getRotation()))*getSpeeds();
+			double dy = Math.cos(Math.toRadians(getRotation()))*getSpeeds();
+			xspeed = dx;
+			yspeed = dy;
 		}
 		if (OnScreenButtons.dPadLeft) {
 			xspeed = -getSpeeds();
