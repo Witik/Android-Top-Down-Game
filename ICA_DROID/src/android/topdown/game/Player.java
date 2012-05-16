@@ -3,13 +3,18 @@ package android.topdown.game;
 import java.util.List;
 
 import android.gameengine.icadroids.input.OnScreenButtons;
-import android.gameengine.icadroids.objects.MoveableGameObject;
 import android.gameengine.icadroids.tiles.Tile;
 
-public class Player extends MoveableGameObject {
-	double speed = 10;
+public class Player extends LivingEntity {
 
-	public void update(){
+	static Tile[] blockedTiles = {};
+
+	public Player() {
+		super(blockedTiles, 100, 7);
+	}
+
+	public void update() {
+		super.update();
 		double xspeed = getxSpeed();
 		double yspeed = getySpeed();
 
@@ -22,19 +27,36 @@ public class Player extends MoveableGameObject {
 		if (yspeed < 0)
 			yspeed++;
 
-		if (OnScreenButtons.dPadUp)
-			yspeed = -speed;
-		if (OnScreenButtons.dPadDown)
-			yspeed = speed;
-		if (OnScreenButtons.dPadLeft)
-			xspeed = -speed;
-		if (OnScreenButtons.dPadRight)
-			xspeed = speed;
+		if (OnScreenButtons.dPadUp) {
+			yspeed = -getSpeeds();
+			// setFacing(UP);
+		}
+		if (OnScreenButtons.dPadDown) {
+			yspeed = getSpeeds();
+			// setFacing(DOWN);
+		}
+		if (OnScreenButtons.dPadLeft) {
+			xspeed = -getSpeeds();
+			// setFacing(LEFT);
+		}
+		if (OnScreenButtons.dPadRight) {
+			xspeed = getSpeeds();
+			// setFacing(RIGHT);
+		}
+		// if (OnScreenButtons.button1)
+		//
+		// if (OnScreenButtons.button2)
+
+		if (OnScreenButtons.button3)
+			rotate(10);
+		if (OnScreenButtons.button4)
+			rotate(-10);
 
 		setxSpeed(xspeed);
 		setySpeed(yspeed);
 	}
-	
+
 	public void collisionOccurred(List<Tile> collidedTiles) {
+		super.collisionOccurred(collidedTiles);
 	}
 }
