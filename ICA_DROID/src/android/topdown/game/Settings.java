@@ -13,7 +13,6 @@ public class Settings {
 	public static boolean load(Context context){
 		try{
 			String[] settings= readSettings(context).split("\n");
-			Log.w("settings", "Settings:"+settings);
 			playername = settings[0];
 			playertown = settings[1];
 			try{
