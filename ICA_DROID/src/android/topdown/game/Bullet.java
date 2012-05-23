@@ -14,6 +14,7 @@ public class Bullet extends MoveableGameObject {
 	private int rotation, speed;
 	public Bullet(double x, double y, int rotation,int speed, int decay,int damage){
 		super();
+		this.setSprite("bullet");
 		this.decay = decay;
 		setX(x);
 		setY(y);
