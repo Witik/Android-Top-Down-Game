@@ -12,7 +12,7 @@
         android:label="@string/app_name" android:debuggable="true" android:testOnly="false">
         <activity
             android:label="@string/app_name"
-            android:name=".MainMenu" >
+            android:name=".MainMenu" android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -20,7 +20,7 @@
         </activity>
         <activity
             android:label="@string/app_name"
-            android:name=".Game" >
+            android:name=".Game" android:screenOrientation="landscape">
         </activity>
     </application>
 	
