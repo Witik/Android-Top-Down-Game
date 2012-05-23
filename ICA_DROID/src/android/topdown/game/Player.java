@@ -15,9 +15,11 @@ public class Player extends LivingEntity {
 	private Gun currentGun;
 	private static int[] blockedTiles = { 1 };
 	private boolean hasShotgun;
+	private Game game;
 
-	public Player() {
+	public Player(Game game) {
 		super(blockedTiles, HP, SPEED);
+		this.game = game;
 		pistol = new Pistol(Pistol.MAX_AMMO);
 		currentGun = pistol;
 		setSprite(SPRITE);
@@ -54,7 +56,7 @@ public class Player extends LivingEntity {
 	}
 
 	public void shoot() {
-		currentGun.shoot(getX(), getY(), (int) getRotation());
+		currentGun.shoot(getX(), getY(), (int) getRotation(), game);
 	}
 
 	public void update() {

@@ -9,10 +9,10 @@ public class Shotgun extends Gun {
 	}
 
 	@Override
-	public void shoot(double x, double y, int rotation) {
-		new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)-15)), 10, 30,DAMAGE);
-		new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)+15)), 10, 30,DAMAGE);
-		new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)-30)), 10, 30,DAMAGE);
+	public void shoot(double x, double y, int rotation, Game game) {
+		game.addGameObject(new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)-15)), 10, 30,DAMAGE));
+		game.addGameObject(new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)+15)), 10, 30,DAMAGE));
+		game.addGameObject(new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)-30)), 10, 30,DAMAGE));
 	}
 
 }
