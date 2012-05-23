@@ -1,26 +1,32 @@
 package android.topdown.game;
 
-public abstract class Gun extends Pickup {
-	private int ammo,ammoMax,damage;
-	
-	public Gun(int x, int y, String sprite, int ammo, int ammoMax, int damage) {
-		super(x, y, sprite);
-		this.ammo = ammo;
-		this.ammoMax = ammoMax;
-		this.damage = damage;
-	}
+public abstract class Gun {
+	private int ammoMax, damage;
+	protected int ammo;
 
 	public Gun(String sprite, int ammo, int ammoMax, int damage) {
-		super(0, 0, sprite);
 		this.ammo = ammo;
 		this.ammoMax = ammoMax;
 		this.damage = damage;
 	}
 
-	@Override
-	public void pickupEvent(Player player) {
-		player.giveGun(this);
-		this.deleteThisGameObject();
+	public int getAmmo() {
+		return ammo;
 	}
+
+	public int getAmmoMax() {
+		return ammoMax;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void addAmmo(int ammo) {
+		this.ammo += ammo;
+		if (ammo > ammoMax)
+			ammo = ammoMax;
+	}
+
 	public abstract void shoot(double x, double y, int rotation);
 }

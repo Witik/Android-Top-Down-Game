@@ -7,6 +7,8 @@ import android.gameengine.icadroids.tiles.Tile;
 
 public class Player extends LivingEntity {
 
+	private static final int MAX_HP = 100;
+	private static final int SPEED = 7;
 	private Pistol pistol;
 	private Shotgun shotgun;
 	private Gun currentGun;
@@ -14,13 +16,23 @@ public class Player extends LivingEntity {
 	private boolean hasShotgun;
 
 	public Player() {
-		super(blockedTiles, 100, 7);
+		super(blockedTiles, MAX_HP, SPEED);
 		pistol = new Pistol(Pistol.MAX_AMMO);
 		currentGun = pistol;
 	}
 
 	public void giveGun(Gun gun) {
-
+		if(gun instanceof Shotgun){
+			if(hasShotgun)
+				shotgun.addAmmo(gun.getAmmo());
+			else {
+				shotgun = (Shotgun) gun;
+				hasShotgun = true;
+				currentGun = shotgun;
+			}
+		} else if (gun instanceof Pistol){
+			pistol.addAmmo(gun.getAmmo());
+		}
 	}
 
 	/**
