@@ -19,7 +19,7 @@ public class Game extends GameEngine {
 	public Game() {
 		super();
 		level = new Level("map");
-		player = new Player(this);
+		player = new Player();
 		info = new Infobar();
 		addPlayer(player, 0, 0);
 		addGameObject(info);

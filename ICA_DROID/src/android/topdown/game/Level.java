@@ -2,9 +2,10 @@ package android.topdown.game;
 
 import android.gameengine.icadroids.objects.graphics.Sprite;
 import android.gameengine.icadroids.tiles.GameTiles;
+import android.gameengine.icadroids.alarms.IAlarm;
 import android.graphics.Bitmap;
 
-public class Level {
+public class Level implements IAlarm {
 	public static final String TILE_GRASS = "grass";
 	public static final String TILE_WALL = "wall";
 	public static final String TILE_ROAD = "road";
@@ -81,5 +82,17 @@ public class Level {
 			}
 		}
 		return Map;
+	}
+
+	@Override
+	public boolean alarmsActiveForThisObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void triggerAlarm(int alarmID) {
+		// TODO Auto-generated method stub
+		
 	}
 }

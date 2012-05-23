@@ -2,6 +2,7 @@ package android.topdown.game;
 
 import java.util.List;
 
+import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.tiles.Tile;
 
@@ -13,15 +14,15 @@ public class Player extends LivingEntity {
 	private Pistol pistol;
 	private Shotgun shotgun;
 	private Gun currentGun;
-	private static int[] blockedTiles = { 1 };
+	private static int[] blockedTiles = { Level.ID_WALL };
 	private boolean hasShotgun;
-	private Game game;
 
-	public Player(Game game) {
+	public Player() {
 		super(blockedTiles, HP, SPEED);
-		this.game = game;
 		pistol = new Pistol(Pistol.MAX_AMMO);
-		currentGun = pistol;
+		shotgun = new Shotgun(Shotgun.MAX_AMMO);
+		hasShotgun = true;
+		currentGun = shotgun;
 		setSprite(SPRITE);
 	}
 
@@ -56,7 +57,7 @@ public class Player extends LivingEntity {
 	}
 
 	public void shoot() {
-		currentGun.shoot(getX(), getY(), (int) getRotation(), game);
+		currentGun.shoot(getX(), getY(), (int) getRotation());
 	}
 
 	public void update() {

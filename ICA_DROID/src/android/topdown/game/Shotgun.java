@@ -1,5 +1,7 @@
 package android.topdown.game;
 
+import android.gameengine.icadroids.engine.GameEngine;
+
 public class Shotgun extends Gun {
 	public static final int MAX_AMMO = 70;
 	public static final int DAMAGE = 40;
@@ -9,10 +11,10 @@ public class Shotgun extends Gun {
 	}
 
 	@Override
-	public void shoot(double x, double y, int rotation, Game game) {
-		game.addGameObject(new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)-15)), 10, 30,DAMAGE));
-		game.addGameObject(new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)+15)), 10, 30,DAMAGE));
-		game.addGameObject(new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)-30)), 10, 30,DAMAGE));
+	public void shoot(double x, double y, int rotation) {
+		GameEngine.items.add(new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)-15)), 10, 30,DAMAGE));
+		GameEngine.items.add(new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)+15)), 10, 30,DAMAGE));
+		GameEngine.items.add(new Bullet(x,y,(int) (rotation+Math.round((Math.random()*30)-30)), 10, 30,DAMAGE));
 	}
 
 }

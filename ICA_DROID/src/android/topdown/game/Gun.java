@@ -28,5 +28,5 @@ public abstract class Gun {
 			ammo = ammoMax;
 	}
 
-	public abstract void shoot(double x, double y, int rotation, Game game);
+	public abstract void shoot(double x, double y, int rotation);
 }
