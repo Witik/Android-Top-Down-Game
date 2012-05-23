@@ -1,12 +1,13 @@
 package android.topdown.game;
 
+import java.util.ArrayList;
+
+
 public class Pistol extends Gun {
+
+	ArrayList<Gun> guns;
 	public static final int MAX_AMMO = 255;
 	public static final int DAMAGE = 10;
-	
-	public Pistol(int x, int y, int ammo) {
-		super(x, y, "pistol", ammo, MAX_AMMO, DAMAGE);
-	}
 	
 	public Pistol(int ammo){
 		super("pistol", ammo, MAX_AMMO, DAMAGE);

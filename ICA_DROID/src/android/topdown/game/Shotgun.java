@@ -3,9 +3,6 @@ package android.topdown.game;
 public class Shotgun extends Gun {
 	public static final int MAX_AMMO = 70;
 	public static final int DAMAGE = 40;
-	public Shotgun(int x, int y, int ammo) {
-		super(x, y, "shotgun", ammo, MAX_AMMO, DAMAGE);
-	}
 	
 	public Shotgun(int ammo){
 		super("shotgun", ammo, MAX_AMMO, DAMAGE);
