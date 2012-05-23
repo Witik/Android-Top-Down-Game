@@ -30,8 +30,7 @@ public class Game extends GameEngine {
 		super.initialize();
 
 		info.isVisible = true;
-		
-		player.setSprite("player");
+
 		player.setPosition(super.getScreenWidth() / 2 - player.getSprite().getFrameWidth() / 2, super.getScreenHeight() / 2 - player.getSprite().getFrameHeight() / 2);
 		player.isVisible = true;
 		

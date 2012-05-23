@@ -7,8 +7,9 @@ import android.gameengine.icadroids.tiles.Tile;
 
 public class Player extends LivingEntity {
 
-	private static final int MAX_HP = 100;
+	private static final int HP = 100;
 	private static final int SPEED = 7;
+	private static final String SPRITE = "ferdi";
 	private Pistol pistol;
 	private Shotgun shotgun;
 	private Gun currentGun;
@@ -16,9 +17,10 @@ public class Player extends LivingEntity {
 	private boolean hasShotgun;
 
 	public Player() {
-		super(blockedTiles, MAX_HP, SPEED);
+		super(blockedTiles, HP, SPEED);
 		pistol = new Pistol(Pistol.MAX_AMMO);
 		currentGun = pistol;
+		setSprite(SPRITE);
 	}
 
 	public void giveGun(Gun gun) {
