@@ -15,8 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainMenu extends Activity implements OnClickListener {
-	private Button submit;
+public class MainMenu extends Activity {
+	private Button submit,credits,load;
 	private EditText naam,plaats;
 	private Context context;
 	public MainMenu() {
@@ -27,20 +27,70 @@ public class MainMenu extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainmenu);
 		submit = (Button) findViewById(R.id.submitbuttonmainmenu);
+		credits = (Button) findViewById(R.id.creditsbutton);
+		load = (Button) findViewById(R.id.loadbutton);//TODO layout aanpassen hier om gebruik te maken van % breedte
 		naam = (EditText) findViewById(R.id.namefield);
 		plaats = (EditText) findViewById(R.id.plaatsfield);
-		submit.setOnClickListener(this);
+		setClickListeneres();
 	}
-	public void onClick(View v) {
-		if(v.getId()==R.id.submitbuttonmainmenu){
-			Settings.playername = naam.getText().toString();
-			Settings.playertown = plaats.getText().toString();
-			if(Settings.playername.length()>0&&Settings.playertown.length()>0){
-				startActivity(new Intent(this, Game.class));
-			}
-			else{
-				Toast.makeText(getBaseContext(), "I asked you something? Y_NO_ANSWER?", Toast.LENGTH_LONG).show();
-			}
+	public void onResume(){
+		super.onResume();
+		if(!Settings.load(context)){
+			disableLoad();
 		}
+		else{
+			enableLoad();
+		}
+	}
+	private void setClickListeneres() {
+		submit.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				if(v.getId()==R.id.submitbuttonmainmenu){
+					Settings.playername = naam.getText().toString();
+					Settings.playertown = plaats.getText().toString();
+					Settings.level = 1;
+					Settings.save(context);
+					if(Settings.playername.length()>0&&Settings.playertown.length()>0){
+						startGame();
+					}
+					else{
+						Toast.makeText(getBaseContext(), "I asked you something? Y_NO_ANSWER?", Toast.LENGTH_LONG).show();
+					}
+				}
+			}
+		});
+		credits.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				if(v.getId()==R.id.creditsbutton){
+					//TODO Thomas thuis kijken naar iets wat dit mooi kan implementeren
+					Toast.makeText(getBaseContext(), "Credits", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+		load.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				if(v.getId()==R.id.loadbutton){
+					Settings.load(context);
+					Toast.makeText(getBaseContext(), "load:"+Settings.playername+" town:"+Settings.playertown+" level: "+Settings.level, Toast.LENGTH_SHORT).show();
+					if(Settings.load(context)){// ok we kunnen naar de game
+						startGame();
+					}
+					else{
+						Toast.makeText(getBaseContext(), "No profile present", Toast.LENGTH_LONG).show();
+						disableLoad();
+					}
+				}
+			}
+		});
+	}
+	private void startGame(){
+		startActivity(new Intent(context, Game.class));
+	}
+	private void disableLoad(){
+		load.clearFocus();
+		load.setEnabled(false);
+	}
+	public void enableLoad(){
+		load.setEnabled(true);
 	}
 }

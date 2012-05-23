@@ -2,52 +2,78 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainmenu"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="match_parent"
+    android:isScrollContainer="true"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="What is your name?" />
-
-    <EditText
-        android:id="@+id/namefield"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="your name?"
-        android:inputType="text"
-        android:singleLine="true" >
+        android:gravity="center" >
 
-        <requestFocus />
-    </EditText>
+        <Button
+            android:id="@+id/loadbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Load Previous" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="And where do you live?" />
+        <Button
+            android:id="@+id/creditsbutton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hapticFeedbackEnabled="true"
+            android:text="Credits" />
 
-    <EditText
-        android:id="@+id/plaatsfield"
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="a place?"
-        android:inputType="text"
-        android:singleLine="true" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Great to meet you now....." />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="What is your name?" />
 
-    <Button
-        android:id="@+id/submitbuttonmainmenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="LETS KILL SOME ZOMBIES!!!" />
+        <EditText
+            android:id="@+id/namefield"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="your name?"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="And where do you live?" />
+
+        <EditText
+            android:id="@+id/plaatsfield"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="a place?"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Great to meet you now....." />
+
+        <Button
+            android:id="@+id/submitbuttonmainmenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="LETS KILL SOME ZOMBIES!!!" />
+
+    </LinearLayout>
 
 </LinearLayout>
