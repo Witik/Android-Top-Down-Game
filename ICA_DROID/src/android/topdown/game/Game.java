@@ -1,13 +1,16 @@
 package android.topdown.game;
 
+import android.content.Intent;
 import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.renderer.GameView;
 import android.gameengine.icadroids.renderer.Viewport;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
 
 public class Game extends GameEngine {
-
+	
 	private Player player;
 	private Level level;
 	Infobar info;
@@ -21,10 +24,7 @@ public class Game extends GameEngine {
 		addPlayer(player, 0, 0);
 		addGameObject(info);
 		Viewport.useViewport = true;
-		
-
 	}
-
 	@Override
 	public void initialize() {
 		super.initialize();
