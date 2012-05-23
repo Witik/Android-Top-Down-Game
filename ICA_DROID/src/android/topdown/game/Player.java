@@ -7,56 +7,57 @@ import android.gameengine.icadroids.tiles.Tile;
 
 public class Player extends LivingEntity {
 
-	static Tile[] blockedTiles = {};
+	private static Tile[] blockedTiles = {};
+	private int currentGun;
+	private boolean hasShotgun;
 
 	public Player() {
 		super(blockedTiles, 100, 7);
 	}
+	
+	public void giveGun(Gun gun){
+		
+	}
+	
+	/**
+	 * @param type
+	 * @param amount
+	 * @return
+	 */
+	public boolean giveAmmo(int type, int amount){
+		if(type==Ammo.TYPE_PISTOL){
+			//TODO add pistol ammo
+			return true;
+		}else if(type==Ammo.TYPE_SHOTGUN&&hasShotgun){
+			//TODO add shotgun ammo
+			return true;
+		}
+		return false;
+	}
 
 	public void update() {
 		super.update();
-		double xspeed = getxSpeed();
-		double yspeed = getySpeed();
-
-		if (xspeed > 0)
-			xspeed--;
-		if (xspeed < 0)
-			xspeed++;
-		if (yspeed > 0)
-			yspeed--;
-		if (yspeed < 0)
-			yspeed++;
 
 		if (OnScreenButtons.dPadUp) {
-			double dx = Math.sin(Math.toRadians(getRotation()))*getSpeeds();
-			double dy = Math.cos(Math.toRadians(getRotation()))*getSpeeds();
-			movePlayer((int)Math.ceil(dx),(int)Math.ceil(dy));
+			moveUp();
 		}
 		if (OnScreenButtons.dPadDown) {
-			double dx = Math.sin(Math.toRadians(getRotation()))*getSpeeds();
-			double dy = Math.cos(Math.toRadians(getRotation()))*getSpeeds();
-			xspeed = dx;
-			yspeed = dy;
+			moveDown();
 		}
 		if (OnScreenButtons.dPadLeft) {
-			xspeed = -getSpeeds();
-			// setFacing(LEFT);
+			moveLeft();
 		}
 		if (OnScreenButtons.dPadRight) {
-			xspeed = getSpeeds();
-			// setFacing(RIGHT);
+			moveRight();
 		}
 		// if (OnScreenButtons.button1)
 		//
 		// if (OnScreenButtons.button2)
 
 		if (OnScreenButtons.button3)
-			rotate(10);
-		if (OnScreenButtons.button4)
 			rotate(-10);
-
-		setxSpeed(xspeed);
-		setySpeed(yspeed);
+		if (OnScreenButtons.button4)
+			rotate(10);
 	}
 
 	public void collisionOccurred(List<Tile> collidedTiles) {

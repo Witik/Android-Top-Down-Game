@@ -57,13 +57,17 @@ public class LivingEntity extends MoveableGameObject {
 	public void setSpeeds(double speed) {
 		this.speed = Math.abs(speed);
 	}
+	
+	public void heal(int hp){
+		this.hp += hp;
+	}
+	
+	public void hurt(int hp){
+		this.hp -= hp;
+	}
 
 	public int getHp() {
 		return hp;
-	}
-
-	public void setHp(int hp) {
-		this.hp = hp;
 	}
 
 	public void collisionOccurred(List<Tile> collidedTiles) {
@@ -71,6 +75,30 @@ public class LivingEntity extends MoveableGameObject {
 	
 	public void update(){
 		super.update();
+	}
+	
+	public void moveUp(){
+		double dx = Math.sin(Math.toRadians(getRotation()))*getSpeeds();
+		double dy = Math.cos(Math.toRadians(getRotation()))*getSpeeds();
+		movePlayer((int)Math.ceil(dx),(int)Math.ceil(-dy));
+	}
+	
+	public void moveDown(){
+		double dx = Math.sin(Math.toRadians(getRotation()))*getSpeeds();
+		double dy = Math.cos(Math.toRadians(getRotation()))*getSpeeds();
+		movePlayer((int)Math.ceil(-dx),(int)Math.ceil(dy));
+	}
+	
+	public void moveLeft(){
+		double dx = Math.sin(Math.toRadians(getRotation()))*getSpeeds();
+		double dy = Math.cos(Math.toRadians(getRotation()))*getSpeeds();
+		movePlayer((int)Math.ceil(-dy),(int)Math.ceil(-dx));
+	}
+	
+	public void moveRight(){
+		double dx = Math.sin(Math.toRadians(getRotation()))*getSpeeds();
+		double dy = Math.cos(Math.toRadians(getRotation()))*getSpeeds();
+		movePlayer((int)Math.ceil(dy),(int)Math.ceil(dx));
 	}
 	
 }
