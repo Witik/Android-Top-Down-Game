@@ -14,14 +14,19 @@ public class Ammo extends Pickup {
 		if(type==Ammo.TYPE_PISTOL){
 			return "pistolammo";
 		}
-		else{
+		else if (type==TYPE_SHOTGUN){
 			return "shotgunammo";
+		}
+		else{
+			return "spritemissing";//TODO zorgen dat al deze sprites ook aanwezig zijn.
 		}
 	}
 
 	@Override
 	public void pickupEvent(Player player) {
-		//TODO methode afmaken als de player zijn constructors af zijn
+		if(player.giveAmmo(type,amount)){
+			this.deleteThisGameObject();
+		}
 	}
 
 }

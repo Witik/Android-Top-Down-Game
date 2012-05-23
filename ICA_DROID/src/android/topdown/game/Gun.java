@@ -19,7 +19,8 @@ public abstract class Gun extends Pickup {
 
 	@Override
 	public void pickupEvent(Player player) {
-		//TODO methode afmaken als de player zijn constructors af zijn
+		player.giveGun(this);
+		this.deleteThisGameObject();
 	}
 	public abstract void shoot(double x, double y, int rotation);
 }

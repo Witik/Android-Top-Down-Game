@@ -4,13 +4,23 @@ public class HealthPack extends Pickup {
 
 	private int amount;
 	public HealthPack(int x, int y, int amount) {
-		super(x, y, "healthpack");
+		super(x, y, getSprite(amount));
 		this.amount = amount;
+	}
+
+	private static String getSprite(int amount) {
+		if(amount>50){
+			return "healthbig";
+		}
+		else{
+			return "health";
+		}
 	}
 
 	@Override
 	public void pickupEvent(Player player) {
-		//TODO methode afmaken als de player zijn constructors af zijn
+		player.heal(amount);
+		this.deleteThisGameObject();
 	}
 
 }
