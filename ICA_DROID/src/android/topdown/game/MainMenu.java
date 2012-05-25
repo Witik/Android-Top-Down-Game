@@ -1,6 +1,7 @@
 package android.topdown.game;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.gameengine.icadroids.engine.GameEngine;
@@ -62,8 +63,8 @@ public class MainMenu extends Activity {
 		credits.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
 				if(v.getId()==R.id.creditsbutton){
-					//TODO Thomas thuis kijken naar iets wat dit mooi kan implementeren
 					Toast.makeText(getBaseContext(), "Credits", Toast.LENGTH_SHORT).show();
+					startActivity(new Intent(context, Credits.class));
 				}
 			}
 		});
