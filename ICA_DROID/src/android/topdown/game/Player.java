@@ -39,6 +39,14 @@ public class Player extends LivingEntity {
 			pistol.addAmmo(gun.getAmmo());
 		}
 	}
+	
+	public Shotgun getShotgun(){
+		return shotgun;
+	}
+	
+	public Pistol getPistol(){
+		return pistol;
+	}
 
 	/**
 	 * @param type
@@ -57,7 +65,9 @@ public class Player extends LivingEntity {
 	}
 
 	public void shoot() {
-		currentGun.shoot(getX(), getY(), (int) getRotation());
+		int x = getX()+36;
+		int y = getY();
+		currentGun.shoot(x, y, (int) getRotation());
 	}
 
 	public void update() {
