@@ -43,7 +43,6 @@ public abstract class Gun implements IAlarm {
 		new Alarm(1, rate, this);
 	}
 
-	@Override
 	public boolean alarmsActiveForThisObject() {
 		return !canShoot;
 	}

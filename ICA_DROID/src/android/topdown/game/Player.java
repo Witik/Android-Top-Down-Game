@@ -116,8 +116,7 @@ public class Player extends LivingEntity implements IAlarm {
 	public void collisionOccurred(List<Tile> collidedTiles) {
 		super.collisionOccurred(collidedTiles);
 	}
-
-	@Override
+	
 	public void triggerAlarm(int alarmID) {
 		if(alarmID==1)
 			swappable = true;
