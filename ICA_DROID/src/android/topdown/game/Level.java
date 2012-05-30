@@ -84,13 +84,11 @@ public class Level implements IAlarm {
 		return Map;
 	}
 
-	@Override
 	public boolean alarmsActiveForThisObject() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public void triggerAlarm(int alarmID) {
 		// TODO Auto-generated method stub
 		

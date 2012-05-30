@@ -1,5 +1,6 @@
 package android.topdown.game;
 
+import android.content.Context;
 import android.content.Intent;
 import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
@@ -8,19 +9,21 @@ import android.gameengine.icadroids.renderer.Viewport;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 
 public class Game extends GameEngine {
 	
 	private Player player;
 	private Level level;
-	Infobar info;
-	Viewport port;
+	private Infobar info;
+	private Viewport port;
 
 	public Game() {
 		super();
 		level = new Level("map");
 		player = new Player();
-		info = new Infobar();
+		info = new Infobar(player);
 		addPlayer(player, 0, 0);
 		addGameObject(info);
 		Viewport.useViewport = true;
@@ -49,6 +52,9 @@ public class Game extends GameEngine {
 		port.setPlayer(player);
 		port.setPlayerPositionTolerance(0.0, 0.0);
 		port.setPlayerPositionOnScreen(Viewport.PLAYER_VCENTER | Viewport.PLAYER_HCENTER);
+		Display display = ((WindowManager) GameEngine.getAppContext()
+				.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		info.setScreenSize(display.getHeight(), display.getWidth());
 	}
 
 	@Override
