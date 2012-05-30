@@ -30,8 +30,8 @@ public abstract class Gun implements IAlarm {
 
 	public void addAmmo(int ammo) {
 		this.ammo += ammo;
-		if (ammo > ammoMax)
-			ammo = ammoMax;
+		if (this.ammo > ammoMax)
+			this.ammo = ammoMax;
 	}
 
 	public boolean canShoot(){

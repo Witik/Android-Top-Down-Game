@@ -26,6 +26,7 @@ public class GunPickup extends Pickup {
 	@Override
 	public void pickupEvent(Player player) {
 		player.giveGun(giveGun());
+		this.deleteThisGameObject();
 	}
 
 	/**

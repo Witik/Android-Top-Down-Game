@@ -2,19 +2,17 @@ package android.topdown.game;
 
 import java.util.List;
 
+import android.gameengine.icadroids.engine.GameEngine;
+import android.gameengine.icadroids.objects.GameObject;
 import android.gameengine.icadroids.objects.MoveableGameObject;
 import android.gameengine.icadroids.objects.graphics.AnimatedSprite;
 import android.gameengine.icadroids.tiles.Tile;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
-public class LivingEntity extends MoveableGameObject {
-	public static final int UP = 0;
-	public static final int RIGHT = 1;
-	public static final int DOWN = 2;
-	public static final int LEFT = 3;
-
+public abstract class LivingEntity extends MoveableGameObject {
 	private int hp, maxHp;
 	private float rotation;
 	private double speed;
@@ -78,10 +76,20 @@ public class LivingEntity extends MoveableGameObject {
 
 	public void hurt(int hp) {
 		this.hp -= hp;
+		if(this.hp<=0){
+			die();
+		}
+	}
+
+	public void die(){
+		this.deleteThisGameObject();
 	}
 
 	public int getHp() {
 		return hp;
+	}
+	public void setHp(int hp){
+		this.hp = hp;
 	}
 
 	public int getmaxHp() {
@@ -103,7 +111,19 @@ public class LivingEntity extends MoveableGameObject {
 
 	public void update() {
 		super.update();
+		gameObjectCollision();
 	}
+
+	private void gameObjectCollision() {
+		for(GameObject g:GameEngine.items){
+			if(g.position.intersect(position)){// collison
+				Log.i("collision","start");
+				objectCollision(g);
+			}
+		}
+	}
+
+	protected abstract void objectCollision(GameObject g);
 
 	public void moveUp() {
 		double dx = Math.sin(Math.toRadians(getRotation())) * getSpeeds();

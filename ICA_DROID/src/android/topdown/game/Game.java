@@ -32,6 +32,12 @@ public class Game extends GameEngine {
 		info = new Infobar(player);
 		addPlayer(player, 0, 0);
 		addGameObject(info);
+		addGameObject(new GunPickup(15*64, 15*64, GunPickup.TYPE_PISTOL, 100));
+		addGameObject(new GunPickup(15*64, 16*64, GunPickup.TYPE_SHOTGUN, 100));
+		addGameObject(new HealthPack(16*64, 16*64, 100));
+		Zombie z = new Zombie(100, 1, 1, player);
+		z.rotate(180);
+		addGameObject(z,100,1000);
 		Viewport.useViewport = true;
 		notplaying = true;
 	}
