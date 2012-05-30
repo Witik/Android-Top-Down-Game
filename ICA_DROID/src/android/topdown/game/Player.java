@@ -6,7 +6,9 @@ import android.gameengine.icadroids.alarms.Alarm;
 import android.gameengine.icadroids.alarms.IAlarm;
 import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
+import android.gameengine.icadroids.objects.GameObject;
 import android.gameengine.icadroids.tiles.Tile;
+import android.util.Log;
 
 public class Player extends LivingEntity implements IAlarm {
 
@@ -98,6 +100,9 @@ public class Player extends LivingEntity implements IAlarm {
 			rotate(-7.5f);
 		else if (OnScreenButtons.button4)
 			rotate(7.5f);
+		if(getHp()>getmaxHp()){// als we op adren zitten dan langzaam laten dalen
+			setHp(getHp()-1);
+		}
 	}
 
 	private void swap() {
@@ -120,5 +125,27 @@ public class Player extends LivingEntity implements IAlarm {
 	public void triggerAlarm(int alarmID) {
 		if(alarmID==1)
 			swappable = true;
+	}
+	
+	public void hurt(int damage){
+		super.hurt(damage);
+		//TODO sounds toevoegen
+	}
+	@Override
+	protected void objectCollision(GameObject g) {
+		if(g instanceof Pickup){
+			((Pickup) g).pickupEvent(this);
+			Log.i("collision","pickup");
+		}
+		else if(g instanceof Zombie){
+			hurt(((Zombie) g).getDamage());
+			Log.i("collision","zombie");
+		}
+	}
+
+	@Override
+	public void die() {
+		super.die();
+		Log.i("Player","died");
 	}
 }

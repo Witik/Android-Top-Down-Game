@@ -30,8 +30,14 @@ public class Infobar extends GameObject {
 	@Override
 	public void update() {
 		super.update();
-		paintLine.setARGB(255, (int)Math.round(player.getHp()), 
-				(int)Math.round(player.getHp()*2.55), (int)Math.round(player.getHp()));
+		int r = 0, g = 0;
+		if(player.getHp()>100){
+			paintLine.setARGB(255, 255,255, 255);
+		}
+		else{
+			paintLine.setARGB(255, (int)Math.round(player.getHp()), 
+					(int)Math.round(player.getHp()*2.55), (int)Math.round(player.getHp()));
+		}
 		//TODO mischien de kleuren hier nog wat afstellen
 	}
 
