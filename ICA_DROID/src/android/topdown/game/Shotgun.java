@@ -15,11 +15,13 @@ public class Shotgun extends Gun {
 	@Override
 	public void shoot(double x, double y, int rotation) {
 		if (canShoot()) {
-			GameSound.playSound(Game.SHOTGUNSOUND, 0);
-			GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) - 15)), 15, DAMAGE));
-			GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) + 15)), 15, DAMAGE));
-			GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) - 30)), 15, DAMAGE));
-			shot();
+			if (!isEmpty()) {
+				GameSound.playSound(Game.SHOTGUNSOUND, 0);
+				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) - 15)), 15, DAMAGE));
+				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) + 15)), 15, DAMAGE));
+				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) - 30)), 15, DAMAGE));
+				shot();
+			}
 		}
 	}
 

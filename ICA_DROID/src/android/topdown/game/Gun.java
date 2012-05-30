@@ -34,10 +34,18 @@ public abstract class Gun implements IAlarm {
 			this.ammo = ammoMax;
 	}
 
-	public boolean canShoot(){
-		if(ammo<=0)
+	public boolean isEmpty(){
+		if(ammo<=0){
 			GameSound.playSound(Game.GUNCLICKSOUND, 0);
-		return ammo!=0&&canShoot;
+			new Alarm(1, 10, this);
+			canShoot=false;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean canShoot(){
+		return canShoot;
 	}
 	
 	public void shot(){

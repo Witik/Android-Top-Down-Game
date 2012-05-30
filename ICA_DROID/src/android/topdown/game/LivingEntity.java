@@ -27,11 +27,13 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	public void rotate(float rotation) {
-		this.rotation += rotation;
-		if (rotation > 360)
-			rotation -= 360;
-		else if (rotation < 0)
-			rotation += 360;
+		if(this.rotation+rotation<0){
+			this.rotation += rotation+360;
+		}else if(this.rotation+rotation>360){
+			this.rotation += rotation-360;
+		} else {
+			this.rotation += rotation;
+		}
 	}
 
 	public void setRotation(float rot) {
@@ -117,7 +119,6 @@ public abstract class LivingEntity extends MoveableGameObject {
 	private void gameObjectCollision() {
 		for(GameObject g:GameEngine.items){
 			if(g.position.intersect(position)){// collison
-				Log.i("collision","start");
 				objectCollision(g);
 			}
 		}

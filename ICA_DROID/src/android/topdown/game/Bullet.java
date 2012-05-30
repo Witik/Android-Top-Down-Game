@@ -6,15 +6,8 @@ import android.gameengine.icadroids.objects.MoveableGameObject;
 import android.gameengine.icadroids.objects.graphics.AnimatedSprite;
 import android.gameengine.icadroids.tiles.Tile;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 
 public class Bullet extends MoveableGameObject {
-	/**
-	 * bij houden om punt van origin te weten
-	 */
-	private int startX, startY;
 	/**
 	 * afstand die gereisd mag worden
 	 */

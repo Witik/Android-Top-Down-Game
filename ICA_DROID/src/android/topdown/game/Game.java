@@ -1,25 +1,22 @@
 package android.topdown.game;
 
 import android.content.Context;
-import android.content.Intent;
 import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.renderer.GameView;
 import android.gameengine.icadroids.renderer.Viewport;
 import android.gameengine.icadroids.sound.GameSound;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
 public class Game extends GameEngine {
-	
+
 	private Player player;
 	private Level level;
 	private Infobar info;
 	private Viewport port;
-	private boolean notplaying;
+	Zombie z;
 
 	public static final int PISTOLSOUND = 0;
 	public static final int SHOTGUNSOUND = 1;
@@ -32,15 +29,15 @@ public class Game extends GameEngine {
 		info = new Infobar(player);
 		addPlayer(player, 0, 0);
 		addGameObject(info);
-		addGameObject(new GunPickup(15*64, 15*64, GunPickup.TYPE_PISTOL, 100));
-		addGameObject(new GunPickup(15*64, 16*64, GunPickup.TYPE_SHOTGUN, 100));
-		addGameObject(new HealthPack(16*64, 16*64, 100));
-		Zombie z = new Zombie(100, 1, 1, player);
+		addGameObject(new GunPickup(15 * 64, 15 * 64, GunPickup.TYPE_PISTOL, 100));
+		addGameObject(new GunPickup(15 * 64, 16 * 64, GunPickup.TYPE_SHOTGUN, 100));
+		addGameObject(new HealthPack(16 * 64, 16 * 64, 100));
+		z = new Zombie(100, 1, 1, player);
 		z.rotate(180);
-		addGameObject(z,100,1000);
+		addGameObject(z, 26 * 64, 5 * 64);
 		Viewport.useViewport = true;
-		notplaying = true;
 	}
+
 	@Override
 	public void initialize() {
 		super.initialize();
@@ -49,45 +46,47 @@ public class Game extends GameEngine {
 
 		player.setPosition(super.getScreenWidth() / 2 - player.getSprite().getFrameWidth() / 2, super.getScreenHeight() / 2 - player.getSprite().getFrameHeight() / 2);
 		player.isVisible = true;
-		
+
 		OnScreenButtons.use = true;
 		OnScreenButtons.feedback = true;
 		OnScreenButtons.opacity = 100;
-		
+
 		GameView.BACKGROUND_COLOR = Color.BLACK;
-		
+
 		level.initialize();
-		
+
 		setTileMap(level.getGameTiles());
-		
+
 		port = Viewport.getInstance();
-		port.setBounds(0, 0, 64*64, 64*64);
+		port.setBounds(0, 0, 64 * 64, 64 * 64);
 		port.setPlayer(player);
 		port.setPlayerPositionTolerance(0.0, 0.0);
 		port.setPlayerPositionOnScreen(Viewport.PLAYER_VCENTER | Viewport.PLAYER_HCENTER);
-		Display display = ((WindowManager) GameEngine.getAppContext()
-				.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		Display display = ((WindowManager) GameEngine.getAppContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		info.setScreenSize(display.getHeight(), display.getWidth());
 
 		GameSound.addSound(PISTOLSOUND, "pistol");
 		GameSound.addSound(SHOTGUNSOUND, "shotgun");
 		GameSound.addSound(GUNCLICKSOUND, "gunclick");
-		GameSound.addSound(3, "ambiance");
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		if(notplaying)
-			GameSound.playSound(2, -1);
-		notplaying = false;
+
+		// if (OnScreenButtons.start)
+		// if (OnScreenButtons.select)
+		// player.setPosition(super.getScreenWidth() / 2 -
+		// player.getSprite().getFrameWidth() / 2, super.getScreenHeight() / 2 -
+		// player.getSprite().getFrameHeight() / 2);
 		if (OnScreenButtons.start)
-			if (OnScreenButtons.select)
-				player.setPosition(super.getScreenWidth() / 2 - player.getSprite().getFrameWidth() / 2, super.getScreenHeight() / 2 - player.getSprite().getFrameHeight() / 2);
-		
+			z.rotate(7.5f);
+		if (OnScreenButtons.select)
+			z.rotate(-7.5f);
+
 		info.setSpeed(player.getSpeeds(), player.getySpeed(), player.getxSpeed(), player.getCenterX(), player.getCenterY());
 		info.setPort(port.getZoomFactor(), port.getViewportX(), port.getViewportY());
-		info.setPosition(port.getViewportX()+200, port.getViewportY()+200);
+		info.setPosition(port.getViewportX() + 200, port.getViewportY() + 200);
 	}
 
 }

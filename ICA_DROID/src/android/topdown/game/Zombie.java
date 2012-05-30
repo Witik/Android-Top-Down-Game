@@ -21,14 +21,19 @@ public class Zombie extends LivingEntity {
 	public void update(){
 		super.update();
 		zombieNavigation();
+	//	rotate(0.1f);
 	}
 	
 	private void zombieNavigation() {
-		if(seesPlayer()){
-			if(true){
-				moveUp();
-			}
-		}
+//		setDirectionSpeed(getAngleToPlayer(), 5);
+//		if(seesPlayer()){
+//			if(true){
+//				turnTowardPlayer();
+		System.out.println(getAngleToPlayer());
+		if(nearPlayer())
+			System.out.println("nearplayer");
+//			}
+//		}
 		/*else{
 			randomMove();
 		}*/
@@ -62,14 +67,10 @@ public class Zombie extends LivingEntity {
 	 * @return true if done
 	 */
 	private boolean turnTowardPlayer() {
-		if(this.getAngle(player)>350||this.getAngle(player)<10){// we staan recht voor de speler
-			return true;
-		}
-		if(this.getAngle(player)<40){
+		int target = getAngleToPlayer()-180;
+		int cur = (int)getRotation();
+		if(getAngleToPlayer()<320&&getAngleToPlayer()>40){
 			rotate(7.5f);
-		}
-		else if(this.getAngle(player)>320){
-			rotate(-7.5f);
 		}
 		return false;
 	}
@@ -79,26 +80,47 @@ public class Zombie extends LivingEntity {
 	 * @return true = yes
 	 */
 	private boolean seesPlayer() {
-		if(getAngleToPlayer()<40||getAngleToPlayer()>320){
+		if(getAngleToPlayer()>320||getAngleToPlayer()<40){
 			return true;
 		}
+		return false;
+	}
+	
+	private boolean nearPlayer() {
+		float zx = getCenterX();
+		float zy = getCenterY();
+		float px = player.getCenterX();
+		float py = player.getCenterY();
+		
+		int dy = Math.round(Math.abs(zy-py));
+		int dx = Math.round(Math.abs(zx-px));
+		
+		if (Math.sqrt(dx*dx+dy*dy)<256)
+			return true;
+		
 		return false;
 	}
 	/**
 	 * @return the angle of this to the player
 	 */
 	private int getAngleToPlayer(){
-		float x = this.getCenterX() - player.getCenterX();
-		float y = this.getCenterY() - player.getCenterY();
-		double Return = Math.toDegrees(Math.atan(y/x));
-		Return += this.getRotation();
-		if(Return>=360){
-			Return -= 360;
-		}
-		else if (Return<0){
-			Return += 360;
-		}
-		return (int) Math.round(Return);
+		float zx = getCenterX();
+		float zy = getCenterY();
+		float px = player.getCenterX();
+		float py = player.getCenterY();
+
+		double rot = getRotation();
+		
+		double angle = Math.toDegrees(Math.atan2(zy - py, zx - px));
+		
+		if(angle+(270-rot)<0)
+			angle += (270-rot)+360;
+		else if(angle+(270-rot)>360)
+			angle += (270-rot)-360;
+		else
+			angle += (270-rot);
+			
+		return (int) Math.round(angle);
 	}
 
 	@Override
