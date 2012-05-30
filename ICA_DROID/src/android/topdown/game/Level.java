@@ -16,11 +16,11 @@ public class Level implements IAlarm {
 	public static final int ID_ROAD = 2;
 	public static final int ID_ROADSTRIPED = 3;
 	public static final int ID_SIDEWALK = 4;
-	public static final int COLOR_GRASS = 0xFFFFFFFF;
+	public static final int COLOR_GRASS = 0xFF00FF00;
 	public static final int COLOR_WALL = 0xFF333333;
-	public static final int COLOR_ROAD = 0xFF666666;
+	public static final int COLOR_ROAD = 0xFFFFFFFF;
 	public static final int COLOR_ROADSTRIPED = 0xFF888888;
-	public static final int COLOR_SIDEWALK = 0xFF777777;
+	public static final int COLOR_SIDEWALK = 0xFF666666;
 	
 	private Sprite grass, wall, road, roadstriped, sidewalk, mapsprite;
 
@@ -56,6 +56,7 @@ public class Level implements IAlarm {
 		loadSprite(wall,TILE_WALL);
 		loadSprite(road,TILE_ROAD);
 		loadSprite(roadstriped,TILE_ROADSTRIPED);
+		loadSprite(sidewalk,TILE_SIDEWALK);
 		loadSprite(mapsprite,map);
 		int[][] map = genMap(mapsprite, colors);
 		gt = new GameTiles(tiles, map, 64);

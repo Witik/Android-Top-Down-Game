@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.gameengine.icadroids.alarms.Alarm;
 import android.gameengine.icadroids.alarms.IAlarm;
-import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.tiles.Tile;
 
@@ -18,7 +17,7 @@ public class Player extends LivingEntity implements IAlarm {
 	private Gun currentGun;
 	private static int[] blockedTiles = { Level.ID_WALL };
 	private boolean hasShotgun, swappable;
-
+	
 	public Player() {
 		super(blockedTiles, HP, SPEED);
 		pistol = new Pistol(Pistol.MAX_AMMO);

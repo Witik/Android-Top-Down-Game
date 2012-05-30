@@ -2,6 +2,7 @@ package android.topdown.game;
 
 import android.gameengine.icadroids.alarms.Alarm;
 import android.gameengine.icadroids.alarms.IAlarm;
+import android.gameengine.icadroids.sound.GameSound;
 
 public abstract class Gun implements IAlarm {
 	private int ammoMax, damage, rate, ammo;
@@ -34,6 +35,8 @@ public abstract class Gun implements IAlarm {
 	}
 
 	public boolean canShoot(){
+		if(ammo<=0)
+			GameSound.playSound(Game.GUNCLICKSOUND, 0);
 		return ammo!=0&&canShoot;
 	}
 	

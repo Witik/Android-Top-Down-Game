@@ -6,6 +6,7 @@ import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.renderer.GameView;
 import android.gameengine.icadroids.renderer.Viewport;
+import android.gameengine.icadroids.sound.GameSound;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,11 @@ public class Game extends GameEngine {
 	private Level level;
 	private Infobar info;
 	private Viewport port;
+	private boolean notplaying;
+
+	public static final int PISTOLSOUND = 0;
+	public static final int SHOTGUNSOUND = 1;
+	public static final int GUNCLICKSOUND = 2;
 
 	public Game() {
 		super();
@@ -27,6 +33,7 @@ public class Game extends GameEngine {
 		addPlayer(player, 0, 0);
 		addGameObject(info);
 		Viewport.useViewport = true;
+		notplaying = true;
 	}
 	@Override
 	public void initialize() {
@@ -55,12 +62,19 @@ public class Game extends GameEngine {
 		Display display = ((WindowManager) GameEngine.getAppContext()
 				.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		info.setScreenSize(display.getHeight(), display.getWidth());
+
+		GameSound.addSound(PISTOLSOUND, "pistol");
+		GameSound.addSound(SHOTGUNSOUND, "shotgun");
+		GameSound.addSound(GUNCLICKSOUND, "gunclick");
+		GameSound.addSound(3, "ambiance");
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		
+		if(notplaying)
+			GameSound.playSound(2, -1);
+		notplaying = false;
 		if (OnScreenButtons.start)
 			if (OnScreenButtons.select)
 				player.setPosition(super.getScreenWidth() / 2 - player.getSprite().getFrameWidth() / 2, super.getScreenHeight() / 2 - player.getSprite().getFrameHeight() / 2);
