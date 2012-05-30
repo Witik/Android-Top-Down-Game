@@ -2,11 +2,13 @@ package android.topdown.game;
 
 import java.util.List;
 
+import android.gameengine.icadroids.alarms.Alarm;
+import android.gameengine.icadroids.alarms.IAlarm;
 import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.tiles.Tile;
 
-public class Player extends LivingEntity {
+public class Player extends LivingEntity implements IAlarm {
 
 	private static final int HP = 100;
 	private static final int SPEED = 7;
@@ -15,13 +17,14 @@ public class Player extends LivingEntity {
 	private Shotgun shotgun;
 	private Gun currentGun;
 	private static int[] blockedTiles = { Level.ID_WALL };
-	private boolean hasShotgun;
+	private boolean hasShotgun, swappable;
 
 	public Player() {
 		super(blockedTiles, HP, SPEED);
 		pistol = new Pistol(Pistol.MAX_AMMO);
 		shotgun = new Shotgun(Shotgun.MAX_AMMO);
 		hasShotgun = true;
+		swappable = true;
 		currentGun = shotgun;
 		setSprite(SPRITE);
 	}
@@ -65,9 +68,15 @@ public class Player extends LivingEntity {
 	}
 
 	public void shoot() {
-		int x = getX()+36;
-		int y = getY();
-		currentGun.shoot(x, y, (int) getRotation());
+		float rot = getRotation();
+
+		double xx = Math.sin(Math.toRadians(rot)) * 42;
+		double yy = Math.cos(Math.toRadians(rot)) * 42;
+		
+		int x = (int)getCenterX()+(int)Math.round(xx);
+		int y = (int)getCenterY()-(int)Math.round(yy);
+		
+		currentGun.shoot(x, y, (int) rot);
 	}
 
 	public void update() {
@@ -75,32 +84,42 @@ public class Player extends LivingEntity {
 
 		if (OnScreenButtons.dPadUp)
 			moveUp();
-		if (OnScreenButtons.dPadDown)
+		else if (OnScreenButtons.dPadDown)
 			moveDown();
-		if (OnScreenButtons.dPadLeft)
+		else if (OnScreenButtons.dPadLeft)
 			moveLeft();
-		if (OnScreenButtons.dPadRight)
+		else if (OnScreenButtons.dPadRight)
 			moveRight();
 		if (OnScreenButtons.button1)
 			swap();
-		if (OnScreenButtons.button2)
+		else if (OnScreenButtons.button2)
 			shoot();
 		if (OnScreenButtons.button3)
 			rotate(-7.5f);
-		if (OnScreenButtons.button4)
+		else if (OnScreenButtons.button4)
 			rotate(7.5f);
 	}
 
 	private void swap() {
+		if(swappable) {
 		if (hasShotgun) {
 			if (currentGun.equals(shotgun))
 				currentGun = pistol;
 			else
 				currentGun = shotgun;
 		}
+		new Alarm(1,10,this);
+		swappable = false;
+	}
 	}
 
 	public void collisionOccurred(List<Tile> collidedTiles) {
 		super.collisionOccurred(collidedTiles);
+	}
+
+	@Override
+	public void triggerAlarm(int alarmID) {
+		if(alarmID==1)
+			swappable = true;
 	}
 }

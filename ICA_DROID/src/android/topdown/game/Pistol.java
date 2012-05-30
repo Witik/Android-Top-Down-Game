@@ -8,13 +8,15 @@ public class Pistol extends Gun {
 	public static final int DAMAGE = 10;
 	
 	public Pistol(int ammo){
-		super("pistol", ammo, MAX_AMMO, DAMAGE);
+		super("pistol", ammo, MAX_AMMO, DAMAGE, 10);
 	}
 
 	@Override
 	public void shoot(double x, double y, int rotation) {
-		GameEngine.items.add(new Bullet(x,y,(int) (rotation+Math.round((Math.random()*6)-3)), 10, 30, DAMAGE));
+		if(canShoot()){
+			GameEngine.items.add(new Bullet(x,y,(int) (rotation+Math.round((Math.random()*6)-3)), 10, 30, DAMAGE));
+			shot();
+		}
 	}
-
 
 }

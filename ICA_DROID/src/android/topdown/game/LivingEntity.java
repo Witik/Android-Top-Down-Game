@@ -25,6 +25,7 @@ public class LivingEntity extends MoveableGameObject {
 		this.maxHp = hp;
 		this.speed = speed;
 		this.blockedTiles = blockedTiles;
+		rotation = 180;
 	}
 
 	public void rotate(float rotation) {
