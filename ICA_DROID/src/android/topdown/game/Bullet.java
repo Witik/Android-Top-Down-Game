@@ -18,19 +18,18 @@ public class Bullet extends MoveableGameObject {
 	/**
 	 * afstand die gereisd mag worden
 	 */
-	private int decay, damage;
-	private int rotation, speed;
+	private int decay, damage, rotation;
 
 	private static int[] blockedTiles = { Level.ID_WALL };
 
-	public Bullet(double x, double y, int rotation, int speed, int decay, int damage) {
+	public Bullet(double x, double y, int rotation, int decay, int damage) {
 		super();
 		this.rotation = rotation;
 		this.setSprite("bullet");
 		this.decay = decay;
 		setX(x);
 		setY(y);
-		setDirectionSpeed(rotation, speed);
+		setDirectionSpeed(rotation, 20);
 		this.damage = damage;
 	}
 
@@ -49,8 +48,13 @@ public class Bullet extends MoveableGameObject {
 
 	public void update() {
 		super.update();
-
-		// TODO decay, buiten veld, muur KAPOT
+		decay--;
+		if(decay<0)
+			this.deleteThisGameObject();
+	}
+	
+	public int getDamage(){
+		return damage;
 	}
 
 	public void drawGameObject(Canvas canvas) {
