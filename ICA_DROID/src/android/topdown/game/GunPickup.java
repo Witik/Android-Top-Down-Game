@@ -6,10 +6,13 @@ public class GunPickup extends Pickup {
 	public static final int TYPE_SHOTGUN = 1;
 	private static final String PISTOL_SPRITE = "shotgunpickup";
 	private static final String SHOTGUN_SPRITE = "pistolpickup";
+	private int type;
+	private int ammo;
 	
-	public GunPickup(int x, int y, int type) {
+	public GunPickup(int x, int y, int type,int ammo) {
 		super(x, y, gunSprite(type));
-		// TODO Auto-generated constructor stub
+		this.type = type;
+		this.ammo = ammo;
 	}
 
 	private static String gunSprite(int type) {
@@ -22,7 +25,24 @@ public class GunPickup extends Pickup {
 
 	@Override
 	public void pickupEvent(Player player) {
-		player.giveGun(new Shotgun(Shotgun.MAX_AMMO));
+		player.giveGun(giveGun());
+	}
+
+	/**
+	 * resolve de gun die we gaan geven
+	 * ALS DE TYPE NIET BESTAAT RETUNEERD LEGE GUN
+	 * @return de gun die gegeven moet worden
+	 */
+	private Gun giveGun() {
+		if(type==TYPE_PISTOL){
+			return new Pistol(ammo);
+		}
+		else if(type==TYPE_SHOTGUN){
+			return new Shotgun(ammo);
+		}
+		else{// als de type niet bestaat geef dan een lege pistol om problemen te voorkomen
+			return new Pistol(0);
+		}
 	}
 
 }
