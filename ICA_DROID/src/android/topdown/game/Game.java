@@ -6,6 +6,7 @@ import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.renderer.GameView;
 import android.gameengine.icadroids.renderer.Viewport;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -15,7 +16,6 @@ public class Game extends GameEngine {
 	private Level level;
 	private Infobar info;
 	private Viewport port;
-	Zombie z;
 
 	public Game() {
 		super();
@@ -24,9 +24,6 @@ public class Game extends GameEngine {
 		info = new Infobar(player);
 		addPlayer(player, 0, 0);
 		addGameObject(info);
-		z = new Zombie(100, 1, 1, player);
-		z.rotate(180);
-		addGameObject(z, 26 * 64, 5 * 64);
 		Viewport.useViewport = true;
 	}
 
@@ -64,14 +61,28 @@ public class Game extends GameEngine {
 	public void update() {
 		super.update();
 
-		System.out.println((int)(Math.random() * 3 + 1));
+		if((int)(Math.random()*20)==0)
+		spawnZombie();
 
 		if (OnScreenButtons.start)
-			z.rotate(7.5f);
+			player.setPosition(player.getFullX()+64, player.getFullY()+64);
 		if (OnScreenButtons.select)
-			z.rotate(-7.5f);
+			player.setPosition(player.getFullX()-64, player.getFullY()-64);
 
 		info.setPort(port.getZoomFactor(), port.getViewportX(), port.getViewportY());
 		info.setPosition(port.getViewportX() + 200, port.getViewportY() + 200);
+	}
+
+	private void spawnZombie() {
+		int x = port.getRandomX(0);
+		int y = port.getRandomY(0);
+
+		if (level.getGameTiles().getTileArray()[x/Level.TILE_SIZE][y/Level.TILE_SIZE].getTileType() != Level.ID_WALL) {
+			addGameObject(new Zombie(100, 1, 1, player), x, y);
+
+			Log.d("ZombieSpawn", "spawned at: ("+x/Level.TILE_SIZE+","+y/Level.TILE_SIZE+") on ID: "+level.getGameTiles().getTileArray()[x/Level.TILE_SIZE][y/Level.TILE_SIZE].getTileType());
+			Log.d("PlayerLoc", "player at at: ("+(int)player.getFullX()/Level.TILE_SIZE+","+(int)player.getFullY()/Level.TILE_SIZE+") on ID: "+level.getGameTiles().getTileArray()[(int)player.getFullX()/Level.TILE_SIZE][(int)player.getFullY()/Level.TILE_SIZE].getTileType());
+		}
+
 	}
 }

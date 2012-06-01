@@ -23,10 +23,9 @@ public class Player extends LivingEntity implements IAlarm {
 	public Player() {
 		super(blockedTiles, HP, SPEED);
 		pistol = new Pistol(Pistol.MAX_AMMO);
-		shotgun = new Shotgun(5);
-		hasShotgun = true;
+		hasShotgun = false;
 		swappable = true;
-		currentGun = shotgun;
+		currentGun = pistol;
 		setSprite(SPRITE);
 	}
 
@@ -167,5 +166,9 @@ public class Player extends LivingEntity implements IAlarm {
 	public void die() {
 		super.die();
 		Log.i("Player", "died");
+	}
+	
+	public boolean hasShotgun(){
+		return hasShotgun;
 	}
 }
