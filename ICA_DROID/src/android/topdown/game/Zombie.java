@@ -1,6 +1,7 @@
 package android.topdown.game;
 
 import android.gameengine.icadroids.objects.GameObject;
+import android.gameengine.icadroids.objects.graphics.Sprite;
 import android.util.Log;
 
 public class Zombie extends LivingEntity {
@@ -11,13 +12,30 @@ public class Zombie extends LivingEntity {
 	 * geen issues met asycn memory acces dus dat gaat allemaal prima lukken
 	 */
 	private static Player player;
+	private int numMoves, move;// voor de random movement te reguleren
 	public Zombie(int hp, double speed, int damage, Player player) {
 		super(blockedTiles, hp, speed);
 		this.damage = damage;
 		this.player = player;
-		setSprite("spritemissing");
+		setSprite(getSpriteName());
+		numMoves = move = 0;
 	}
 
+	private String getSpriteName(){
+		int random = (int) (Math.random()*3+1);
+		if(random==1){
+			return "zombie1";
+		}
+		else if (random==2){
+			return "zombie2";
+		}
+		else if (random==3){
+			return "zombie3";
+		}
+		else{
+			return "zombie4";
+		}
+	}
 	public void update(){
 		super.update();
 		zombieNavigation();
@@ -25,52 +43,65 @@ public class Zombie extends LivingEntity {
 	}
 	
 	private void zombieNavigation() {
-//		setDirectionSpeed(getAngleToPlayer(), 5);
-//		if(seesPlayer()){
-//			if(true){
-//				turnTowardPlayer();
-		System.out.println(getAngleToPlayer());
-		if(nearPlayer())
-			System.out.println("nearplayer");
-//			}
-//		}
-		/*else{
+		if(seesPlayer()||nearPlayer()){
+			clearRandom();
+			if(turnTowardPlayer()){
+				moveUp();
+			}
+		}
+		else{
 			randomMove();
-		}*/
+		}
+	}
+
+	private void clearRandom() {
+		numMoves = move = 0;
 	}
 
 	private void randomMove() {
-		int hold = (int) (Math.random()*30);
-		switch(hold){
-		case 0:
-			moveUp();
-			break;
-		case 1:
-			moveLeft();
-			break;
-		case 2:
-			moveRight();
-			break;
-		case 3:
-			moveDown();
-			break;
-		default:
-			if(hold>3||hold<9){
-				rotate((float) (Math.random()*7.5f-3.75));
+		if(numMoves==0){// shit verzinnen
+			numMoves = (int) (Math.random()*20);
+			move = (int) (Math.random()*19+1);
+		}
+		else{// we moeten de huidige move nog een keer doen
+			numMoves--;
+			if(move==1){
+				moveUp();
 			}
-			break;
+			else if (move==2){
+				moveLeft();
+			}
+			else if (move==3){
+				moveRight();
+			}
+			else if (move==4){
+				moveDown();
+			}
+			else if (move==5){
+				rotate(4f);
+			}
+			else if (move==6){
+				rotate(-4f);
+			}
 		}
 	}
 
 	/**
 	 * turn toward player
-	 * @return true if done
+	 * @return true if close enough
 	 */
 	private boolean turnTowardPlayer() {
-		int target = getAngleToPlayer()-180;
-		int cur = (int)getRotation();
-		if(getAngleToPlayer()<320&&getAngleToPlayer()>40){
-			rotate(7.5f);
+		int angle = getAngleToPlayer();
+		if(!(angle<10||angle>350)){
+			if(angle<=180){// speler is rechts van ons
+				rotate(7.5f);
+			}
+			else if(angle>180){// speler is links van ons
+				rotate(-7.5f);
+			}
+		}
+		if(angle<20||angle>340){// speler is dicht bij genoeg
+			return true;
 		}
 		return false;
 	}
@@ -95,7 +126,7 @@ public class Zombie extends LivingEntity {
 		int dy = Math.round(Math.abs(zy-py));
 		int dx = Math.round(Math.abs(zx-px));
 		
-		if (Math.sqrt(dx*dx+dy*dy)<256)
+		if (Math.sqrt(dx*dx+dy*dy)<Level.TILE_SIZE*4)
 			return true;
 		
 		return false;

@@ -8,9 +8,6 @@ import android.gameengine.icadroids.objects.MoveableGameObject;
 import android.gameengine.icadroids.objects.graphics.AnimatedSprite;
 import android.gameengine.icadroids.tiles.Tile;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.util.Log;
 
 public abstract class LivingEntity extends MoveableGameObject {
 	private int hp, maxHp;

@@ -84,8 +84,7 @@ public class Game extends GameEngine {
 		if (OnScreenButtons.select)
 			z.rotate(-7.5f);
 
-		info.setSpeed(player.getSpeeds(), player.getySpeed(), player.getxSpeed(), player.getCenterX(), player.getCenterY());
-		info.setPort(port.getZoomFactor(), port.getViewportX(), port.getViewportY());
+		info.setPort(port.getViewportX(), port.getViewportY());
 		info.setPosition(port.getViewportX() + 200, port.getViewportY() + 200);
 	}
 
