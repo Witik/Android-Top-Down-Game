@@ -1,7 +1,6 @@
 package android.topdown.game;
 
 import android.gameengine.icadroids.engine.GameEngine;
-import android.gameengine.icadroids.sound.GameSound;
 
 public class Shotgun extends Gun {
 	public static final int MAX_AMMO = 70;
@@ -16,7 +15,7 @@ public class Shotgun extends Gun {
 	public void shoot(double x, double y, int rotation) {
 		if (canShoot()) {
 			if (!isEmpty()) {
-				GameSound.playSound(Game.SHOTGUNSOUND, 0);
+				SoundLib.play(SoundLib.SFX_SHOTGUN);
 				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) - 15)), 15, DAMAGE));
 				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) + 15)), 15, DAMAGE));
 				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) - 30)), 15, DAMAGE));

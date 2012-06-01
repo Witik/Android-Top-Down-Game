@@ -17,7 +17,7 @@ public class Pistol extends Gun {
 	public void shoot(double x, double y, int rotation) {
 		if (canShoot()) {
 			if (!isEmpty()) {
-				GameSound.playSound(Game.PISTOLSOUND, 0);
+				SoundLib.play(SoundLib.SFX_PISTOL);
 				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 6) - 3)), 30, DAMAGE));
 				shot();
 			}

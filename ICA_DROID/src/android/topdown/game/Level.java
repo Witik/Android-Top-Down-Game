@@ -4,13 +4,10 @@ import java.util.Vector;
 
 import android.gameengine.icadroids.objects.graphics.Sprite;
 import android.gameengine.icadroids.tiles.GameTiles;
-import android.gameengine.icadroids.alarms.Alarm;
-import android.gameengine.icadroids.alarms.IAlarm;
-import android.gameengine.icadroids.engine.GameEngine;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-public class Level implements IAlarm {
+public class Level{
 
 	public static final int TILE_SIZE = 64;
 	public static final String TILE_GRASS = "grass";
@@ -49,7 +46,6 @@ public class Level implements IAlarm {
 
 	private GameTiles gt;
 	private String map, itemmap;
-	private Vector<Pickup> items;
 
 	public Level(String map) {
 		this.map = map;
@@ -83,21 +79,15 @@ public class Level implements IAlarm {
 		loadSprite(mapsprite, map);
 		loadSprite(itemsprite, itemmap);
 		int[][] map = genMap(mapsprite, colors);
-		items = getItemmap(itemsprite, itemcolors);
-		addItems();
+		addItems(itemsprite, itemcolors);
 		gt = new GameTiles(tiles, map, TILE_SIZE);
-	}
-
-	public void addItems(){
-		for(Pickup p : items)
-			GameEngine.items.add(p);
 	}
 	
 	public GameTiles getGameTiles() {
 		return gt;
 	}
 
-	private Vector<Pickup> getItemmap(Sprite items, int[] colors) {
+	private Vector<Pickup> addItems(Sprite items, int[] colors) {
 		Bitmap sprite = itemsprite.getSprite();
 		int w = sprite.getWidth();
 		int h = sprite.getHeight();
@@ -112,7 +102,7 @@ public class Level implements IAlarm {
 						Pickup pickup = null;
 						int xx = x * TILE_SIZE;
 						int yy = y * TILE_SIZE;
-						int respawnrate = px & 0xFF;
+						int respawnrate = (px & 0xFF)*30;
 						switch (i) {
 						case ID_MEDKIT:
 							pickup = new HealthPack(xx, yy, 80, respawnrate);
@@ -161,22 +151,5 @@ public class Level implements IAlarm {
 			}
 		}
 		return Map;
-	}
-
-	public boolean alarmsActiveForThisObject() {
-		for (Pickup p : items)
-			if (p.isPickedUp())
-				return true;
-		return false;
-	}
-
-	public void triggerAlarm(int alarmID) {
-		items.get(alarmID).jumpToStartPosition();
-	}
-
-	public void update() {
-		for (Pickup p : items)
-			if (p.isPickedUp())
-				new Alarm(items.indexOf(p), p.getRespawnRate(), this);
 	}
 }

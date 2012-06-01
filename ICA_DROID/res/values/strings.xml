@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, Run!</string>
-    <string name="app_name">Ferdpocalypse</string>
+    <string name="app_name">Left Ferdead</string>
     <string name="credit">Robot: \nThomas van Putten\n\n1337 Programmer: \nSasja Gillissen\n\nArt:\nFloris van Raak\n\nVoice Acting: \nFerdi Postma</string>
+    <string name="hello">Well hello there, good sir!</string>
 
 </resources>

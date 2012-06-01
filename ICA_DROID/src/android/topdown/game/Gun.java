@@ -36,7 +36,7 @@ public abstract class Gun implements IAlarm {
 
 	public boolean isEmpty(){
 		if(ammo<=0){
-			GameSound.playSound(Game.GUNCLICKSOUND, 0);
+			SoundLib.play(SoundLib.SFX_GUNCLICK);
 			new Alarm(1, 10, this);
 			canShoot=false;
 			return true;
