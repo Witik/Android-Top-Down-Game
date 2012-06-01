@@ -9,8 +9,8 @@ public class GunPickup extends Pickup {
 	private int type;
 	private int ammo;
 	
-	public GunPickup(int x, int y, int type,int ammo) {
-		super(x, y, gunSprite(type));
+	public GunPickup(int x, int y, int type,int ammo, int respawnrate) {
+		super(x, y, gunSprite(type), respawnrate);
 		this.type = type;
 		this.ammo = ammo;
 	}
@@ -26,7 +26,7 @@ public class GunPickup extends Pickup {
 	@Override
 	public void pickupEvent(Player player) {
 		player.giveGun(giveGun());
-		this.deleteThisGameObject();
+		super.pickupEvent(player);
 	}
 
 	/**

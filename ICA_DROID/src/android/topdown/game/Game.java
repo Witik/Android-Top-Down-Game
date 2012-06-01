@@ -29,9 +29,6 @@ public class Game extends GameEngine {
 		info = new Infobar(player);
 		addPlayer(player, 0, 0);
 		addGameObject(info);
-		addGameObject(new GunPickup(15 * 64, 15 * 64, GunPickup.TYPE_PISTOL, 100));
-		addGameObject(new GunPickup(15 * 64, 16 * 64, GunPickup.TYPE_SHOTGUN, 100));
-		addGameObject(new HealthPack(16 * 64, 16 * 64, 100));
 		z = new Zombie(100, 1, 1, player);
 		z.rotate(180);
 		addGameObject(z, 26 * 64, 5 * 64);
@@ -83,8 +80,9 @@ public class Game extends GameEngine {
 			z.rotate(7.5f);
 		if (OnScreenButtons.select)
 			z.rotate(-7.5f);
-
-		info.setSpeed(player.getSpeeds(), player.getySpeed(), player.getxSpeed(), player.getCenterX(), player.getCenterY());
+		
+		level.update();
+		
 		info.setPort(port.getZoomFactor(), port.getViewportX(), port.getViewportY());
 		info.setPosition(port.getViewportX() + 200, port.getViewportY() + 200);
 	}
