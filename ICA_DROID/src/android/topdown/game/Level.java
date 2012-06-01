@@ -1,11 +1,18 @@
 package android.topdown.game;
 
+import java.util.Vector;
+
 import android.gameengine.icadroids.objects.graphics.Sprite;
 import android.gameengine.icadroids.tiles.GameTiles;
+import android.gameengine.icadroids.alarms.Alarm;
 import android.gameengine.icadroids.alarms.IAlarm;
+import android.gameengine.icadroids.engine.GameEngine;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 public class Level implements IAlarm {
+
+	public static final int TILE_SIZE = 64;
 	public static final String TILE_GRASS = "grass";
 	public static final String TILE_WALL = "wall";
 	public static final String TILE_ROAD = "road";
@@ -21,23 +28,38 @@ public class Level implements IAlarm {
 	public static final int COLOR_ROAD = 0xFFFFFFFF;
 	public static final int COLOR_ROADSTRIPED = 0xFF888888;
 	public static final int COLOR_SIDEWALK = 0xFF666666;
-	
-	private Sprite grass, wall, road, roadstriped, sidewalk, mapsprite;
+	public static final int ARG_MEDKIT = 0xFFFF00;
+	public static final int ARG_PILLS = 0xFF8000;
+	public static final int ARG_PISTOLAMMO = 0xFF0080;
+	public static final int ARG_SHOTGUNAMMO = 0xFF00FF;
+	public static final int ARG_PISTOL = 0xFF8080;
+	public static final int ARG_SHOTGUN = 0xFFFFFF;
+	public static final int ID_MEDKIT = 0;
+	public static final int ID_PILLS = 1;
+	public static final int ID_PISTOLAMMO = 2;
+	public static final int ID_SHOTGUNAMMO = 3;
+	public static final int ID_PISTOL = 4;
+	public static final int ID_SHOTGUN = 5;
+
+	private Sprite grass, wall, road, roadstriped, sidewalk, mapsprite, itemsprite;
 
 	String[] tiles = { TILE_GRASS, TILE_WALL, TILE_ROAD, TILE_ROADSTRIPED, TILE_SIDEWALK };
 	int[] colors = { COLOR_GRASS, COLOR_WALL, COLOR_ROAD, COLOR_ROADSTRIPED, COLOR_SIDEWALK };
+	int[] itemcolors = { ARG_MEDKIT, ARG_PILLS, ARG_PISTOLAMMO, ARG_SHOTGUNAMMO, ARG_PISTOL, ARG_SHOTGUN };
 
 	private GameTiles gt;
-	private String map;
-	
+	private String map, itemmap;
+	private Vector<Pickup> items;
+
 	public Level(String map) {
 		this.map = map;
+		this.itemmap = map + "items";
 	}
-	
-	public Sprite loadSprite(Sprite sprite, String name){
+
+	public Sprite loadSprite(Sprite sprite, String name) {
 		try {
 			sprite.loadSprite(name);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("Error");
 			e.printStackTrace();
 			sprite.loadSprite("spritemissing");
@@ -52,18 +74,74 @@ public class Level implements IAlarm {
 		roadstriped = new Sprite();
 		sidewalk = new Sprite();
 		mapsprite = new Sprite();
-		loadSprite(grass,TILE_GRASS);
-		loadSprite(wall,TILE_WALL);
-		loadSprite(road,TILE_ROAD);
-		loadSprite(roadstriped,TILE_ROADSTRIPED);
-		loadSprite(sidewalk,TILE_SIDEWALK);
-		loadSprite(mapsprite,map);
+		itemsprite = new Sprite();
+		loadSprite(grass, TILE_GRASS);
+		loadSprite(wall, TILE_WALL);
+		loadSprite(road, TILE_ROAD);
+		loadSprite(roadstriped, TILE_ROADSTRIPED);
+		loadSprite(sidewalk, TILE_SIDEWALK);
+		loadSprite(mapsprite, map);
+		loadSprite(itemsprite, itemmap);
 		int[][] map = genMap(mapsprite, colors);
-		gt = new GameTiles(tiles, map, 64);
+		items = getItemmap(itemsprite, itemcolors);
+		addItems();
+		gt = new GameTiles(tiles, map, TILE_SIZE);
 	}
 
+	public void addItems(){
+		for(Pickup p : items)
+			GameEngine.items.add(p);
+	}
+	
 	public GameTiles getGameTiles() {
 		return gt;
+	}
+
+	private Vector<Pickup> getItemmap(Sprite items, int[] colors) {
+		Bitmap sprite = itemsprite.getSprite();
+		int w = sprite.getWidth();
+		int h = sprite.getHeight();
+		Vector<Pickup> itemVector = new Vector<Pickup>();
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
+				int px = sprite.getPixel(x, y);
+				int arg = (px >> 8) & 0xFFFFFF;
+				for (int i = 0; i < itemcolors.length; i++)
+					if (itemcolors[i] == arg) {
+						Log.d(itemmap, itemcolors[i]+"");
+						Pickup pickup = null;
+						int xx = x * TILE_SIZE;
+						int yy = y * TILE_SIZE;
+						int respawnrate = px & 0xFF;
+						switch (i) {
+						case ID_MEDKIT:
+							pickup = new HealthPack(xx, yy, 80, respawnrate);
+							break;
+						case ID_PILLS:
+							pickup = new HealthPack(xx, yy, 30, respawnrate);
+							break;
+						case ID_PISTOLAMMO:
+							pickup = new Ammo(xx, yy, Ammo.TYPE_PISTOL, Pistol.MAX_AMMO / 4, respawnrate);
+							break;
+						case ID_SHOTGUNAMMO:
+							pickup = new Ammo(xx, yy, Ammo.TYPE_SHOTGUN, Shotgun.MAX_AMMO / 4, respawnrate);
+							break;
+						case ID_PISTOL:
+							pickup = new GunPickup(xx, yy, GunPickup.TYPE_PISTOL, Pistol.MAX_AMMO / 4, respawnrate);
+							break;
+						case ID_SHOTGUN:
+							pickup = new GunPickup(xx, yy, GunPickup.TYPE_SHOTGUN, Shotgun.MAX_AMMO / 4, respawnrate);
+							break;
+						}
+						try {
+							itemVector.add(pickup);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+			}
+		}
+		return itemVector;
 	}
 
 	private int[][] genMap(Sprite map, int[] colors) {
@@ -86,12 +164,19 @@ public class Level implements IAlarm {
 	}
 
 	public boolean alarmsActiveForThisObject() {
-		// TODO Auto-generated method stub
+		for (Pickup p : items)
+			if (p.isPickedUp())
+				return true;
 		return false;
 	}
 
 	public void triggerAlarm(int alarmID) {
-		// TODO Auto-generated method stub
-		
+		items.get(alarmID).jumpToStartPosition();
+	}
+
+	public void update() {
+		for (Pickup p : items)
+			if (p.isPickedUp())
+				new Alarm(items.indexOf(p), p.getRespawnRate(), this);
 	}
 }

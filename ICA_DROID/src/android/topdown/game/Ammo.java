@@ -4,8 +4,8 @@ public class Ammo extends Pickup {
 	public static final int TYPE_PISTOL = 1;
 	public static final int TYPE_SHOTGUN = 2;
 	private int type,amount;
-	public Ammo(int x, int y, int type, int amount) {
-		super(x, y, getSprite(type));
+	public Ammo(int x, int y, int type, int amount, int respawnrate) {
+		super(x, y, getSprite(type), respawnrate);
 		this.type = type;
 		this.amount = amount;
 	}
@@ -25,7 +25,7 @@ public class Ammo extends Pickup {
 	@Override
 	public void pickupEvent(Player player) {
 		if(player.giveAmmo(type,amount)){
-			this.deleteThisGameObject();
+			super.pickupEvent(player);
 		}
 	}
 
