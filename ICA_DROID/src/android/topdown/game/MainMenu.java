@@ -1,15 +1,9 @@
 package android.topdown.game;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.gameengine.icadroids.engine.GameEngine;
-import android.gameengine.icadroids.forms.GameForm;
-import android.gameengine.icadroids.forms.IFormInput;
-import android.gameengine.icadroids.renderer.Viewport;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;

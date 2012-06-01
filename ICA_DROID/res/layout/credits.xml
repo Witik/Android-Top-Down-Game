@@ -5,13 +5,15 @@
               android:layout_height="fill_parent"
               android:padding="10dp"
               android:orientation="vertical">
-
+              
           	<EditText
           	    android:id="@+id/credittext"
           	    android:layout_width="fill_parent"
           	    android:layout_height="wrap_content"
           	    android:editable="false"
-          	    android:focusable="false" />
+          	    android:focusable="false"
+          	    android:text="@string/credit"
+          	    android:textSize="12pt" />
 
           	<Button android:singleLine="true" android:id="@+id/close" android:layout_height="wrap_content" android:text="close" android:layout_width="fill_parent" ></Button>
 </LinearLayout>

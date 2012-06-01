@@ -2,6 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, Run!</string>
-    <string name="app_name">ICA_DROID</string>
+    <string name="app_name">Ferdpocalypse</string>
+    <string name="credit">Robot: \nThomas van Putten\n\n1337 Programmer: \nSasja Gillissen\n\nArt:\nFloris van Raak\n\nVoice Acting: \nFerdi Postma</string>
 
 </resources>

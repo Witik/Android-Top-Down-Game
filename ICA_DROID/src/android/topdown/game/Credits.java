@@ -1,7 +1,6 @@
 package android.topdown.game;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -25,7 +24,6 @@ public class Credits extends Activity
 		setContentView(R.layout.credits);
 		this.setTitle(this.getTitle()+" Credits");
         box = (EditText) this.findViewById(R.id.credittext);
-        box.setText("Robot: Thomas van Putten\n1337 Programmer: Sasja Gillissen\nArt: Floris van Raak");
         close = (Button) this.findViewById(R.id.close);
         close.findFocus();
 		close.setOnClickListener(new OnClickListener(){
@@ -47,7 +45,5 @@ public class Credits extends Activity
 	private void end()
 	{
 		Credits.this.finish();
-		Intent yIntent = new Intent(this, MainMenu.class);
-		this.startActivity(yIntent);
 	}
 }
