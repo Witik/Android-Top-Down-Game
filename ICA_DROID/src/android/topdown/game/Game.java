@@ -83,6 +83,7 @@ public class Game extends GameEngine {
 		
 		level.update();
 		
+		info.setPort(port.getZoomFactor(), port.getViewportX(), port.getViewportY());
 		info.setPosition(port.getViewportX() + 200, port.getViewportY() + 200);
 	}
 
