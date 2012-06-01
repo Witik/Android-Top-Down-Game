@@ -59,15 +59,15 @@ public class SoundLib {
 		loadSound(FERDI_BANAAN, "banaan");
 		loadSound(FERDI_BANAAN2, "banaan2");
 		loadSound(FERDI_BANAAN3, "banaan3");
-		loadSound(FERDI_BANAAN4, "banaan4 ");
+		loadSound(FERDI_BANAAN4, "banaan4");
 		loadSound(FERDI_BITCHPLEASE, "bitchplease");
 		loadSound(FERDI_BITCHPLEASE2, "bitchplease2");
-		loadSound(FERDI_COMEGETSOME, "comegetsome ");
+		loadSound(FERDI_COMEGETSOME, "comegetsome");
 		loadSound(FERDI_FULLOFCRAP, "fullofcrap");
 		loadSound(FERDI_GOTMOTHERFUCKINGPILLS, "gotmotherfuckingpills");
 		loadSound(SFX_GUNCLICK, "gunclick");
 		loadSound(FERDI_HA, "ha");
-		loadSound(FERDI_HMM, "hmm ");
+		loadSound(FERDI_HMM, "hmm");
 		loadSound(FERDI_HURT1, "hurt1");
 		loadSound(FERDI_HURT2, "hurt2");
 		loadSound(FERDI_HURT3, "hurt3");
@@ -112,7 +112,8 @@ public class SoundLib {
 		try{
 			GameSound.addSound(id,name);
 		} catch(Exception e){
-			System.err.println("Failed to load sound: '"+name+"'");
+			System.err.println("Failed to load sound: '"+name+"'\n"+e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

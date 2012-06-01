@@ -24,10 +24,10 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	public void rotate(float rotation) {
-		if(this.rotation+rotation<0){
-			this.rotation += rotation+360;
-		}else if(this.rotation+rotation>360){
-			this.rotation += rotation-360;
+		if (this.rotation + rotation < 0) {
+			this.rotation += rotation + 360;
+		} else if (this.rotation + rotation > 360) {
+			this.rotation += rotation - 360;
 		} else {
 			this.rotation += rotation;
 		}
@@ -68,26 +68,26 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	public void heal(int hp) {
-		if (hp + this.hp > maxHp)
-			this.hp += hp;
+		this.hp += hp;
 
 	}
 
 	public void hurt(int hp) {
 		this.hp -= hp;
-		if(this.hp<=0){
+		if (this.hp <= 0) {
 			die();
 		}
 	}
 
-	public void die(){
+	public void die() {
 		this.deleteThisGameObject();
 	}
 
 	public int getHp() {
 		return hp;
 	}
-	public void setHp(int hp){
+
+	public void setHp(int hp) {
 		this.hp = hp;
 	}
 
@@ -114,8 +114,8 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	private void gameObjectCollision() {
-		for(GameObject g:GameEngine.items){
-			if(g.position.intersect(position)){// collison
+		for (GameObject g : GameEngine.items) {
+			if (g.position.intersect(position)) {// collison
 				objectCollision(g);
 			}
 		}

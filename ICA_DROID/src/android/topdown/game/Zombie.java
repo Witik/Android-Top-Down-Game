@@ -23,7 +23,7 @@ public class Zombie extends LivingEntity {
 	}
 
 	private String getSpriteName() {
-		switch ((int) Math.random() * 3 + 1) {
+		switch ((int) (Math.random() * 3 + 1)) {
 		case 1:
 			return "zombie1";
 		case 2:
@@ -150,12 +150,22 @@ public class Zombie extends LivingEntity {
 
 	@Override
 	protected void objectCollision(GameObject g) {
-		if (g instanceof Bullet) {// oh nooz im hit
+		if (g instanceof Bullet) {
 			hurt(((Bullet) g).getDamage());
 			g.deleteThisGameObject();
+			switch ((int) (Math.random() * 3)) {
+			case 1:
+				SoundLib.play(SoundLib.ZOMBIE_ZOMSHORT);
+				break;
+			case 2:
+				SoundLib.play(SoundLib.ZOMBIE_ZOMSHORT2);
+				break;
+			default:
+				SoundLib.play(SoundLib.ZOMBIE_ZOMSHORT3);
+			}
 			Log.i("collision", "zombievsbullet");
-		} else if (g instanceof Zombie && !g.equals(this)) {// lets try to leave
-															// each other
+		} else if (g instanceof Zombie && !g.equals(this)) {
+
 			rotate((float) (Math.random() * 7.5f - 3.75));
 		}
 	}

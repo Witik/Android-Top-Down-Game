@@ -24,7 +24,6 @@ public class Game extends GameEngine {
 		info = new Infobar(player);
 		addPlayer(player, 0, 0);
 		addGameObject(info);
-		new SoundLib();
 		z = new Zombie(100, 1, 1, player);
 		z.rotate(180);
 		addGameObject(z, 26 * 64, 5 * 64);
@@ -57,11 +56,15 @@ public class Game extends GameEngine {
 		port.setPlayerPositionOnScreen(Viewport.PLAYER_VCENTER | Viewport.PLAYER_HCENTER);
 		Display display = ((WindowManager) GameEngine.getAppContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		info.setScreenSize(display.getHeight(), display.getWidth());
+
+		new SoundLib();
 	}
 
 	@Override
 	public void update() {
 		super.update();
+
+		System.out.println((int)(Math.random() * 3 + 1));
 
 		if (OnScreenButtons.start)
 			z.rotate(7.5f);

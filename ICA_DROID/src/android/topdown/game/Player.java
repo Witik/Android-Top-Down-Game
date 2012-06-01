@@ -38,6 +38,10 @@ public class Player extends LivingEntity implements IAlarm {
 				shotgun = (Shotgun) gun;
 				hasShotgun = true;
 				currentGun = shotgun;
+				if ((int) (Math.random() * 2) == 1)
+					SoundLib.play(SoundLib.FERDI_BITCHPLEASE2);
+				else
+					SoundLib.play(SoundLib.FERDI_SHOTGUNFERDI);
 			}
 		} else if (gun instanceof Pistol) {
 			pistol.addAmmo(gun.getAmmo());
@@ -129,18 +133,21 @@ public class Player extends LivingEntity implements IAlarm {
 
 	public void hurt(int damage) {
 		super.hurt(damage);
-		switch ((int) Math.random() * 3 + 1) {
-		case 1:
-			SoundLib.play(SoundLib.FERDI_HURT1);
-			break;
-		case 2:
-			SoundLib.play(SoundLib.FERDI_HURT3);
-			break;
-		case 3:
-			SoundLib.play(SoundLib.FERDI_HURT2);
-			break;
+		if ((int) (Math.random() * 20) == 0)
+			SoundLib.play(SoundLib.FERDI_HURTSCREAM);
+		else {
+			switch ((int) (Math.random() * 3 + 1)) {
+			case 1:
+				SoundLib.play(SoundLib.FERDI_HURT1);
+				break;
+			case 2:
+				SoundLib.play(SoundLib.FERDI_HURT2);
+				break;
+			case 3:
+				SoundLib.play(SoundLib.FERDI_HURT3);
+				break;
+			}
 		}
-		// TODO sounds toevoegen
 	}
 
 	@Override
