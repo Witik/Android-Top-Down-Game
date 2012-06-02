@@ -17,6 +17,8 @@ public class Game extends GameEngine {
 	private Infobar info;
 	private Viewport port;
 
+	private int numZom;
+
 	public Game() {
 		super();
 		level = new Level("map");
@@ -61,13 +63,13 @@ public class Game extends GameEngine {
 	public void update() {
 		super.update();
 
-		if((int)(Math.random()*20)==0)
-		spawnZombie();
+		if ((int) (Math.random() * 20) == 0 && numZom < 40)
+			spawnZombie();
 
 		if (OnScreenButtons.start)
-			player.setPosition(player.getFullX()+64, player.getFullY()+64);
+			player.setPosition(player.getFullX() + 64, player.getFullY() + 64);
 		if (OnScreenButtons.select)
-			player.setPosition(player.getFullX()-64, player.getFullY()-64);
+			player.setPosition(player.getFullX() - 64, player.getFullY() - 64);
 
 		info.setPort(port.getZoomFactor(), port.getViewportX(), port.getViewportY());
 		info.setPosition(port.getViewportX() + 200, port.getViewportY() + 200);
@@ -77,11 +79,12 @@ public class Game extends GameEngine {
 		int x = port.getRandomX(0);
 		int y = port.getRandomY(0);
 
-		if (level.getGameTiles().getTileArray()[x/Level.TILE_SIZE][y/Level.TILE_SIZE].getTileType() != Level.ID_WALL) {
+		if (level.getGameTiles().getTileArray()[x / Level.TILE_SIZE][y / Level.TILE_SIZE].getTileType() != Level.ID_WALL) {
 			addGameObject(new Zombie(100, 1, 1, player), x, y);
+			numZom++;
 
-			Log.d("ZombieSpawn", "spawned at: ("+x/Level.TILE_SIZE+","+y/Level.TILE_SIZE+") on ID: "+level.getGameTiles().getTileArray()[x/Level.TILE_SIZE][y/Level.TILE_SIZE].getTileType());
-			Log.d("PlayerLoc", "player at at: ("+(int)player.getFullX()/Level.TILE_SIZE+","+(int)player.getFullY()/Level.TILE_SIZE+") on ID: "+level.getGameTiles().getTileArray()[(int)player.getFullX()/Level.TILE_SIZE][(int)player.getFullY()/Level.TILE_SIZE].getTileType());
+			Log.d("ZombieSpawn", "spawned at: (" + x / Level.TILE_SIZE + "," + y / Level.TILE_SIZE + ") on ID: " + level.getGameTiles().getTileArray()[x / Level.TILE_SIZE][y / Level.TILE_SIZE].getTileType());
+			Log.d("PlayerLoc", "player at at: (" + (int) player.getFullX() / Level.TILE_SIZE + "," + (int) player.getFullY() / Level.TILE_SIZE + ") on ID: " + level.getGameTiles().getTileArray()[(int) player.getFullX() / Level.TILE_SIZE][(int) player.getFullY() / Level.TILE_SIZE].getTileType());
 		}
 
 	}

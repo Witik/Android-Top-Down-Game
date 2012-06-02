@@ -38,11 +38,39 @@ public class Zombie extends LivingEntity {
 	public void update() {
 		super.update();
 		zombieNavigation();
-		// rotate(0.1f);
+		if (playerWithin(12))
+			makeSound();
+	}
+
+	private void makeSound() {
+		if ((int) (Math.random() * 200) == 0)
+			switch ((int) (Math.random() * 20)) {
+			case 0:
+				SoundLib.play(SoundLib.ZOMBIE_ZOMGRUNT);
+				break;
+			case 1:
+				SoundLib.play(SoundLib.ZOMBIE_ZOMGRUNT2);
+				break;
+			case 2:
+				SoundLib.play(SoundLib.ZOMBIE_ZOMGRUNT3);
+				break;
+			case 3:
+				SoundLib.play(SoundLib.ZOMBIE_ZOMMOAN1);
+				break;
+			case 4:
+				SoundLib.play(SoundLib.ZOMBIE_ZOMMOAN2);
+				break;
+			case 5:
+				SoundLib.play(SoundLib.ZOMBIE_ZOMMOAN3);
+				break;
+			case 6:
+				SoundLib.play(SoundLib.ZOMBIE_ZOMMOAN4);
+				break;
+			}
 	}
 
 	private void zombieNavigation() {
-		if (seesPlayer() || nearPlayer()) {
+		if (seesPlayer() || playerWithin(4)) {
 			clearRandom();
 			if (turnTowardPlayer()) {
 				moveUp();
@@ -110,7 +138,7 @@ public class Zombie extends LivingEntity {
 		return false;
 	}
 
-	private boolean nearPlayer() {
+	private boolean playerWithin(int tiles) {
 		float zx = getCenterX();
 		float zy = getCenterY();
 		float px = player.getCenterX();
@@ -119,7 +147,7 @@ public class Zombie extends LivingEntity {
 		int dy = Math.round(Math.abs(zy - py));
 		int dx = Math.round(Math.abs(zx - px));
 
-		if (Math.sqrt(dx * dx + dy * dy) < Level.TILE_SIZE * 4)
+		if (Math.sqrt(dx * dx + dy * dy) < Level.TILE_SIZE * tiles)
 			return true;
 
 		return false;
