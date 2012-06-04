@@ -1,7 +1,6 @@
 package android.topdown.game;
 
 import android.gameengine.icadroids.objects.GameObject;
-import android.gameengine.icadroids.objects.graphics.Sprite;
 import android.util.Log;
 
 public class Zombie extends LivingEntity {
@@ -13,13 +12,15 @@ public class Zombie extends LivingEntity {
 	 */
 	private static Player player;
 	private int numMoves, move;// voor de random movement te reguleren
+	private boolean noticedPlayer;
 
 	public Zombie(int hp, double speed, int damage, Player player) {
 		super(blockedTiles, hp, speed);
 		this.damage = damage;
-		this.player = player;
+		Zombie.player = player;
 		setSprite(getSpriteName());
 		numMoves = move = 0;
+		noticedPlayer=false;
 	}
 
 	private String getSpriteName() {
@@ -70,11 +71,13 @@ public class Zombie extends LivingEntity {
 	}
 
 	private void zombieNavigation() {
-		if (seesPlayer() || playerWithin(4)) {
+		if ((seesPlayer() && playerWithin(8))||playerWithin(3)||noticedPlayer) {
 			clearRandom();
 			if (turnTowardPlayer()) {
-				moveUp();
+				moveForward();
 			}
+			if(!playerWithin(12))
+				noticedPlayer=false;
 		} else {
 			randomMove();
 		}
@@ -86,22 +89,23 @@ public class Zombie extends LivingEntity {
 
 	private void randomMove() {
 		if (numMoves == 0) {// shit verzinnen
-			numMoves = (int) (Math.random() * 20);
-			move = (int) (Math.random() * 19 + 1);
+			numMoves = (int) (Math.random() * 20) + 20;
+			move = (int) (Math.random() * 12);
 		} else {// we moeten de huidige move nog een keer doen
 			numMoves--;
-			if (move == 1) {
-				moveUp();
-			} else if (move == 2) {
-				moveLeft();
-			} else if (move == 3) {
-				moveRight();
-			} else if (move == 4) {
-				moveDown();
-			} else if (move == 5) {
+			switch (move) {
+			case 0:
+				moveForward();
+				break;
+			case 1:
+				moveBackward();
+				break;
+			case 2:
 				rotate(4f);
-			} else if (move == 6) {
+				break;
+			case 3:
 				rotate(-4f);
+				break;
 			}
 		}
 	}
@@ -191,6 +195,8 @@ public class Zombie extends LivingEntity {
 			default:
 				SoundLib.play(SoundLib.ZOMBIE_ZOMSHORT3);
 			}
+			if (!noticedPlayer)
+				noticedPlayer = !noticedPlayer;
 			Log.i("collision", "zombievsbullet");
 		} else if (g instanceof Zombie && !g.equals(this)) {
 
@@ -205,6 +211,6 @@ public class Zombie extends LivingEntity {
 	@Override
 	public void die() {
 		super.die();
-		// TODO add custom die maybe met extra corpse class idk
+		// TODO add custom die maybe met extra corpse class idk PUNTEN!
 	}
 }
