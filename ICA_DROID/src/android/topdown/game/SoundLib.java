@@ -2,8 +2,8 @@ package android.topdown.game;
 
 import android.gameengine.icadroids.sound.GameSound;
 
-public class SoundLib {
-
+public class SoundLib implements Runnable{
+	private static boolean loaded = false;
 	public static final int FERDI_BANAAN = 0;
 	public static final int FERDI_BANAAN2 = 1;
 	public static final int FERDI_BANAAN3 = 2;
@@ -55,7 +55,8 @@ public class SoundLib {
 	public static final int ZOMBIE_ZOMSHORT3 = 49;
 	public static final int FERDI_ZONDERSOUND = 50;
 
-	public SoundLib() {
+	public void load() {
+		loaded = false;
 		loadSound(FERDI_BANAAN, "banaan");
 		loadSound(FERDI_BANAAN2, "banaan2");
 		loadSound(FERDI_BANAAN3, "banaan3");
@@ -106,6 +107,7 @@ public class SoundLib {
 		loadSound(ZOMBIE_ZOMSHORT2, "zomshort2");
 		loadSound(ZOMBIE_ZOMSHORT3, "zomshort3");
 		loadSound(FERDI_ZONDERSOUND, "zondersound");
+		loaded = true;
 	}
 	
 	private void loadSound(int id, String name){
@@ -118,10 +120,18 @@ public class SoundLib {
 	}
 
 	public static void play(int id) {
-		try{
-		GameSound.playSound(id, 0);
-		} catch (Exception e) {
-			System.err.println("ERR: Sound not loaded");
+		if(loaded){
+			try{
+			GameSound.playSound(id, 0);
+			} catch (Exception e) {
+				System.err.println("ERR: Sound not loaded");
+			}
+		}
+	}
+
+	public void run() {
+		if(!loaded){// weet niet of dit nodig is maar zet het er toch in
+			load();
 		}
 	}
 }

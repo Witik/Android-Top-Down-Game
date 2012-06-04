@@ -27,6 +27,8 @@ public class MainMenu extends Activity {
 		naam = (EditText) findViewById(R.id.namefield);
 		plaats = (EditText) findViewById(R.id.plaatsfield);
 		setClickListeneres();
+		Thread soundLoad = new Thread(new SoundLib());
+		soundLoad.start();
 	}
 	public void onResume(){
 		super.onResume();
