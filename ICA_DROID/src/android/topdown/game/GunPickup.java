@@ -4,8 +4,8 @@ public class GunPickup extends Pickup {
 
 	public static final int TYPE_PISTOL = 0;
 	public static final int TYPE_SHOTGUN = 1;
-	private static final String PISTOL_SPRITE = "shotgunpickup";
-	private static final String SHOTGUN_SPRITE = "pistolpickup";
+	private static final String PISTOL_SPRITE = "pistolpickup";
+	private static final String SHOTGUN_SPRITE = "shotgunpickup";
 	private int type;
 	private int ammo;
 	
