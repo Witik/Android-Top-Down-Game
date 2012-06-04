@@ -5,6 +5,7 @@ import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.renderer.GameView;
 import android.gameengine.icadroids.renderer.Viewport;
+import android.gameengine.icadroids.tiles.Tile;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Display;
@@ -16,6 +17,7 @@ public class Game extends GameEngine {
 	private Level level;
 	private Infobar info;
 	private Viewport port;
+	Thread soundLoad;
 
 	private int numZom;
 
@@ -27,6 +29,7 @@ public class Game extends GameEngine {
 		addPlayer(player, 0, 0);
 		addGameObject(info);
 		Viewport.useViewport = true;
+		 soundLoad = new Thread(new SoundLib());
 	}
 
 	@Override
@@ -55,8 +58,8 @@ public class Game extends GameEngine {
 		port.setPlayerPositionOnScreen(Viewport.PLAYER_VCENTER | Viewport.PLAYER_HCENTER);
 		Display display = ((WindowManager) GameEngine.getAppContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		info.setScreenSize(display.getHeight(), display.getWidth());
-
-		new SoundLib();
+		
+		soundLoad.start();
 	}
 
 	@Override
@@ -71,7 +74,7 @@ public class Game extends GameEngine {
 		if (OnScreenButtons.select)
 			player.setPosition(player.getFullX() - 64, player.getFullY() - 64);
 
-		info.setPort(port.getZoomFactor(), port.getViewportX(), port.getViewportY());
+		info.setPort(port.getViewportX(), port.getViewportY());
 		info.setPosition(port.getViewportX() + 200, port.getViewportY() + 200);
 	}
 
@@ -79,13 +82,24 @@ public class Game extends GameEngine {
 		int x = port.getRandomX(0);
 		int y = port.getRandomY(0);
 
-		if (level.getGameTiles().getTileArray()[x / Level.TILE_SIZE][y / Level.TILE_SIZE].getTileType() != Level.ID_WALL) {
-			addGameObject(new Zombie(100, 1, 1, player), x, y);
+		if (notInWall(x,y)) {
+			addGameObject(new Zombie(100, 1, 5, player), x, y);
 			numZom++;
 
 			Log.d("ZombieSpawn", "spawned at: (" + x / Level.TILE_SIZE + "," + y / Level.TILE_SIZE + ") on ID: " + level.getGameTiles().getTileArray()[x / Level.TILE_SIZE][y / Level.TILE_SIZE].getTileType());
 			Log.d("PlayerLoc", "player at at: (" + (int) player.getFullX() / Level.TILE_SIZE + "," + (int) player.getFullY() / Level.TILE_SIZE + ") on ID: " + level.getGameTiles().getTileArray()[(int) player.getFullX() / Level.TILE_SIZE][(int) player.getFullY() / Level.TILE_SIZE].getTileType());
 		}
 
+	}
+
+	private boolean notInWall(int x, int y) {
+		Tile[][] tile = level.getGameTiles().getTileArray();
+		if((x+30)/Level.TILE_SIZE>=tile.length||(y+30)/Level.TILE_SIZE>=tile.length)
+			return false;
+		int top = tile[(x-30)/Level.TILE_SIZE][(y-30)/Level.TILE_SIZE].getTileType();
+		int right = tile[(x+30)/Level.TILE_SIZE][(y-30)/Level.TILE_SIZE].getTileType();
+		int bottom = tile[(x+30)/Level.TILE_SIZE][(y+30)/Level.TILE_SIZE].getTileType();
+		int left = tile[(x-30)/Level.TILE_SIZE][(y+30)/Level.TILE_SIZE].getTileType();
+		return top!=Level.ID_WALL&&right!=Level.ID_WALL&&bottom!=Level.ID_WALL&&left!=Level.ID_WALL;
 	}
 }

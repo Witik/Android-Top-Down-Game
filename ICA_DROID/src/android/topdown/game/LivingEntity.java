@@ -123,13 +123,13 @@ public abstract class LivingEntity extends MoveableGameObject {
 
 	protected abstract void objectCollision(GameObject g);
 
-	public void moveUp() {
+	public void moveForward() {
 		double dx = Math.sin(Math.toRadians(getRotation())) * getSpeeds();
 		double dy = Math.cos(Math.toRadians(getRotation())) * getSpeeds();
 		movePlayer((int) Math.round(dx), (int) Math.round(-dy));
 	}
 
-	public void moveDown() {
+	public void moveBackward() {
 		double dx = Math.sin(Math.toRadians(getRotation())) * getSpeeds();
 		double dy = Math.cos(Math.toRadians(getRotation())) * getSpeeds();
 		movePlayer((int) Math.round(-dx), (int) Math.round(dy));

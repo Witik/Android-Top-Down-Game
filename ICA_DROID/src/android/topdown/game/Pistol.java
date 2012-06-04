@@ -1,12 +1,11 @@
 package android.topdown.game;
 
 import android.gameengine.icadroids.engine.GameEngine;
-import android.gameengine.icadroids.sound.GameSound;
 
 public class Pistol extends Gun {
 
 	public static final int MAX_AMMO = 255;
-	public static final int DAMAGE = 10;
+	public static final int DAMAGE = 20;
 	public static final int RATE = 10;
 
 	public Pistol(int ammo) {

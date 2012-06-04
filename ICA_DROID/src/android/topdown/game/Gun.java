@@ -2,7 +2,6 @@ package android.topdown.game;
 
 import android.gameengine.icadroids.alarms.Alarm;
 import android.gameengine.icadroids.alarms.IAlarm;
-import android.gameengine.icadroids.sound.GameSound;
 
 public abstract class Gun implements IAlarm {
 	private int ammoMax, damage, rate, ammo;

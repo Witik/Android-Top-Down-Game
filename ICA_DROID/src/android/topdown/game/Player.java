@@ -38,7 +38,7 @@ public class Player extends LivingEntity implements IAlarm {
 				hasShotgun = true;
 				currentGun = shotgun;
 				if ((int) (Math.random() * 2) == 1)
-					SoundLib.play(SoundLib.FERDI_BITCHPLEASE2);
+					SoundLib.play(SoundLib.FERDI_BITCHPLEASE);
 				else
 					SoundLib.play(SoundLib.FERDI_SHOTGUNFERDI);
 			}
@@ -87,9 +87,9 @@ public class Player extends LivingEntity implements IAlarm {
 		super.update();
 
 		if (OnScreenButtons.dPadUp)
-			moveUp();
+			moveForward();
 		else if (OnScreenButtons.dPadDown)
-			moveDown();
+			moveBackward();
 		else if (OnScreenButtons.dPadLeft)
 			moveLeft();
 		else if (OnScreenButtons.dPadRight)

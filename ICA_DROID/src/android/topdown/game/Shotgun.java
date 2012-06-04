@@ -4,7 +4,7 @@ import android.gameengine.icadroids.engine.GameEngine;
 
 public class Shotgun extends Gun {
 	public static final int MAX_AMMO = 70;
-	public static final int DAMAGE = 40;
+	public static final int DAMAGE = 20;
 	public static final int RATE = 35;
 
 	public Shotgun(int ammo) {
@@ -18,6 +18,8 @@ public class Shotgun extends Gun {
 				SoundLib.play(SoundLib.SFX_SHOTGUN);
 				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) - 15)), 15, DAMAGE));
 				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) + 15)), 15, DAMAGE));
+				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) + 15)), 15, DAMAGE));
+				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) - 30)), 15, DAMAGE));
 				GameEngine.items.add(new Bullet(x, y, (int) (rotation + Math.round((Math.random() * 30) - 30)), 15, DAMAGE));
 				shot();
 			}
