@@ -22,10 +22,9 @@ public abstract class Pickup extends GameObject implements IAlarm {
 	 */
 	public Pickup(int x, int y, String sprite, int respawnrate) {
 		super();
-		super.setX(x);
-		super.setY(y);
-		super.setStartPosition(x, y);
 		super.setSprite(sprite);
+		super.setX((Level.TILE_SIZE-getSprite().getFrameWidth())/2+x);
+		super.setY((Level.TILE_SIZE-getSprite().getFrameHeight())/2+y);
 		this.respawnrate = respawnrate;
 		GameEngine.items.add(this);
 		pickedUp = false;

@@ -5,7 +5,7 @@ import android.gameengine.icadroids.engine.GameEngine;
 public class Pistol extends Gun {
 
 	public static final int MAX_AMMO = 255;
-	public static final int DAMAGE = 20;
+	public static final int DAMAGE = 25;
 	public static final int RATE = 10;
 
 	public Pistol(int ammo) {

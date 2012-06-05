@@ -4,7 +4,7 @@ import android.gameengine.icadroids.engine.GameEngine;
 
 public class Shotgun extends Gun {
 	public static final int MAX_AMMO = 70;
-	public static final int DAMAGE = 20;
+	public static final int DAMAGE = 30;
 	public static final int RATE = 35;
 
 	public Shotgun(int ammo) {
