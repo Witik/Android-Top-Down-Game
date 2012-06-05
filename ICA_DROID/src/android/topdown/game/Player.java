@@ -171,4 +171,7 @@ public class Player extends LivingEntity implements IAlarm {
 	public boolean hasShotgun(){
 		return hasShotgun;
 	}
+	public Gun getCurrentGun(){
+		return currentGun;
+	}
 }
