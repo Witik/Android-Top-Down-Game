@@ -102,7 +102,7 @@ public class Level{
 						Pickup pickup = null;
 						int xx = x * TILE_SIZE;
 						int yy = y * TILE_SIZE;
-						int respawnrate = (px & 0xFF)*30;
+						int respawnrate = (px & 0xFF)*45;
 						switch (i) {
 						case ID_MEDKIT:
 							pickup = new HealthPack(xx, yy, 80, respawnrate);
@@ -117,10 +117,10 @@ public class Level{
 							pickup = new Ammo(xx, yy, Ammo.TYPE_SHOTGUN, Shotgun.MAX_AMMO / 4, respawnrate);
 							break;
 						case ID_PISTOL:
-							pickup = new GunPickup(xx, yy, GunPickup.TYPE_PISTOL, Pistol.MAX_AMMO / 4, respawnrate);
+							pickup = new GunPickup(xx, yy, GunPickup.TYPE_PISTOL, Pistol.MAX_AMMO / 5, respawnrate);
 							break;
 						case ID_SHOTGUN:
-							pickup = new GunPickup(xx, yy, GunPickup.TYPE_SHOTGUN, Shotgun.MAX_AMMO / 4, respawnrate);
+							pickup = new GunPickup(xx, yy, GunPickup.TYPE_SHOTGUN, Shotgun.MAX_AMMO / 5, respawnrate);
 							break;
 						}
 						try {

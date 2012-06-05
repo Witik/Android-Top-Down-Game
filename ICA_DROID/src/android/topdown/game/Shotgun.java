@@ -3,7 +3,7 @@ package android.topdown.game;
 import android.gameengine.icadroids.engine.GameEngine;
 
 public class Shotgun extends Gun {
-	public static final int MAX_AMMO = 70;
+	public static final int MAX_AMMO = 42;
 	public static final int DAMAGE = 30;
 	public static final int RATE = 35;
 
