@@ -29,7 +29,8 @@ public class Game extends GameEngine {
 		addPlayer(player, 0, 0);
 		addGameObject(info);
 		Viewport.useViewport = true;
-		soundLoad = new Thread(new SoundLib());
+		if(SoundLib.loading())
+			SoundLib.startLoad();
 	}
 
 	@Override
@@ -58,8 +59,6 @@ public class Game extends GameEngine {
 		port.setPlayerPositionOnScreen(Viewport.PLAYER_VCENTER | Viewport.PLAYER_HCENTER);
 		Display display = ((WindowManager) GameEngine.getAppContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		info.setScreenSize(display.getHeight(), display.getWidth());
-		
-		soundLoad.start();
 	}
 
 	@Override

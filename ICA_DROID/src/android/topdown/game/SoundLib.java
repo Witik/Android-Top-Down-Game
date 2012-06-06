@@ -55,6 +55,7 @@ public class SoundLib implements Runnable{
 	public static final int ZOMBIE_ZOMSHORT3 = 49;
 	public static final int FERDI_ZONDERSOUND = 50;
 
+	private static Thread t = new Thread(new SoundLib());
 	public void load() {
 		loaded = false;
 		loadSound(FERDI_BANAAN, "banaan");
@@ -120,18 +121,27 @@ public class SoundLib implements Runnable{
 	}
 
 	public static void play(int id) {
-		if(loaded){
 			try{
 			GameSound.playSound(id, 0);
 			} catch (Exception e) {
 				System.err.println("ERR: Sound not loaded");
+				loaded = false;
+				if(loading())
+					startLoad();
 			}
-		}
 	}
 
 	public void run() {
 		if(!loaded){// weet niet of dit nodig is maar zet het er toch in
 			load();
 		}
+	}
+	public static boolean loading(){
+		return !t.isAlive()&&loaded==false;
+	}
+	public static void startLoad(){
+		t = new Thread(new SoundLib());
+		t.setPriority(7);
+		t.start();
 	}
 }
