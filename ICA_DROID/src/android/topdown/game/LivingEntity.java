@@ -15,6 +15,11 @@ public abstract class LivingEntity extends MoveableGameObject {
 	private double speed;
 	private int[] blockedTiles;
 
+	/**
+	 * @param blockedTiles array of tiles which the entity cannot move on to
+	 * @param hp the amount of healthpoint the entity has
+	 * @param speed the movement speed for this entity
+	 */
 	public LivingEntity(int[] blockedTiles, int hp, double speed) {
 		this.hp = hp;
 		this.maxHp = hp;
@@ -23,6 +28,10 @@ public abstract class LivingEntity extends MoveableGameObject {
 		rotation = 180;
 	}
 
+	/**
+	 * rotate the entity
+	 * @param rotation the amount of rotation you want
+	 */
 	public void rotate(float rotation) {
 		if (this.rotation + rotation < 0) {
 			this.rotation += rotation + 360;
@@ -33,14 +42,23 @@ public abstract class LivingEntity extends MoveableGameObject {
 		}
 	}
 
+	/**
+	 * @param rot set the rotation to this amount
+	 */
 	public void setRotation(float rot) {
 		this.rotation = rot % 360;
 	}
 
+	/**
+	 * @return current rotation of the entity
+	 */
 	public float getRotation() {
 		return rotation;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.objects.GameObject#drawGameObject(android.graphics.Canvas)
+	 */
 	public void drawGameObject(Canvas canvas) {
 		AnimatedSprite sprite = getSprite();
 		if (sprite.getSprite() != null && isVisible) {
@@ -53,25 +71,33 @@ public abstract class LivingEntity extends MoveableGameObject {
 		}
 	}
 
+	/**
+	 * @return het speed of this entity
+	 */
 	public double getSpeeds() {
 		return speed;
 	}
 
 	/**
-	 * De beweegsnelheid, wordt altijd positief.
-	 * 
-	 * @param speed
-	 *            de snelheid waarmee hij beweegt, wordt versteld naar positief
+	 * Movement speed always a positive number
+	 * @param speed the desired speed
 	 */
 	public void setSpeeds(double speed) {
 		this.speed = Math.abs(speed);
 	}
 
+	/**
+	 * heal the entity
+	 * @param hp the amount the entity will be healed
+	 */
 	public void heal(int hp) {
 		this.hp += hp;
-
 	}
 
+	/**
+	 * hurt the entity
+	 * @param hp the amount the entity will be healed
+	 */
 	public void hurt(int hp) {
 		this.hp -= hp;
 		if (this.hp <= 0) {
@@ -79,22 +105,38 @@ public abstract class LivingEntity extends MoveableGameObject {
 		}
 	}
 
+	/**
+	 * The passing away of this entity
+	 */
 	public void die() {
 		this.deleteThisGameObject();
 	}
 
+	/**
+	 * @return the entity's current amount of health points
+	 */
 	public int getHp() {
 		return hp;
 	}
 
+	/**
+	 * Change the entity's amount of health points
+	 * @param hp the amount you want
+	 */
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
 
+	/**
+	 * @return the maximum amount of health
+	 */
 	public int getmaxHp() {
 		return maxHp;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.objects.MoveableGameObject#collisionOccurred(java.util.List)
+	 */
 	public void collisionOccurred(List<Tile> collidedTiles) {
 
 		boolean collision = false;
@@ -108,11 +150,18 @@ public abstract class LivingEntity extends MoveableGameObject {
 			moveUpToTileSide(collidedTiles.get(0));
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.objects.MoveableGameObject#update()
+	 */
 	public void update() {
 		super.update();
 		gameObjectCollision();
 	}
 
+	/**
+	 * Similar to but then to check the collision between game object
+	 * @see android.gameengine.icadroids.objects.MoveableGameObject#collisionOccurred(java.util.List)
+	 */
 	private void gameObjectCollision() {
 		for (GameObject g : GameEngine.items) {
 			if (g.position.intersect(position)) {// collison
@@ -121,26 +170,42 @@ public abstract class LivingEntity extends MoveableGameObject {
 		}
 	}
 
+	/**
+	 * methode called upon collision with an other game object
+	 * @param g the game object we collided with
+	 */
 	protected abstract void objectCollision(GameObject g);
 
+	/**
+	 * move the entity forward relative to his facing
+	 */
 	public void moveForward() {
 		double dx = Math.sin(Math.toRadians(getRotation())) * getSpeeds();
 		double dy = Math.cos(Math.toRadians(getRotation())) * getSpeeds();
 		movePlayer((int) Math.round(dx), (int) Math.round(-dy));
 	}
 
+	/**
+	 * move the entity backward relative to his facing
+	 */
 	public void moveBackward() {
 		double dx = Math.sin(Math.toRadians(getRotation())) * getSpeeds();
 		double dy = Math.cos(Math.toRadians(getRotation())) * getSpeeds();
 		movePlayer((int) Math.round(-dx), (int) Math.round(dy));
 	}
 
+	/**
+	 * move the entity left relative to his facing
+	 */
 	public void moveLeft() {
 		double dx = Math.sin(Math.toRadians(getRotation())) * getSpeeds();
 		double dy = Math.cos(Math.toRadians(getRotation())) * getSpeeds();
 		movePlayer((int) Math.round(-dy), (int) Math.round(-dx));
 	}
 
+	/**
+	 * move the entity right relative to his facing
+	 */
 	public void moveRight() {
 		double dx = Math.sin(Math.toRadians(getRotation())) * getSpeeds();
 		double dy = Math.cos(Math.toRadians(getRotation())) * getSpeeds();

@@ -9,6 +9,13 @@ public class GunPickup extends Pickup {
 	private int type;
 	private int ammo;
 	
+	/**
+	 * @param x x location for the pickup to spawn in pixels
+	 * @param y y location for the pickup to spawn in pixels
+	 * @param type the gun type that the ammo is for
+	 * @param ammo the amount of ammo
+	 * @param respawnrate the amount of time it wil take for the object to respawn
+	 */
 	public GunPickup(int x, int y, int type,int ammo, int respawnrate) {
 		super(x, y, gunSprite(type), respawnrate);
 		this.type = type;
@@ -23,6 +30,9 @@ public class GunPickup extends Pickup {
 		return "missingimage";
 	}
 
+	/* (non-Javadoc)
+	 * @see android.topdown.game.Pickup#pickupEvent(android.topdown.game.Player)
+	 */
 	@Override
 	public void pickupEvent(Player player) {
 		player.giveGun(giveGun());
@@ -30,9 +40,8 @@ public class GunPickup extends Pickup {
 	}
 
 	/**
-	 * resolve de gun die we gaan geven
-	 * ALS DE TYPE NIET BESTAAT RETUNEERD LEGE GUN
-	 * @return de gun die gegeven moet worden
+	 * Resolve the gun type that we wil give the player
+	 * @return the gun
 	 */
 	private Gun giveGun() {
 		if(type==TYPE_PISTOL){

@@ -10,27 +10,11 @@ import android.util.Log;
 public class Level{
 
 	public static final int TILE_SIZE = 64;
-	public static final String TILE_GRASS = "grass";
-	public static final String TILE_WALL = "wall";
-	public static final String TILE_ROAD = "road";
-	public static final String TILE_ROADSTRIPED = "roadstriped";
-	public static final String TILE_SIDEWALK = "sidewalk";
 	public static final int ID_GRASS = 0;
 	public static final int ID_WALL = 1;
 	public static final int ID_ROAD = 2;
 	public static final int ID_ROADSTRIPED = 3;
 	public static final int ID_SIDEWALK = 4;
-	public static final int COLOR_GRASS = 0xFF00FF00;
-	public static final int COLOR_WALL = 0xFF333333;
-	public static final int COLOR_ROAD = 0xFFFFFFFF;
-	public static final int COLOR_ROADSTRIPED = 0xFF888888;
-	public static final int COLOR_SIDEWALK = 0xFF666666;
-	public static final int ARG_MEDKIT = 0xFFFF00;
-	public static final int ARG_PILLS = 0xFF8000;
-	public static final int ARG_PISTOLAMMO = 0xFF0080;
-	public static final int ARG_SHOTGUNAMMO = 0xFF00FF;
-	public static final int ARG_PISTOL = 0xFF8080;
-	public static final int ARG_SHOTGUN = 0xFFFFFF;
 	public static final int ID_MEDKIT = 0;
 	public static final int ID_PILLS = 1;
 	public static final int ID_PISTOLAMMO = 2;
@@ -38,20 +22,44 @@ public class Level{
 	public static final int ID_PISTOL = 4;
 	public static final int ID_SHOTGUN = 5;
 
+	private static final int COLOR_GRASS = 0xFF00FF00;
+	private static final int COLOR_WALL = 0xFF333333;
+	private static final int COLOR_ROAD = 0xFFFFFFFF;
+	private static final int COLOR_ROADSTRIPED = 0xFF888888;
+	private static final int COLOR_SIDEWALK = 0xFF666666;
+	private static final int ARG_MEDKIT = 0xFFFF00;
+	private static final int ARG_PILLS = 0xFF8000;
+	private static final int ARG_PISTOLAMMO = 0xFF0080;
+	private static final int ARG_SHOTGUNAMMO = 0xFF00FF;
+	private static final int ARG_PISTOL = 0xFF8080;
+	private static final int ARG_SHOTGUN = 0xFFFFFF;
+	private static final String TILE_GRASS = "grass";
+	private static final String TILE_WALL = "wall";
+	private static final String TILE_ROAD = "road";
+	private static final String TILE_ROADSTRIPED = "roadstriped";
+	private static final String TILE_SIDEWALK = "sidewalk";
+
 	private Sprite grass, wall, road, roadstriped, sidewalk, mapsprite, itemsprite;
 
-	String[] tiles = { TILE_GRASS, TILE_WALL, TILE_ROAD, TILE_ROADSTRIPED, TILE_SIDEWALK };
-	int[] colors = { COLOR_GRASS, COLOR_WALL, COLOR_ROAD, COLOR_ROADSTRIPED, COLOR_SIDEWALK };
-	int[] itemcolors = { ARG_MEDKIT, ARG_PILLS, ARG_PISTOLAMMO, ARG_SHOTGUNAMMO, ARG_PISTOL, ARG_SHOTGUN };
+	private String[] tiles = { TILE_GRASS, TILE_WALL, TILE_ROAD, TILE_ROADSTRIPED, TILE_SIDEWALK };
+	private int[] colors = { COLOR_GRASS, COLOR_WALL, COLOR_ROAD, COLOR_ROADSTRIPED, COLOR_SIDEWALK };
+	private int[] itemcolors = { ARG_MEDKIT, ARG_PILLS, ARG_PISTOLAMMO, ARG_SHOTGUNAMMO, ARG_PISTOL, ARG_SHOTGUN };
 
 	private GameTiles gt;
 	private String map, itemmap;
 
+	/**
+	 * @param map the file name of the map without the ".png" extension
+	 */
 	public Level(String map) {
 		this.map = map;
 		this.itemmap = map + "items";
 	}
 
+	/**
+	 * @see android.gameengine.icadroids.objects.graphics.loadSprite(String resourceName)
+	 * With a fallback sprite to indicate a missing sprite
+	 */
 	public Sprite loadSprite(Sprite sprite, String name) {
 		try {
 			sprite.loadSprite(name);
@@ -63,6 +71,9 @@ public class Level{
 		return sprite;
 	}
 
+	/**
+	 * build the map from the level
+	 */
 	public void initialize() {
 		grass = new Sprite();
 		wall = new Sprite();
@@ -83,6 +94,9 @@ public class Level{
 		gt = new GameTiles(tiles, map, TILE_SIZE);
 	}
 	
+	/**
+	 * @return the array with gametiles
+	 */
 	public GameTiles getGameTiles() {
 		return gt;
 	}

@@ -18,6 +18,9 @@ public class MainMenu extends Activity {
 		super();
 		context = this;
 	}
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainmenu);
@@ -28,6 +31,9 @@ public class MainMenu extends Activity {
 		plaats = (EditText) findViewById(R.id.plaatsfield);
 		setClickListeneres();
 	}
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
 	public void onResume(){
 		super.onResume();
 		if(!Settings.load(context)){
@@ -76,6 +82,9 @@ public class MainMenu extends Activity {
 			}
 		});
 	}
+	/**
+	 * start the game with the set parameters
+	 */
 	private void startGame(){
 		startActivity(new Intent(context, Game.class));
 	}
@@ -83,7 +92,7 @@ public class MainMenu extends Activity {
 		load.clearFocus();
 		load.setEnabled(false);
 	}
-	public void enableLoad(){
+	private void enableLoad(){
 		load.setEnabled(true);
 	}
 }

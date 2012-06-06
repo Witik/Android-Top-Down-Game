@@ -71,9 +71,9 @@ public class Player extends LivingEntity implements IAlarm {
 	}
 
 	/**
-	 * @param type
-	 * @param amount
-	 * @return
+	 * @param type type of ammo
+	 * @param amount amount of ammo
+	 * @return did the amount of ammo fit
 	 */
 	public boolean giveAmmo(int type, int amount) {
 		if (type == Ammo.TYPE_PISTOL) {
@@ -86,7 +86,7 @@ public class Player extends LivingEntity implements IAlarm {
 		return false;
 	}
 
-	public void shoot() {
+	private void shoot() {
 		float rot = getRotation();
 
 		double xx = Math.sin(Math.toRadians(rot)) * 42;
@@ -98,6 +98,9 @@ public class Player extends LivingEntity implements IAlarm {
 		currentGun.shoot(x, y, (int) rot);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.topdown.game.LivingEntity#update()
+	 */
 	public void update() {
 		super.update();
 
@@ -184,15 +187,24 @@ public class Player extends LivingEntity implements IAlarm {
 			setSprite(PISTOLSPRITE);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.topdown.game.LivingEntity#collisionOccurred(java.util.List)
+	 */
 	public void collisionOccurred(List<Tile> collidedTiles) {
 		super.collisionOccurred(collidedTiles);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.alarms.IAlarm#triggerAlarm(int)
+	 */
 	public void triggerAlarm(int alarmID) {
 		if (alarmID == 1)
 			swappable = true;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.topdown.game.LivingEntity#hurt(int)
+	 */
 	public void hurt(int damage) {
 		super.hurt(damage);
 		if ((int) (Math.random() * 20) == 0)
@@ -214,6 +226,9 @@ public class Player extends LivingEntity implements IAlarm {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.topdown.game.LivingEntity#objectCollision(android.gameengine.icadroids.objects.GameObject)
+	 */
 	@Override
 	protected void objectCollision(GameObject g) {
 		if (g instanceof Pickup) {
@@ -233,10 +248,17 @@ public class Player extends LivingEntity implements IAlarm {
 		Log.i("Player", "died");
 	}
 
+	/**
+	 * does the player have a shotgun
+	 * @return yes or no
+	 */
 	public boolean hasShotgun() {
 		return hasShotgun;
 	}
 
+	/**
+	 * @return show me your current gun
+	 */
 	public Gun getCurrentGun() {
 		return currentGun;
 	}

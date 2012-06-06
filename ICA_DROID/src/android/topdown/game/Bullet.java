@@ -11,10 +11,18 @@ public class Bullet extends MoveableGameObject {
 	/**
 	 * afstand die gereisd mag worden
 	 */
-	private int decay, damage, rotation;
+	private int decay;
+	private int damage, rotation;
 
 	private static int[] blockedTiles = { Level.ID_WALL };
 
+	/**
+	 * @param x spawn x
+	 * @param y spawn y
+	 * @param rotation the angle in degrees in which the bullet will travel
+	 * @param decay the distance that might be travel
+	 * @param damage the damage which the bullet will do
+	 */
 	public Bullet(double x, double y, int rotation, int decay, int damage) {
 		super();
 		this.rotation = rotation;
@@ -26,6 +34,9 @@ public class Bullet extends MoveableGameObject {
 		this.damage = damage;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.objects.MoveableGameObject#collisionOccurred(java.util.List)
+	 */
 	public void collisionOccurred(List<Tile> collidedTiles) {
 
 		boolean collision = false;
@@ -39,6 +50,9 @@ public class Bullet extends MoveableGameObject {
 			this.deleteThisGameObject();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.objects.MoveableGameObject#update()
+	 */
 	public void update() {
 		super.update();
 		decay--;
@@ -50,6 +64,9 @@ public class Bullet extends MoveableGameObject {
 		return damage;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.objects.GameObject#drawGameObject(android.graphics.Canvas)
+	 */
 	public void drawGameObject(Canvas canvas) {
 		AnimatedSprite sprite = getSprite();
 		if (sprite.getSprite() != null && isVisible) {

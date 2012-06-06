@@ -4,6 +4,13 @@ public class Ammo extends Pickup {
 	public static final int TYPE_PISTOL = 1;
 	public static final int TYPE_SHOTGUN = 2;
 	private int type,amount;
+	/**
+	 * @param x 
+	 * @param y 
+	 * @param type type of gun
+	 * @param amount the amount of ammo
+	 * @param respawnrate how long it takes for it to respawn
+	 */
 	public Ammo(int x, int y, int type, int amount, int respawnrate) {
 		super(x, y, getSprite(type), respawnrate);
 		this.type = type;

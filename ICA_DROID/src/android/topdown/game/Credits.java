@@ -15,8 +15,11 @@ import android.widget.EditText;
  */
 public class Credits extends Activity 
 {	
-	EditText box;
-	Button close;
+	private EditText box;
+	private Button close;
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -33,6 +36,9 @@ public class Credits extends Activity
 			
 		}); 
 	}
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
+	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) 
     {
 		if(keyCode == KeyEvent.KEYCODE_BACK)
@@ -42,6 +48,9 @@ public class Credits extends Activity
 		}
 		return true;
     }
+	/**
+	 * finish the activity
+	 */
 	private void end()
 	{
 		Credits.this.finish();

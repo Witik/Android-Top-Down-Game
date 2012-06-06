@@ -4,6 +4,8 @@ import android.gameengine.icadroids.sound.GameSound;
 
 public class SoundLib implements Runnable{
 	private static boolean loaded = false;
+	private static Thread t = new Thread(new SoundLib());	
+	
 	public static final int FERDI_BANAAN = 0;
 	public static final int FERDI_BANAAN2 = 1;
 	public static final int FERDI_BANAAN3 = 2;
@@ -55,8 +57,11 @@ public class SoundLib implements Runnable{
 	public static final int ZOMBIE_ZOMSHORT3 = 49;
 	public static final int FERDI_ZONDERSOUND = 50;
 
-	private static Thread t = new Thread(new SoundLib());
-	public void load() {
+	/**
+	 * load all the sound
+	 * *Assumes sound not already loaded*
+	 */
+	private void load() {
 		loaded = false;
 		loadSound(FERDI_BANAAN, "banaan");
 		loadSound(FERDI_BANAAN2, "banaan2");
@@ -111,6 +116,10 @@ public class SoundLib implements Runnable{
 		loaded = true;
 	}
 	
+	/**
+	 * @param id resource id of the sound you want
+	 * @param name the name you want to assign to it
+	 */
 	private void loadSound(int id, String name){
 		try{
 			GameSound.addSound(id,name);
@@ -120,6 +129,10 @@ public class SoundLib implements Runnable{
 		}
 	}
 
+	/**
+	 * Play a sound which is all ready loaded
+	 * @param id the id of the sound you want to play
+	 */
 	public static void play(int id) {
 			try{
 			GameSound.playSound(id, 0);
@@ -136,9 +149,16 @@ public class SoundLib implements Runnable{
 			load();
 		}
 	}
+	/**
+	 * are we currently all ready loading sound?
+	 * @return true = yes
+	 */
 	public static boolean loading(){
 		return !t.isAlive()&&loaded==false;
 	}
+	/**
+	 * start the loading of sound in a seperate thread
+	 */
 	public static void startLoad(){
 		t = new Thread(new SoundLib());
 		t.setPriority(7);

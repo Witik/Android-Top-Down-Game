@@ -14,6 +14,12 @@ public class Zombie extends LivingEntity {
 	private int numMoves, move;// voor de random movement te reguleren
 	private boolean noticedPlayer;
 
+	/**
+	 * @param hp amount of health point this zombie wil have
+	 * @param speed the speed this zombie wil have
+	 * @param damage the damage this zombie wil be able to give per attack
+	 * @param player a pointer to the current player so the zombie can eat his brains
+	 */
 	public Zombie(int hp, double speed, int damage, Player player) {
 		super(blockedTiles, hp, speed);
 		this.damage = damage;
@@ -36,6 +42,9 @@ public class Zombie extends LivingEntity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.topdown.game.LivingEntity#update()
+	 */
 	public void update() {
 		super.update();
 		zombieNavigation();
@@ -180,6 +189,9 @@ public class Zombie extends LivingEntity {
 		return (int) Math.round(angle);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.topdown.game.LivingEntity#objectCollision(android.gameengine.icadroids.objects.GameObject)
+	 */
 	@Override
 	protected void objectCollision(GameObject g) {
 		if (g instanceof Bullet) {
@@ -204,10 +216,16 @@ public class Zombie extends LivingEntity {
 		}
 	}
 
+	/**
+	 * @return the amount of damage this zombie can do per attack
+	 */
 	public int getDamage() {
 		return damage;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.topdown.game.LivingEntity#die()
+	 */
 	@Override
 	public void die() {
 		super.die();

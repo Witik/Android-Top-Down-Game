@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class Game extends GameEngine implements IFormInput{
 
-	public static final int MAX_ZOMBIES = 80;
+	private static final int MAX_ZOMBIES = 80;
 	
 	private Player player;
 	private Level level;
@@ -43,6 +43,9 @@ public class Game extends GameEngine implements IFormInput{
 		endGame = null;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.engine.GameEngine#initialize()
+	 */
 	@Override
 	public void initialize() {
 		super.initialize();
@@ -71,6 +74,9 @@ public class Game extends GameEngine implements IFormInput{
 		info.setScreenSize(display.getHeight(), display.getWidth());
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.engine.GameEngine#update()
+	 */
 	@Override
 	public void update() {
 		super.update();

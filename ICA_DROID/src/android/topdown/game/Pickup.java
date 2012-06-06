@@ -14,11 +14,10 @@ public abstract class Pickup extends GameObject implements IAlarm {
 	private Viewport port;
 
 	/**
-	 * constructor voegt zichzelf toe aan de wereld
-	 * 
-	 * @param x
+	 * @param x 
 	 * @param y
-	 * @param sprite
+	 * @param sprite the chosen sprite
+	 * @param respawnrate the time it wil take to respawn
 	 */
 	public Pickup(int x, int y, String sprite, int respawnrate) {
 		super();
@@ -32,10 +31,8 @@ public abstract class Pickup extends GameObject implements IAlarm {
 	}
 
 	/**
-	 * methode die afhandelt wat er moet gebeuren als de speler dit obj oppakt
-	 * 
-	 * @param player
-	 *            de huidige speler
+	 * Handle the occurrence of the pickup
+	 * @param player the player that pick this up
 	 */
 	public void pickupEvent(Player player) {
 		isVisible = false;
@@ -43,10 +40,17 @@ public abstract class Pickup extends GameObject implements IAlarm {
 		new Alarm(0, respawnrate, this);
 	}
 
+	/**
+	 * @return has the object been picked up
+	 */
 	public boolean isPickedUp() {
 		return pickedUp;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.alarms.IAlarm#triggerAlarm(int)
+	 * *CALLBACK METHODE FOR IAlarm*
+	 */
 	public void triggerAlarm(int alarmID) {
 		if (0 == alarmID) {
 			if (!port.isInViewport(this)) {

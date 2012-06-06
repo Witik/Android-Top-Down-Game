@@ -10,6 +10,11 @@ public class Settings {
 	private static final String FILENAME = "profile.txt";
 	public static String playername,playertown;
 	public static int level;
+	/**
+	 * load the saved data
+	 * @param context the current context required for access to private files
+	 * @return boolean if it worked or not
+	 */
 	public static boolean load(Context context){
 		try{
 			String[] settings= readSettings(context).split("\n");
@@ -33,6 +38,10 @@ public class Settings {
 			return false;
 		}
 	}
+	/**
+	 * save the current settings to the private file location
+	 * @param context the current context required for access to private files
+	 */
 	public static void save(Context context){
 		
 		String save = playername+"\n"

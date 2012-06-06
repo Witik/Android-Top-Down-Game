@@ -9,6 +9,12 @@ public class HealthPack extends Pickup {
 
 	private int type;
 
+	/**
+	 * @param x x location for the pickup to spawn in pixels
+	 * @param y y location for the pickup to spawn in pixels
+	 * @param type is this a medkit or a pack of pillz
+	 * @param respawnrate the amount of time it will take for the object to respawn
+	 */
 	public HealthPack(int x, int y, int type, int respawnrate) {
 		super(x, y, getSprite(type), respawnrate);
 		this.type = type;

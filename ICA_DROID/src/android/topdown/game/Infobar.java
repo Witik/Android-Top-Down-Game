@@ -29,6 +29,9 @@ public class Infobar extends GameObject {
 		hudRect = new Rect();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.objects.GameObject#update()
+	 */
 	@Override
 	public void update() {
 		super.update();
@@ -61,6 +64,9 @@ public class Infobar extends GameObject {
 		hudSelectRect.right = hudRect.right;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.objects.GameObject#drawGameObject(android.graphics.Canvas)
+	 */
 	@Override
 	public void drawGameObject(Canvas canvas) {
 		super.drawGameObject(canvas);
@@ -75,20 +81,21 @@ public class Infobar extends GameObject {
 			canvas.drawText("Shotgun: " + player.getShotgun().getAmmo() + "/" + player.getShotgun().getAmmoMax(), (float) (viewportX + (screenwidth * .01)), (float) (viewportY + (screenheight * .25) + (pt.getTextSize() * 2 + 5)), pt);
 	}
 
-	public void setSpeed(double speed, double xspeed, double yspeed, float xpos, float ypos) {
-		this.speed = speed;
-		this.xspeed = xspeed;
-		this.yspeed = yspeed;
-		this.xpos = xpos;
-		this.ypos = ypos;
-	}
-
+	/**
+	 * parse through the current viewport data which the infobar needs
+	 * @param viewportX the current viewportx
+	 * @param viewportY the current viewporty
+	 */
 	public void setPort(int viewportX, int viewportY) {
-		this.zoomFactor = zoomFactor;
 		this.viewportX = viewportX;
 		this.viewportY = viewportY;
 	}
 
+	/**
+	 * let infobar know what the curren screensize is
+	 * @param height
+	 * @param width
+	 */
 	public void setScreenSize(int height, int width) {
 		this.screenheight = height;
 		this.screenwidth = width;

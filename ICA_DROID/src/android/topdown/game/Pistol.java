@@ -8,10 +8,16 @@ public class Pistol extends Gun {
 	public static final int DAMAGE = 25;
 	public static final int RATE = 10;
 
+	/**
+	 * @param ammo the amount of ammo this gun wil have
+	 */
 	public Pistol(int ammo) {
 		super("pistol", ammo, MAX_AMMO, DAMAGE, RATE);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.topdown.game.Gun#shoot(double, double, int)
+	 */
 	@Override
 	public void shoot(double x, double y, int rotation) {
 		if (canShoot()) {
