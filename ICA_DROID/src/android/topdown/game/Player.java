@@ -23,7 +23,7 @@ public class Player extends LivingEntity implements IAlarm {
 
 	public Player() {
 		super(blockedTiles, HP, SPEED);
-		pistol = new Pistol(Pistol.MAX_AMMO);
+		pistol = new Pistol(Pistol.MAX_AMMO/2);
 		hasShotgun = false;
 		swappable = true;
 		currentGun = pistol;
