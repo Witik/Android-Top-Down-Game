@@ -19,7 +19,6 @@ public class Game extends GameEngine {
 	private Level level;
 	private Infobar info;
 	private Viewport port;
-	Thread soundLoad;
 
 	private int numZom;
 
@@ -66,7 +65,7 @@ public class Game extends GameEngine {
 	@Override
 	public void update() {
 		super.update();
-		if (Math.round(Math.random()) == 0 && numZom < MAX_ZOMBIES)
+		if (numZom < MAX_ZOMBIES)
 			spawnZombie();
 
 		if (OnScreenButtons.start)
@@ -102,9 +101,9 @@ public class Game extends GameEngine {
 	 * @return true if outside viewport else false
 	 */
 	private boolean outSideViewport(int x, int y) {
-		if((x > port.getViewportX()||(x+Level.TILE_SIZE) < port.getViewportX() + getScreenWidth())&& 
-				(y > port.getViewportY()||(y+Level.TILE_SIZE) < port.getViewportY() + getScreenHeight())){
-			return true;
+		if(((x+Level.TILE_SIZE) > port.getViewportX()||x < port.getViewportX() + getScreenWidth())&& 
+				((y+Level.TILE_SIZE) > port.getViewportY()||y < port.getViewportY() + getScreenHeight())){
+			return true;//TODO FIX THIS SHIT
 		}
 		return false;
 	}
