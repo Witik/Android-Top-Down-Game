@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class Player extends LivingEntity implements IAlarm {
 
-	private static final int HP = 100;
+	public static final int HP = 100;
 	private static final int SPEED = 7;
 	private static final String SHOTGUNSPRITE = "ferdishotgun";
 	private static final String PISTOLSPRITE = "ferdipistol";
@@ -23,7 +23,7 @@ public class Player extends LivingEntity implements IAlarm {
 
 	public Player() {
 		super(blockedTiles, HP, SPEED);
-		pistol = new Pistol(Pistol.MAX_AMMO/2);
+		pistol = new Pistol(Pistol.MAX_AMMO / 2);
 		hasShotgun = false;
 		swappable = true;
 		currentGun = pistol;
@@ -39,10 +39,23 @@ public class Player extends LivingEntity implements IAlarm {
 				hasShotgun = true;
 				currentGun = shotgun;
 				swapSprite();
-				if ((int) (Math.random() * 2) == 1)
-					SoundLib.play(SoundLib.FERDI_BITCHPLEASE);
-				else
-					SoundLib.play(SoundLib.FERDI_SHOTGUNFERDI);
+			}
+			switch ((int) (Math.random() * 4)) {
+			case 0:
+				SoundLib.play(SoundLib.FERDI_BITCHPLEASE);
+				break;
+			case 1:
+				SoundLib.play(SoundLib.FERDI_SHOTGUNFERDI);
+				break;
+			case 2:
+				SoundLib.play(SoundLib.FERDI_COMEGETSOME);
+				break;
+			case 3:
+				SoundLib.play(SoundLib.FERDI_MOTHERFUCKINGSHOTGUN);
+				break;
+			case 4:
+				SoundLib.play(SoundLib.FERDI_FULLOFCRAP);
+				break;
 			}
 		} else if (gun instanceof Pistol) {
 			pistol.addAmmo(gun.getAmmo());
@@ -64,10 +77,10 @@ public class Player extends LivingEntity implements IAlarm {
 	 */
 	public boolean giveAmmo(int type, int amount) {
 		if (type == Ammo.TYPE_PISTOL) {
-			// TODO add pistol ammo
+			pistol.addAmmo(amount);
 			return true;
 		} else if (type == Ammo.TYPE_SHOTGUN && hasShotgun) {
-			// TODO add shotgun ammo
+			shotgun.addAmmo(amount);
 			return true;
 		}
 		return false;
@@ -88,11 +101,19 @@ public class Player extends LivingEntity implements IAlarm {
 	public void update() {
 		super.update();
 
+		makeSound();
+
 		movement();
 		if (getHp() > getmaxHp()) {// als we op adren zitten dan langzaam laten
 									// dalen
 			setHp(getHp() - 1);
 		}
+	}
+
+	private void makeSound() {
+		if ((int) (Math.random() * 200) == 0)
+			if (false)
+				;
 	}
 
 	private void movement() {
@@ -115,29 +136,29 @@ public class Player extends LivingEntity implements IAlarm {
 	}
 
 	private void isaacmovement() {
-		int speed = (int)getSpeeds();
+		int speed = (int) getSpeeds();
 		if (OnScreenButtons.dPadUp)
-			movePlayer(0,-speed);
+			movePlayer(0, -speed);
 		else if (OnScreenButtons.dPadDown)
-			movePlayer(0,speed);
+			movePlayer(0, speed);
 		else if (OnScreenButtons.dPadLeft)
-			movePlayer(-speed,0);
+			movePlayer(-speed, 0);
 		else if (OnScreenButtons.dPadRight)
-			movePlayer(speed,0);
-		if (OnScreenButtons.button1){
+			movePlayer(speed, 0);
+		if (OnScreenButtons.button1) {
 			setRotation(180f);
 			shoot();
-		} else if (OnScreenButtons.button2){
+		} else if (OnScreenButtons.button2) {
 			setRotation(90f);
 			shoot();
-		} else if (OnScreenButtons.button3){
+		} else if (OnScreenButtons.button3) {
 			setRotation(270f);
 			shoot();
-		} else if (OnScreenButtons.button4){
+		} else if (OnScreenButtons.button4) {
 			setRotation(0f);
 			shoot();
 		}
-		if (OnScreenButtons.shoulderR){
+		if (OnScreenButtons.shoulderR) {
 			swap();
 		}
 	}
@@ -155,9 +176,9 @@ public class Player extends LivingEntity implements IAlarm {
 			swappable = false;
 		}
 	}
-	
-	private void swapSprite(){
-		if(currentGun.equals(shotgun))
+
+	private void swapSprite() {
+		if (currentGun.equals(shotgun))
 			setSprite(SHOTGUNSPRITE);
 		else
 			setSprite(PISTOLSPRITE);
@@ -176,6 +197,8 @@ public class Player extends LivingEntity implements IAlarm {
 		super.hurt(damage);
 		if ((int) (Math.random() * 20) == 0)
 			SoundLib.play(SoundLib.FERDI_HURTSCREAM);
+		else if ((int) (Math.random() * 20) == 0 && getHp() < getmaxHp() / 4)
+			SoundLib.play(SoundLib.FERDI_NEEDMOREFOOD);
 		else {
 			switch ((int) (Math.random() * 3 + 1)) {
 			case 1:
@@ -209,11 +232,12 @@ public class Player extends LivingEntity implements IAlarm {
 		super.die();
 		Log.i("Player", "died");
 	}
-	
-	public boolean hasShotgun(){
+
+	public boolean hasShotgun() {
 		return hasShotgun;
 	}
-	public Gun getCurrentGun(){
+
+	public Gun getCurrentGun() {
 		return currentGun;
 	}
 }

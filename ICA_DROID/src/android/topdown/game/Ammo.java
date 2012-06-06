@@ -25,6 +25,8 @@ public class Ammo extends Pickup {
 	@Override
 	public void pickupEvent(Player player) {
 		if(player.giveAmmo(type,amount)){
+			if ((int) (Math.random() * 4) == 0)
+				SoundLib.play(SoundLib.FERDI_RELOADINGTHEMBITCHES);
 			super.pickupEvent(player);
 		}
 	}

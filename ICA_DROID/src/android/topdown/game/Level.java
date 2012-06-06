@@ -105,10 +105,10 @@ public class Level{
 						int respawnrate = (px & 0xFF)*45;
 						switch (i) {
 						case ID_MEDKIT:
-							pickup = new HealthPack(xx, yy, 80, respawnrate);
+							pickup = new HealthPack(xx, yy, HealthPack.TYPE_MEDKIT, respawnrate);
 							break;
 						case ID_PILLS:
-							pickup = new HealthPack(xx, yy, 30, respawnrate);
+							pickup = new HealthPack(xx, yy, HealthPack.TYPE_PILLS, respawnrate);
 							break;
 						case ID_PISTOLAMMO:
 							pickup = new Ammo(xx, yy, Ammo.TYPE_PISTOL, Pistol.MAX_AMMO / 4, respawnrate);

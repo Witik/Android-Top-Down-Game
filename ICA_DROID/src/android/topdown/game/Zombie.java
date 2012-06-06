@@ -20,7 +20,7 @@ public class Zombie extends LivingEntity {
 		Zombie.player = player;
 		setSprite(getSpriteName());
 		numMoves = move = 0;
-		noticedPlayer=false;
+		noticedPlayer = false;
 	}
 
 	private String getSpriteName() {
@@ -71,13 +71,13 @@ public class Zombie extends LivingEntity {
 	}
 
 	private void zombieNavigation() {
-		if ((seesPlayer() && playerWithin(8))||playerWithin(3)||noticedPlayer) {
+		if ((seesPlayer() && playerWithin(8)) || playerWithin(3) || noticedPlayer) {
 			clearRandom();
 			if (turnTowardPlayer()) {
 				moveForward();
 			}
-			if(!playerWithin(12))
-				noticedPlayer=false;
+			if (!playerWithin(12))
+				noticedPlayer = false;
 		} else {
 			randomMove();
 		}
@@ -211,6 +211,48 @@ public class Zombie extends LivingEntity {
 	@Override
 	public void die() {
 		super.die();
+
+		switch ((int) (Math.random() * 40)) {
+		case 2:
+			SoundLib.play(SoundLib.FERDI_JIJGAATDOOD);
+			break;
+		case 3:
+			SoundLib.play(SoundLib.FERDI_PUNCHINBALLS);
+			break;
+		case 4:
+			SoundLib.play(SoundLib.FERDI_TAKEITLIKEABOSS);
+			break;
+		case 5:
+			SoundLib.play(SoundLib.FERDI_THATSUREWASEASY);
+			break;
+		case 6:
+			SoundLib.play(SoundLib.FERDI_TASTYBACONSTRIPS);
+			break;
+		case 7:
+			SoundLib.play(SoundLib.FERDI_BANAAN);
+			break;
+		case 8:
+			SoundLib.play(SoundLib.FERDI_BANAAN2);
+			break;
+		case 9:
+			SoundLib.play(SoundLib.FERDI_BANAAN3);
+			break;
+		case 10:
+			SoundLib.play(SoundLib.FERDI_BANAAN4);
+			break;
+		case 11:
+			SoundLib.play(SoundLib.FERDI_BITCHPLEASE2);
+			break;
+		case 12:
+			SoundLib.play(SoundLib.FERDI_ZONDERSOUND);
+			break;
+		default:
+			if ((int) (Math.random() * 2) == 0)
+				SoundLib.play(SoundLib.FERDI_HA);
+			else
+				SoundLib.play(SoundLib.FERDI_HMM);
+		}
+
 		// TODO add custom die maybe met extra corpse class idk PUNTEN!
 	}
 }
