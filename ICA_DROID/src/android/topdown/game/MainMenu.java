@@ -57,7 +57,6 @@ public class MainMenu extends Activity {
 		credits.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
 				if(v.getId()==R.id.creditsbutton){
-					Toast.makeText(getBaseContext(), "Credits", Toast.LENGTH_SHORT).show();
 					startActivity(new Intent(context, Credits.class));
 				}
 			}
@@ -66,7 +65,6 @@ public class MainMenu extends Activity {
 			public void onClick(View v) {
 				if(v.getId()==R.id.loadbutton){
 					Settings.load(context);
-					Toast.makeText(getBaseContext(), "load:"+Settings.playername+" town:"+Settings.playertown+" level: "+Settings.level, Toast.LENGTH_SHORT).show();
 					if(Settings.load(context)){// ok we kunnen naar de game
 						startGame();
 					}

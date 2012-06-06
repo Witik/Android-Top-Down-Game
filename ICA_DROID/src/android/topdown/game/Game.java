@@ -29,7 +29,7 @@ public class Game extends GameEngine {
 		addPlayer(player, 0, 0);
 		addGameObject(info);
 		Viewport.useViewport = true;
-		 soundLoad = new Thread(new SoundLib());
+		soundLoad = new Thread(new SoundLib());
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class Game extends GameEngine {
 	public void update() {
 		super.update();
 
-		if ((int) (Math.random() * 20) == 0 && numZom < 40)
+		if (Math.round(Math.random()) == 0 && numZom < 40)
 			spawnZombie();
 
 		if (OnScreenButtons.start)
@@ -82,14 +82,26 @@ public class Game extends GameEngine {
 		int x = port.getRandomX(0);
 		int y = port.getRandomY(0);
 
-		if (notInWall(x,y)) {
+		if (notInWall(x,y)&&outSideViewport(x,y)) {
 			addGameObject(new Zombie(100, 1, 5, player), x, y);
 			numZom++;
 
 			Log.d("ZombieSpawn", "spawned at: (" + x / Level.TILE_SIZE + "," + y / Level.TILE_SIZE + ") on ID: " + level.getGameTiles().getTileArray()[x / Level.TILE_SIZE][y / Level.TILE_SIZE].getTileType());
 			Log.d("PlayerLoc", "player at at: (" + (int) player.getFullX() / Level.TILE_SIZE + "," + (int) player.getFullY() / Level.TILE_SIZE + ") on ID: " + level.getGameTiles().getTileArray()[(int) player.getFullX() / Level.TILE_SIZE][(int) player.getFullY() / Level.TILE_SIZE].getTileType());
 		}
+	}
 
+	/**
+	 * @param x
+	 * @param y
+	 * @return true if outside viewport else false
+	 */
+	private boolean outSideViewport(int x, int y) {
+		if((x > port.getViewportX()||x < port.getViewportX() + getScreenWidth())&& 
+				(y > port.getViewportY()||y < port.getViewportY() + getScreenHeight())){
+			return true;
+		}
+		return false;
 	}
 
 	private boolean notInWall(int x, int y) {
