@@ -102,8 +102,8 @@ public class Game extends GameEngine {
 	 * @return true if outside viewport else false
 	 */
 	private boolean outSideViewport(int x, int y) {
-		if((x > port.getViewportX()||x < port.getViewportX() + getScreenWidth())&& 
-				(y > port.getViewportY()||y < port.getViewportY() + getScreenHeight())){
+		if((x > port.getViewportX()||(x+Level.TILE_SIZE) < port.getViewportX() + getScreenWidth())&& 
+				(y > port.getViewportY()||(y+Level.TILE_SIZE) < port.getViewportY() + getScreenHeight())){
 			return true;
 		}
 		return false;
