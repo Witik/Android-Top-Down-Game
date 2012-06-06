@@ -25,7 +25,7 @@ public class Ammo extends Pickup {
 			return "shotgunammo";
 		}
 		else{
-			return "spritemissing";//TODO zorgen dat al deze sprites ook aanwezig zijn.
+			return "spritemissing";
 		}
 	}
 

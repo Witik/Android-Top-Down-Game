@@ -26,7 +26,7 @@ public class MainMenu extends Activity {
 		setContentView(R.layout.mainmenu);
 		submit = (Button) findViewById(R.id.submitbuttonmainmenu);
 		credits = (Button) findViewById(R.id.creditsbutton);
-		load = (Button) findViewById(R.id.loadbutton);//TODO layout aanpassen hier om gebruik te maken van % breedte
+		load = (Button) findViewById(R.id.loadbutton);
 		naam = (EditText) findViewById(R.id.namefield);
 		plaats = (EditText) findViewById(R.id.plaatsfield);
 		setClickListeneres();

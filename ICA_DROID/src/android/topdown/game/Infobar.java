@@ -10,8 +10,6 @@ public class Infobar extends GameObject {
 
 	private Paint pt,hudPaint,paintLine;
 	private Rect hudRect,hudSelectRect;
-	private double speed, xspeed, yspeed, xpos, ypos;
-	private float zoomFactor;
 	private int viewportX, viewportY;
 	private Player player;
 	private int screenwidth, screenheight;
@@ -35,13 +33,11 @@ public class Infobar extends GameObject {
 	@Override
 	public void update() {
 		super.update();
-		int r = 0, g = 0;
 		if (player.getHp() > 100) {
 			paintLine.setARGB(255, 255, 255, 255);
 		} else {
 			paintLine.setARGB(255, (int) Math.round(player.getHp()), (int) Math.round(player.getHp() * 2.55), (int) Math.round(player.getHp()));
 		}
-		// TODO mischien de kleuren hier nog wat afstellen
 		
 		hudRect.left = (int) (viewportX + (screenwidth * .01));
 		hudRect.top =  (int) (viewportY + (screenheight * .25) - (pt.getTextSize() + 5));

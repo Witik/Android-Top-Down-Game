@@ -1,21 +1,18 @@
 package android.topdown.game;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 
 /**
  * @author Thomas van putten
- * eenvoudige activity voor de credits weer te geven in een dialog box
+ * simple acitivity to display our credits dialog
  */
 public class Credits extends Activity 
 {	
-	private EditText box;
 	private Button close;
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -26,7 +23,6 @@ public class Credits extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.credits);
 		this.setTitle(this.getTitle()+" Credits");
-        box = (EditText) this.findViewById(R.id.credittext);
         close = (Button) this.findViewById(R.id.close);
         close.findFocus();
 		close.setOnClickListener(new OnClickListener(){

@@ -151,15 +151,16 @@ public class Game extends GameEngine implements IFormInput{
 		if(touchedElement.getId()==R.id.newlevel){// goto new level 
 			Toast.makeText(this, "new level", Toast.LENGTH_LONG).show();
 			Settings.level += 1;
-			this.finish();
-			this.onDestroy();//TODO activity laten stoppen zonder dat de shit crashed
+			this.finish();//TODO activity laten stoppen zonder dat de shit crashed
 			startActivity(new Intent(this, Game.class));
 		}
 		else if (touchedElement.getId()==R.id.yes){
 			Toast.makeText(this, "restart", Toast.LENGTH_LONG).show();
 			this.finish();
-			this.onDestroy();
 			startActivity(new Intent(this, Game.class));
+		}
+		else if (touchedElement.getId()==R.id.endthegame){
+			this.finish();
 		}
 	}
 	public boolean onKeyDown(int keyCode, KeyEvent event) 
