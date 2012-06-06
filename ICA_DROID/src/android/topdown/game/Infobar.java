@@ -24,7 +24,6 @@ public class Infobar extends GameObject {
 		pt.setTextSize(18);
 		this.player = player;
 		paintLine.setStrokeWidth(8);
-//		hudPaint.setARGB(67, 176, 176, 249);
 		hudPaint.setARGB(67, 255, 255, 255);
 		hudSelectRect = new Rect();
 		hudRect = new Rect();

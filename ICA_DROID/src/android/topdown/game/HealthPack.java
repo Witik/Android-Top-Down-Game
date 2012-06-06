@@ -40,7 +40,6 @@ public class HealthPack extends Pickup {
 				SoundLib.play(SoundLib.FERDI_GOTMOTHERFUCKINGPILLS);
 		}
 		super.pickupEvent(player);
-
 	}
 
 }
