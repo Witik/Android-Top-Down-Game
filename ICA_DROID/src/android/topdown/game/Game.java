@@ -13,6 +13,8 @@ import android.view.WindowManager;
 
 public class Game extends GameEngine {
 
+	public static final int MAX_ZOMBIES = 80;
+	
 	private Player player;
 	private Level level;
 	private Infobar info;
@@ -53,7 +55,7 @@ public class Game extends GameEngine {
 		setTileMap(level.getGameTiles());
 
 		port = Viewport.getInstance();
-		port.setBounds(0, 0, 64 * 64, 64 * 64);
+		port.setBounds(0, 0, Level.TILE_SIZE * level.getGameTiles().getMapWidth(), Level.TILE_SIZE * level.getGameTiles().getMapHeigth());
 		port.setPlayer(player);
 		port.setPlayerPositionTolerance(0.0, 0.0);
 		port.setPlayerPositionOnScreen(Viewport.PLAYER_VCENTER | Viewport.PLAYER_HCENTER);
@@ -64,8 +66,7 @@ public class Game extends GameEngine {
 	@Override
 	public void update() {
 		super.update();
-
-		if (Math.round(Math.random()) == 0 && numZom < 40)
+		if (Math.round(Math.random()) == 0 && numZom < MAX_ZOMBIES)
 			spawnZombie();
 
 		if (OnScreenButtons.start)
@@ -78,15 +79,20 @@ public class Game extends GameEngine {
 	}
 
 	private void spawnZombie() {
-		int x = port.getRandomX(0);
-		int y = port.getRandomY(0);
+
+		Tile[][] tile = level.getGameTiles().getTileArray();
+		int x = (int) (Math.random() * (tile.length*Level.TILE_SIZE));
+		int y = (int) (Math.random() * (tile[0].length*Level.TILE_SIZE));
 
 		if (notInWall(x,y)&&outSideViewport(x,y)) {
 			addGameObject(new Zombie(100, 1, 5, player), x, y);
 			numZom++;
-
-			Log.d("ZombieSpawn", "spawned at: (" + x / Level.TILE_SIZE + "," + y / Level.TILE_SIZE + ") on ID: " + level.getGameTiles().getTileArray()[x / Level.TILE_SIZE][y / Level.TILE_SIZE].getTileType());
+			int xx = x/(Level.TILE_SIZE*Level.TILE_SIZE);
+			int yy = y/(Level.TILE_SIZE*Level.TILE_SIZE);
+			Log.d("ZombieSpawn", "spawned at: ("+x+","+y+") or ["+xx+"]["+yy+"] on ID: " + level.getGameTiles().getTileArray()[xx][yy].getTileType());
 			Log.d("PlayerLoc", "player at at: (" + (int) player.getFullX() / Level.TILE_SIZE + "," + (int) player.getFullY() / Level.TILE_SIZE + ") on ID: " + level.getGameTiles().getTileArray()[(int) player.getFullX() / Level.TILE_SIZE][(int) player.getFullY() / Level.TILE_SIZE].getTileType());
+		} else {
+			Log.d("ZombieSpawn","failed");
 		}
 	}
 
@@ -105,12 +111,18 @@ public class Game extends GameEngine {
 
 	private boolean notInWall(int x, int y) {
 		Tile[][] tile = level.getGameTiles().getTileArray();
-		if((x+30)/Level.TILE_SIZE>=tile.length||(y+30)/Level.TILE_SIZE>=tile.length)
+		int xx = x/Level.TILE_SIZE;
+		int yy = y/Level.TILE_SIZE;
+		if(xx+1>=tile.length||yy+1>=tile.length){
+			Log.d("ZombieSpawn","attempting spawn at ("+x+","+y+") or ["+xx+"]["+yy+"]");
 			return false;
-		int top = tile[(x-30)/Level.TILE_SIZE][(y-30)/Level.TILE_SIZE].getTileType();
-		int right = tile[(x+30)/Level.TILE_SIZE][(y-30)/Level.TILE_SIZE].getTileType();
-		int bottom = tile[(x+30)/Level.TILE_SIZE][(y+30)/Level.TILE_SIZE].getTileType();
-		int left = tile[(x-30)/Level.TILE_SIZE][(y+30)/Level.TILE_SIZE].getTileType();
+		}
+		int top = tile[xx][yy].getTileType();
+		int right = tile[xx+1][yy].getTileType();
+		int bottom = tile[xx+1][yy+1].getTileType();
+		int left = tile[xx][yy+1].getTileType();
+
+		Log.d("ZombieSpawn","attempting spawn at ("+x+","+y+") or ["+xx+"]["+yy+"] on ID: " + level.getGameTiles().getTileArray()[xx][yy].getTileType());
 		return top!=Level.ID_WALL&&right!=Level.ID_WALL&&bottom!=Level.ID_WALL&&left!=Level.ID_WALL;
 	}
 }
