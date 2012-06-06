@@ -1,7 +1,10 @@
 package android.topdown.game;
 
 import android.content.Context;
+import android.content.Intent;
 import android.gameengine.icadroids.engine.GameEngine;
+import android.gameengine.icadroids.forms.GameForm;
+import android.gameengine.icadroids.forms.IFormInput;
 import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.renderer.GameView;
 import android.gameengine.icadroids.renderer.Viewport;
@@ -9,9 +12,12 @@ import android.gameengine.icadroids.tiles.Tile;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
-public class Game extends GameEngine {
+public class Game extends GameEngine implements IFormInput{
 
 	public static final int MAX_ZOMBIES = 80;
 	
@@ -21,6 +27,8 @@ public class Game extends GameEngine {
 	private Viewport port;
 
 	private int numZom;
+	
+	private GameForm endGame;
 
 	public Game() {
 		super();
@@ -32,6 +40,7 @@ public class Game extends GameEngine {
 		Viewport.useViewport = true;
 		if(SoundLib.loading())
 			SoundLib.startLoad();
+		endGame = null;
 	}
 
 	@Override
@@ -65,13 +74,20 @@ public class Game extends GameEngine {
 	@Override
 	public void update() {
 		super.update();
-		if (numZom < MAX_ZOMBIES)
-			spawnZombie();
-
-		if (OnScreenButtons.start)
-			player.setPosition(player.getFullX() + 64, player.getFullY() + 64);
-		if (OnScreenButtons.select)
-			player.setPosition(player.getFullX() - 64, player.getFullY() - 64);
+		if(player.getHp()<1){//NOW IM GONE
+			if(endGame==null){
+				endGame = new GameForm("endgame", this, this);
+			}
+		}
+		else{// STILL ALIVE
+			if (numZom < MAX_ZOMBIES)// IM DOING SCIENCE
+				spawnZombie();// AND IM STILL ALIVE
+	
+			if (OnScreenButtons.start)
+				player.setPosition(player.getFullX() + 64, player.getFullY() + 64);
+			if (OnScreenButtons.select)
+				player.setPosition(player.getFullX() - 64, player.getFullY() - 64);
+		}
 
 		info.setPort(port.getViewportX(), port.getViewportY());
 		info.setPosition(port.getViewportX() + 200, port.getViewportY() + 200);
@@ -124,4 +140,28 @@ public class Game extends GameEngine {
 		Log.d("ZombieSpawn","attempting spawn at ("+x+","+y+") or ["+xx+"]["+yy+"] on ID: " + level.getGameTiles().getTileArray()[xx][yy].getTileType());
 		return top!=Level.ID_WALL&&right!=Level.ID_WALL&&bottom!=Level.ID_WALL&&left!=Level.ID_WALL;
 	}
+
+	public void formElementClicked(View touchedElement) {
+		if(touchedElement.getId()==R.id.newlevel){// goto new level 
+			Toast.makeText(this, "new level", Toast.LENGTH_LONG).show();
+			Settings.level += 1;
+			this.finish();
+			this.onDestroy();//TODO activity laten stoppen zonder dat de shit crashed
+			startActivity(new Intent(this, Game.class));
+		}
+		else if (touchedElement.getId()==R.id.yes){
+			Toast.makeText(this, "restart", Toast.LENGTH_LONG).show();
+			this.finish();
+			this.onDestroy();
+			startActivity(new Intent(this, Game.class));
+		}
+	}
+	public boolean onKeyDown(int keyCode, KeyEvent event) 
+    {
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+		{// af vangen van de back key
+			return false;
+		}
+		return true;
+    }
 }
