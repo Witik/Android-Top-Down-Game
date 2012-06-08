@@ -28,6 +28,7 @@ public abstract class Pickup extends GameObject implements IAlarm {
 		GameEngine.items.add(this);
 		pickedUp = false;
 		port = Viewport.getInstance();
+		setLayerPosition(1f);
 	}
 
 	/**

@@ -20,14 +20,20 @@ public class Player extends LivingEntity implements IAlarm {
 	private Gun currentGun;
 	private static int[] blockedTiles = { Level.ID_WALL };
 	private boolean hasShotgun, swappable;
+	private boolean godmode;
 
 	public Player() {
 		super(blockedTiles, HP, SPEED);
 		pistol = new Pistol(Pistol.MAX_AMMO / 2);
 		hasShotgun = false;
+		godmode = false;
 		swappable = true;
 		currentGun = pistol;
 		setSprite(PISTOLSPRITE);
+	}
+	
+	public void god(boolean b){
+		godmode = b;
 	}
 
 	public void giveGun(Gun gun) {
@@ -71,8 +77,10 @@ public class Player extends LivingEntity implements IAlarm {
 	}
 
 	/**
-	 * @param type type of ammo
-	 * @param amount amount of ammo
+	 * @param type
+	 *            type of ammo
+	 * @param amount
+	 *            amount of ammo
 	 * @return did the amount of ammo fit
 	 */
 	public boolean giveAmmo(int type, int amount) {
@@ -98,7 +106,9 @@ public class Player extends LivingEntity implements IAlarm {
 		currentGun.shoot(x, y, (int) rot);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.topdown.game.LivingEntity#update()
 	 */
 	public void update() {
@@ -187,14 +197,18 @@ public class Player extends LivingEntity implements IAlarm {
 			setSprite(PISTOLSPRITE);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.topdown.game.LivingEntity#collisionOccurred(java.util.List)
 	 */
 	public void collisionOccurred(List<Tile> collidedTiles) {
 		super.collisionOccurred(collidedTiles);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.gameengine.icadroids.alarms.IAlarm#triggerAlarm(int)
 	 */
 	public void triggerAlarm(int alarmID) {
@@ -202,32 +216,40 @@ public class Player extends LivingEntity implements IAlarm {
 			swappable = true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.topdown.game.LivingEntity#hurt(int)
 	 */
 	public void hurt(int damage) {
-		super.hurt(damage);
-		if ((int) (Math.random() * 20) == 0)
-			SoundLib.play(SoundLib.FERDI_HURTSCREAM);
-		else if ((int) (Math.random() * 20) == 0 && getHp() < getmaxHp() / 4)
-			SoundLib.play(SoundLib.FERDI_NEEDMOREFOOD);
-		else {
-			switch ((int) (Math.random() * 3 + 1)) {
-			case 1:
-				SoundLib.play(SoundLib.FERDI_HURT1);
-				break;
-			case 2:
-				SoundLib.play(SoundLib.FERDI_HURT2);
-				break;
-			case 3:
-				SoundLib.play(SoundLib.FERDI_HURT3);
-				break;
+		if (!godmode) {
+			super.hurt(damage);
+			if ((int) (Math.random() * 20) == 0)
+				SoundLib.play(SoundLib.FERDI_HURTSCREAM);
+			else if ((int) (Math.random() * 20) == 0 && getHp() < getmaxHp() / 4)
+				SoundLib.play(SoundLib.FERDI_NEEDMOREFOOD);
+			else {
+				switch ((int) (Math.random() * 3 + 1)) {
+				case 1:
+					SoundLib.play(SoundLib.FERDI_HURT1);
+					break;
+				case 2:
+					SoundLib.play(SoundLib.FERDI_HURT2);
+					break;
+				case 3:
+					SoundLib.play(SoundLib.FERDI_HURT3);
+					break;
+				}
 			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see android.topdown.game.LivingEntity#objectCollision(android.gameengine.icadroids.objects.GameObject)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * android.topdown.game.LivingEntity#objectCollision(android.gameengine.
+	 * icadroids.objects.GameObject)
 	 */
 	@Override
 	protected void objectCollision(GameObject g) {
@@ -250,6 +272,7 @@ public class Player extends LivingEntity implements IAlarm {
 
 	/**
 	 * does the player have a shotgun
+	 * 
 	 * @return yes or no
 	 */
 	public boolean hasShotgun() {

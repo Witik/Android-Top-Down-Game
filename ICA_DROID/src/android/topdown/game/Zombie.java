@@ -229,6 +229,8 @@ public class Zombie extends LivingEntity {
 	@Override
 	public void die() {
 		super.die();
+		
+		Game.ZombieDeath();
 
 		switch ((int) (Math.random() * 40)) {
 		case 2:
