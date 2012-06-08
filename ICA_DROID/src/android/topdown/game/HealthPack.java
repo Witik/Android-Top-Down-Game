@@ -25,7 +25,7 @@ public class HealthPack extends Pickup {
 			return "health";
 		}
 		else if (type==TYPE_PILLS){
-			return "health";
+			return "pills";
 		}
 		else{
 			return "spritemissing";
