@@ -33,7 +33,7 @@ public class Game extends GameEngine implements IFormInput {
 
 	public Game() {
 		super();
-		level = new Level("map");
+		level = new Level("map"+Settings.level);
 		player = new Player();
 		info = new Infobar(player);
 		addPlayer(player, 0, 0);

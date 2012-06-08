@@ -17,25 +17,34 @@ public class Bullet extends MoveableGameObject {
 	private static int[] blockedTiles = { Level.ID_WALL };
 
 	/**
-	 * @param x spawn x
-	 * @param y spawn y
-	 * @param rotation the angle in degrees in which the bullet will travel
-	 * @param decay the distance that might be travel
-	 * @param damage the damage which the bullet will do
+	 * @param x
+	 *            spawn x
+	 * @param y
+	 *            spawn y
+	 * @param rotation
+	 *            the angle in degrees in which the bullet will travel
+	 * @param decay
+	 *            the distance that might be travel
+	 * @param damage
+	 *            the damage which the bullet will do
 	 */
 	public Bullet(double x, double y, int rotation, int decay, int damage) {
 		super();
 		this.rotation = rotation;
 		this.setSprite("bullet");
 		this.decay = decay;
-		setX(x);
+		setX(x - getFrameWidth() / 2);
 		setY(y);
 		setDirectionSpeed(rotation, 20);
 		this.damage = damage;
 	}
 
-	/* (non-Javadoc)
-	 * @see android.gameengine.icadroids.objects.MoveableGameObject#collisionOccurred(java.util.List)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * android.gameengine.icadroids.objects.MoveableGameObject#collisionOccurred
+	 * (java.util.List)
 	 */
 	public void collisionOccurred(List<Tile> collidedTiles) {
 
@@ -50,22 +59,28 @@ public class Bullet extends MoveableGameObject {
 			this.deleteThisGameObject();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.gameengine.icadroids.objects.MoveableGameObject#update()
 	 */
 	public void update() {
 		super.update();
 		decay--;
-		if(decay<0)
+		if (decay < 0)
 			this.deleteThisGameObject();
 	}
-	
-	public int getDamage(){
+
+	public int getDamage() {
 		return damage;
 	}
 
-	/* (non-Javadoc)
-	 * @see android.gameengine.icadroids.objects.GameObject#drawGameObject(android.graphics.Canvas)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * android.gameengine.icadroids.objects.GameObject#drawGameObject(android
+	 * .graphics.Canvas)
 	 */
 	public void drawGameObject(Canvas canvas) {
 		AnimatedSprite sprite = getSprite();
