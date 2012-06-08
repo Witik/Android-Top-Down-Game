@@ -38,4 +38,10 @@
         android:layout_height="wrap_content"
         android:text="Quit" />
 
+    <Button
+        android:id="@+id/disphighscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="High Scores" />
+
 </LinearLayout>
