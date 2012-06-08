@@ -126,8 +126,8 @@ public class Game extends GameEngine implements IFormInput {
 
 	//Checks to see if the given coordinates aren't in the wall of the given tile array
 	private boolean notInWall(int x, int y, Tile[][] tile) {
-		if (x < tile[0].length && y < tile.length)
-			if (tile[y][x].getTileType() != Level.ID_WALL || tile[y + 1][x].getTileType() != Level.ID_WALL || tile[y + 1][x + 1].getTileType() != Level.ID_WALL || tile[y][x + 1].getTileType() != Level.ID_WALL)
+		if (x+1 < tile[0].length && y+1 < tile.length)
+			if (tile[y][x].getTileType() != Level.ID_WALL && tile[y + 1][x].getTileType() != Level.ID_WALL && tile[y + 1][x + 1].getTileType() != Level.ID_WALL && tile[y][x + 1].getTileType() != Level.ID_WALL)
 				return true;
 		return false;
 	}
