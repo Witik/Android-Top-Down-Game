@@ -22,6 +22,9 @@ public class Player extends LivingEntity implements IAlarm {
 	private boolean hasShotgun, swappable;
 	private boolean godmode;
 
+	/**
+	 * Creates the player, gives him a pistol with half of the max ammo and initializes some fields.
+	 */
 	public Player() {
 		super(blockedTiles, HP, SPEED);
 		pistol = new Pistol(Pistol.MAX_AMMO / 2);
@@ -32,10 +35,18 @@ public class Player extends LivingEntity implements IAlarm {
 		setSprite(PISTOLSPRITE);
 	}
 	
+	/**
+	 * God Mode
+	 * @param b on or off
+	 */
 	public void god(boolean b){
 		godmode = b;
 	}
 
+	/**
+	 * Gives the player a gun, if he already has the gun, he'll take the ammo of the given gun.
+	 * @param gun the gun that is given.
+	 */
 	public void giveGun(Gun gun) {
 		if (gun instanceof Shotgun) {
 			if (hasShotgun)
@@ -68,20 +79,30 @@ public class Player extends LivingEntity implements IAlarm {
 		}
 	}
 
+	/**
+	 * Returns the player's shotgun.
+	 * @return the player's shotgun
+	 */
 	public Shotgun getShotgun() {
 		return shotgun;
 	}
-
+	
+	/**
+	 * Returns the player's pistol.
+	 * @return the player's pistol
+	 */
 	public Pistol getPistol() {
 		return pistol;
 	}
 
 	/**
+	 * Gives the player the given amount of ammo for the given gun type.
+	 * returns false if the player has full ammo or doesn't have the gun the ammo is for. 
 	 * @param type
 	 *            type of ammo
 	 * @param amount
 	 *            amount of ammo
-	 * @return did the amount of ammo fit
+	 * @return if the player could use the ammo
 	 */
 	public boolean giveAmmo(int type, int amount) {
 		if (type == Ammo.TYPE_PISTOL) {
@@ -94,6 +115,7 @@ public class Player extends LivingEntity implements IAlarm {
 		return false;
 	}
 
+	//shoots the current gun
 	private void shoot() {
 		float rot = getRotation();
 
@@ -123,12 +145,14 @@ public class Player extends LivingEntity implements IAlarm {
 		}
 	}
 
+	//makes roaming sounds
 	private void makeSound() {
 		if ((int) (Math.random() * 200) == 0)
 			if (false)
 				;
 	}
 
+	//handles the players movement
 	private void movement() {
 		if (OnScreenButtons.dPadUp)
 			moveForward();
@@ -147,7 +171,9 @@ public class Player extends LivingEntity implements IAlarm {
 		else if (OnScreenButtons.button4)
 			rotate(7.5f);
 	}
-
+	
+	@Deprecated
+	//other type of control. 
 	private void isaacmovement() {
 		int speed = (int) getSpeeds();
 		if (OnScreenButtons.dPadUp)
@@ -176,6 +202,7 @@ public class Player extends LivingEntity implements IAlarm {
 		}
 	}
 
+	//swaps the gun of the player has a shotgun
 	private void swap() {
 		if (swappable) {
 			if (hasShotgun) {
@@ -190,6 +217,7 @@ public class Player extends LivingEntity implements IAlarm {
 		}
 	}
 
+	//swaps the sprite
 	private void swapSprite() {
 		if (currentGun.equals(shotgun))
 			setSprite(SHOTGUNSPRITE);
@@ -264,6 +292,9 @@ public class Player extends LivingEntity implements IAlarm {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.topdown.game.LivingEntity#die()
+	 */
 	@Override
 	public void die() {
 		super.die();
@@ -271,16 +302,17 @@ public class Player extends LivingEntity implements IAlarm {
 	}
 
 	/**
-	 * does the player have a shotgun
+	 * returns true if the player has a shotgun
 	 * 
-	 * @return yes or no
+	 * @return true if the player has a shotgun
 	 */
 	public boolean hasShotgun() {
 		return hasShotgun;
 	}
 
 	/**
-	 * @return show me your current gun
+	 * returns the gun the player is currently holding
+	 * @return the gun the player is currently holding
 	 */
 	public Gun getCurrentGun() {
 		return currentGun;

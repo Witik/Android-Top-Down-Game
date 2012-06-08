@@ -33,7 +33,7 @@ public class Game extends GameEngine implements IFormInput {
 
 	public Game() {
 		super();
-		level = new Level("map"+Settings.level);
+		level = new Level("map" + Settings.level);
 		player = new Player();
 		info = new Infobar(player);
 		addPlayer(player, 0, 0);
@@ -55,7 +55,7 @@ public class Game extends GameEngine implements IFormInput {
 
 		player.setPosition(super.getScreenWidth() / 2 - player.getSprite().getFrameWidth() / 2, super.getScreenHeight() / 2 - player.getSprite().getFrameHeight() / 2);
 		player.isVisible = true;
-		//player.god(true);
+		// player.god(true);
 
 		OnScreenButtons.use = true;
 		OnScreenButtons.feedback = true;
@@ -105,16 +105,18 @@ public class Game extends GameEngine implements IFormInput {
 		info.setPosition(port.getViewportX() + 200, port.getViewportY() + 200);
 	}
 
+	//spawns a zombie at a random location within the level
 	private void spawnZombie() {
 		Tile[][] tile = level.getGameTiles().getTileArray();
-		int x = (int) (Math.random() * tile.length);
-		int y = (int) (Math.random() * tile[0].length);
+		int x = (int) (Math.random() * tile[0].length);
+		int y = (int) (Math.random() * tile.length);
 		if (notInWall(x, y, tile) && outSideViewport(x, y)) {
 			addGameObject(new Zombie(100, 1, 5, player), x * Level.TILE_SIZE, y * Level.TILE_SIZE);
 			numZom++;
 		}
 	}
 
+	//Checks to see if the given coordinates are inside the viewport or not
 	private boolean outSideViewport(int x, int y) {
 		if ((x + 1) * Level.TILE_SIZE > port.getViewportX() && x * Level.TILE_SIZE < port.getViewportX() + getScreenWidth())
 			if ((y + 1) * Level.TILE_SIZE > port.getViewportY() && y * Level.TILE_SIZE < port.getViewportY() + getScreenHeight())
@@ -122,12 +124,17 @@ public class Game extends GameEngine implements IFormInput {
 		return true;
 	}
 
+	//Checks to see if the given coordinates aren't in the wall of the given tile array
 	private boolean notInWall(int x, int y, Tile[][] tile) {
-		if (tile[y][x].getTileType() != Level.ID_WALL)
-			return true;
+		if (x < tile[0].length && y < tile.length)
+			if (tile[y][x].getTileType() != Level.ID_WALL || tile[y + 1][x].getTileType() != Level.ID_WALL || tile[y + 1][x + 1].getTileType() != Level.ID_WALL || tile[y][x + 1].getTileType() != Level.ID_WALL)
+				return true;
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.forms.IFormInput#formElementClicked(android.view.View)
+	 */
 	public void formElementClicked(View touchedElement) {
 		if (touchedElement.getId() == R.id.newlevel) {// goto new level
 			Toast.makeText(this, "new level", Toast.LENGTH_LONG).show();
@@ -144,6 +151,9 @@ public class Game extends GameEngine implements IFormInput {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
+	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {// af vangen van de back key
 			return false;
