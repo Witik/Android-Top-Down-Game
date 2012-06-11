@@ -20,7 +20,6 @@ public class HighScoreDisplay extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.credits);
-		this.setTitle("High Scores for level:"+Settings.level);
 		text = (EditText) this.findViewById(R.id.credittext);
 		text.setTextSize(10f);
         close = (Button) this.findViewById(R.id.close);
@@ -31,17 +30,22 @@ public class HighScoreDisplay extends Activity
 			}
 			
 		}); 
-		setText();
 	}
 	
 	public void onStart(){
 		super.onStart();
 		setText();
 	}
+	/**
+	 * set the all the views with the correct content
+	 */
 	private void setText() {
+		this.setTitle("High Scores for level:"+Settings.level);
 		text.setText("");
 		int count = 1;
-		HighScore[] scores = Settings.getHighScores(Settings.level);
+		MainMenu.settings.open();
+		HighScore[] scores = MainMenu.settings.getHighScores(Settings.level);
+		MainMenu.settings.close();
 		if(scores!=null){// check for all the null pointers
 			for(HighScore s: scores){
 				if(s!=null){// cause uncle android gets teh cramps from null pointers

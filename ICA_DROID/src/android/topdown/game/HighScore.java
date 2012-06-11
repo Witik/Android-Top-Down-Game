@@ -14,13 +14,10 @@ public class HighScore {
 		town = stage[1];
 		score = Integer.parseInt(stage[2]);
 	}
-	public String getSave(){
-		return name +"."+town+"."+score+"\n";
-	}
+	/**
+	 * @return all the data of this formated for showing it to the user
+	 */
 	public String getShow(){
 		return name +" "+town+" "+score;
-	}
-	public int getScore(){
-		return score;
 	}
 }

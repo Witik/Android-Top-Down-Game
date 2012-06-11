@@ -30,6 +30,7 @@ public class Game extends GameEngine implements IFormInput {
 	private static int numZom;
 
 	private GameForm endGame;
+	private int score;
 
 	public Game() {
 		super();
@@ -42,6 +43,7 @@ public class Game extends GameEngine implements IFormInput {
 		if (SoundLib.loading())
 			SoundLib.startLoad();
 		endGame = null;
+		score = 0;
 	}
 
 	/*
@@ -90,6 +92,9 @@ public class Game extends GameEngine implements IFormInput {
 		if (player.getHp() < 1) {// NOW IM GONE
 			if (endGame == null) {
 				endGame = new GameForm("endgame", this, this);
+				MainMenu.settings.open();
+				MainMenu.settings.insertScore(Settings.level, score);
+				MainMenu.settings.close();
 			}
 		} else {// STILL ALIVE
 			if (numZom < MAX_ZOMBIES)// IM DOING SCIENCE
@@ -100,7 +105,7 @@ public class Game extends GameEngine implements IFormInput {
 			if (OnScreenButtons.select)
 				player.setPosition(player.getFullX() - 64, player.getFullY() - 64);
 		}
-
+		score++; //TODO tijdelijke
 		info.setPort(port.getViewportX(), port.getViewportY());
 		info.setPosition(port.getViewportX() + 200, port.getViewportY() + 200);
 	}
@@ -149,6 +154,9 @@ public class Game extends GameEngine implements IFormInput {
 		} else if (touchedElement.getId() == R.id.endthegame) {
 			this.finish();
 		}
+		else if (touchedElement.getId() == R.id.disphighscore) {
+			startActivity(new Intent(this, HighScoreDisplay.class));
+		}
 	}
 
 	/* (non-Javadoc)
@@ -161,7 +169,11 @@ public class Game extends GameEngine implements IFormInput {
 		return true;
 	}
 
+	/**
+	 * record the death of a zombie
+	 */
 	public static void ZombieDeath() {
 		numZom--;
+		//score += 20;
 	}
 }

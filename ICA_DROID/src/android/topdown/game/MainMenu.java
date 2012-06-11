@@ -14,9 +14,11 @@ public class MainMenu extends Activity {
 	private Button submit,credits,load;
 	private EditText naam,plaats;
 	private Context context;
+	public static Settings settings;
 	public MainMenu() {
 		super();
 		context = this;
+		settings = new Settings(context);
 	}
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -36,22 +38,25 @@ public class MainMenu extends Activity {
 	 */
 	public void onResume(){
 		super.onResume();
-		if(!Settings.load(context)){
+		settings.open();
+		if(!settings.hasUser()){
 			disableLoad();
 		}
 		else{
 			enableLoad();
 		}
+		settings.close();
 	}
+	// set all the onclicklisteneres
 	private void setClickListeneres() {
 		submit.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
 				if(v.getId()==R.id.submitbuttonmainmenu){
-					Settings.playername = naam.getText().toString();
-					Settings.playertown = plaats.getText().toString();
-					Settings.level = 1;
-					Settings.save(context);
-					if(Settings.playername.length()>0&&Settings.playertown.length()>0){
+					settings.open();
+					settings.setUsername(naam.getText().toString());
+					settings.setTown(plaats.getText().toString());
+					settings.close();
+					if(settings.hasUser()){
 						startGame();
 					}
 					else{
@@ -70,14 +75,15 @@ public class MainMenu extends Activity {
 		load.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
 				if(v.getId()==R.id.loadbutton){
-					Settings.load(context);
-					if(Settings.load(context)){// ok we kunnen naar de game
+					settings.open();
+					if(settings.hasUser()){// ok we kunnen naar de game
 						startGame();
 					}
 					else{
 						Toast.makeText(getBaseContext(), "No profile present", Toast.LENGTH_LONG).show();
 						disableLoad();
 					}
+					settings.close();
 				}
 			}
 		});
@@ -86,12 +92,19 @@ public class MainMenu extends Activity {
 	 * start the game with the set parameters
 	 */
 	private void startGame(){
+		Settings.level = 1;
 		startActivity(new Intent(context, Game.class));
 	}
+	/**
+	 * disable the load button
+	 */
 	private void disableLoad(){
 		load.clearFocus();
 		load.setEnabled(false);
 	}
+	/**
+	 * enable the load button
+	 */
 	private void enableLoad(){
 		load.setEnabled(true);
 	}

@@ -1,166 +1,182 @@
 package android.topdown.game;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class Settings {
-	private static final String FILENAME = "profile.txt";
-	public static String playername,playertown;
+/**
+ * @author delta11
+ *
+ */
+public class Settings {	
 	public static int level;
-	private static ArrayList<HighScore[]> scores = new ArrayList<HighScore[]>(0);
+	private Context mCtx;
+    private DatabaseHelper mDbHelper;
+    private SQLiteDatabase mDb;
+    
+	private static final String TAG = "android.topdown.game";
+    
+    private static final String DATABASE_NAME = "TopDownGame";
+    private static final String DATABASE_TABLE_USER = "User";
+    private static final String DATABASE_TABLE_SCORES = "Scores";
+    private static final int DATABASE_VERSION = 1;
+    
+    //User table
+    private static final String KEY_INDEX = "indx";
+    private static final String KEY_USER = "user";
+    private static final String KEY_TOWN = "town";
+    
+    //HighScore Table *this table also uses al keys from the above table*
+    private static final String KEY_SCORE = "score";
+    private static final String KEY_LEVEL = "level";
+    
+    /**
+     * @param context insert the context to the settings to save to private file areay
+     */
+    public Settings(Context context){
+    	mCtx = context;
+    }
+    /**
+     * Open the database, Throws exception if database not found
+     *
+     * @throws SQLException if the database could be neither opened or created
+     */
+    public void open() throws SQLException {
+        mDbHelper = new DatabaseHelper(mCtx);
+        mDb = mDbHelper.getWritableDatabase();
+    }
+
+    /**
+     * close the database and make sure everything gets saved
+     */
+    public void close() {
+        mDbHelper.close();
+    }
 	/**
-	 * load the saved data
-	 * @param context the current context required for access to private files
-	 * @return boolean if it worked or not
+	 * is there a user present?
+	 * @return true = y
 	 */
-	public static boolean load(Context context){
-		try{
-			Log.d("readSettings", ""+readSettings(context));
-			String[] settings= readSettings(context).split("\n");
-			playername = settings[0];
-			playertown = settings[1];
-			try{
-				level = Integer.parseInt(settings[2]);
-			}
-			catch(Exception e){
-				Log.e("settings", "Couldn't parse level settings file might damaged error:"+e.toString());
-			}
-			try{
-				scores = new ArrayList<HighScore[]>(0);
-				int curLevel = 0;
-				for(int z = 3; z<settings.length; z++){
-					if(settings[z].contains("l")){// dit is een level regel
-						scores.add(new HighScore[10]);
-						curLevel++;
-					}
-					else{// het is een regel met save data
-						HighScore[] h = scores.get(scores.size()-1);
-						int curC = 0;
-						for(HighScore hs:h){
-							if(hs==null&&curC<scores.size()){
-								h[curC] = hs;
-								break;
-							}
-							curC++;
-						}
-					}
-				}
-			}
-			catch(Exception e){
-				Log.e("settings", "error parsing highscore:"+e.toString());
-			}
-		}
-		catch(Exception e){
-			Log.e("settings", "settings file maybe damaged");
-		}
-		LogHighScores();
-		Log.d("settings", "name: "+playername+" playertown: "+ playertown+ " level: "+level);
-		if(level>0&&playertown.length()>0&&playername.length()>0){
+	public boolean hasUser(){
+		if(getUsername().length()>0&&getTown().length()>0){
 			return true;
 		}
 		else{
 			return false;
 		}
 	}
-	public static void LogHighScores() {
-		Log.i("loiggun", "sdf");
-		int level = 1;
-		for(HighScore[] z: scores){
-			Log.i("level", ""+level);
-			for(HighScore s: z){
-				if(s!=null)
-					Log.i("score", ""+s.getSave());
-			}
-			level++;
+    /**
+     * set the current username
+     * @param Username the name
+     */
+    public void setUsername(String Username)
+    {
+    	ContentValues args = new ContentValues();
+		args.put(KEY_USER, Username);
+        mDb.update(DATABASE_TABLE_USER, args, KEY_INDEX + "=0", null);
+    }
+    /**
+     * set the current town
+     * @param Town the name for the town
+     */
+    public void setTown(String Town)
+    {
+    	ContentValues args = new ContentValues();
+		args.put(KEY_TOWN, Town);
+        mDb.update(DATABASE_TABLE_USER, args, KEY_INDEX + "=0", null);
+    }
+    /**
+     * get the current user his/her name
+     * @return the name
+     */
+    public String getUsername()
+    {
+    	Cursor mCursor = mDb.query(true, DATABASE_TABLE_USER, new String[] {KEY_USER}, KEY_INDEX + "=0", null,null, null, null, null);
+    	mCursor.moveToFirst();
+    	return mCursor.getString(0);
+    }
+    /**
+     * current user's town
+     * @return the name of the town
+     */
+    public String getTown()
+    {
+    	Cursor mCursor = mDb.query(true, DATABASE_TABLE_USER, new String[] {KEY_TOWN}, KEY_INDEX + "=0", null,null, null, null, null);
+    	mCursor.moveToFirst();
+    	return mCursor.getString(0);
+    }
+    
+    /**
+     * insert a score in to the database
+     * this score is automatically connected to the current user
+     * @param level the level to which the score belong
+     * @param score the score which this user got
+     */
+    public void insertScore(int level, int score){
+    	ContentValues args = new ContentValues();
+		args.put(KEY_USER, getUsername());
+		args.put(KEY_TOWN, getTown());
+		args.put(KEY_LEVEL, level);
+		args.put(KEY_SCORE, score);
+		mDb.insert(DATABASE_TABLE_SCORES, null, args);
+    }
+    /**
+     * get the top ten scores for
+     * @param level this level
+     * @return Array size 10 with as many scores as were found
+     */
+    public HighScore[] getHighScores(int level){
+    	Cursor mCursor = mDb.query(true, DATABASE_TABLE_SCORES, new String[] {KEY_USER,KEY_TOWN,KEY_SCORE}, 
+    			KEY_LEVEL+"="+level, null,null, null, KEY_SCORE+" DESC", null);
+    	HighScore[] scores = new HighScore[10];
+    	int count = 0;
+    	if(mCursor.getCount()!=0)
+    	{
+    		mCursor.moveToFirst();
+    		while (mCursor.isAfterLast() == false) 
+    		{
+    			scores[count] = new HighScore(mCursor.getInt(2), mCursor.getString(0), mCursor.getString(1));
+    			count++;
+    			mCursor.moveToNext();
+    		}
+    	}
+    	
+    	return scores;
+    }
+	private static class DatabaseHelper extends SQLiteOpenHelper 
+    {
+
+        DatabaseHelper(Context context) {
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) 
+        {
+            db.execSQL("CREATE TABLE "+DATABASE_TABLE_USER+" ("+KEY_INDEX+" integer primary key,"
+                    + KEY_USER+" varchar," +
+                    KEY_TOWN+" varchar);");
+            db.execSQL("CREATE TABLE "+DATABASE_TABLE_SCORES+" ("+ KEY_INDEX + " integer primary key," 
+            		+KEY_USER+" varchar not null,"
+                    + KEY_TOWN+" varchar not null," +
+                    KEY_SCORE+" int not null," +
+                    KEY_LEVEL+" int not null);");
+            ContentValues args = new ContentValues();
+    		args.put(KEY_USER, "");
+    		args.put(KEY_TOWN, "");
+    		args.put(KEY_INDEX, 0);
+            db.insert(DATABASE_TABLE_USER, null, args);
+        }
+
+		@Override
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
+                    + newVersion + ", which will destroy all old data");
+            db.execSQL("DROP TABLE *");
+            onCreate(db);
 		}
-	}
-	/**
-	 * save the current settings to the private file location
-	 * @param context the current context required for access to private files
-	 */
-	public static void save(Context context){
-		sterilizeInput();
-		String save = playername+"\n"
-				+ playertown+ "\n"+
-				level + "\n";
-		for(HighScore[] zwam: scores){
-			if(zwam.length>0)
-				save+= "l\n";
-			for(HighScore z:zwam){
-				if(z!=null){
-					save += z.getSave();
-				}
-			}
-		}
-		try{
-			FileOutputStream fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-			fos.write(save.getBytes());
-			fos.close();
-		}
-		catch(Exception e){
-			Log.e("Settings", "Couldn't write Settings out: "+e.toString());
-		}
-	}
-	private static void sterilizeInput() {
-		playername.replaceAll(".", "");
-		playertown.replaceAll(".", "");
-		playername.replaceAll(" ", "");
-		playertown.replaceAll(" ", "");
-	}
-	private static String readSettings(Context context){
-		int ch;
-		StringBuffer strContent = new StringBuffer("");
-		try{
-			FileInputStream fin = context.openFileInput(FILENAME);
-			while ((ch = fin.read()) != -1){
-				strContent.append((char) ch);
-			}
-			fin.close();
-		}
-		catch(Exception e){
-			Log.e("settings", "Couldn't load settings:"+e.toString());
-		}
-		return strContent.toString();
-	}
-	/**
-	 * place a high score for storage
-	 * This methode checks if the score belongs in the highscore list
-	 * *DOES NOT CALL SAVE YOU STILL NEED TO TO THAT YOUR SELF*
-	 * @param level the level involevd
-	 * @param score the score that has to be placed
-	 */
-	public static void pushHighScore(int score){
-		if(scores.size()>=level){
-			for(int z = 0; z<scores.size();z++){
-				if(scores.get(level-1)[z]==null){//TODO tijdelijke implementatie die niet de scores vergelijkt
-					HighScore[] s = scores.get(level-1);
-					if(s[z]==null)
-						s[z] = new HighScore(score,playername,playertown);
-					scores.set(level-1, s);
-				}
-			}
-		}
-		else{
-			scores.add(new HighScore[10]);
-			HighScore[] s = scores.get(level-1);
-			s[0] = new HighScore(score,playername,playertown);
-			scores.set(level-1, s);
-		}
-	}
-	/**
-	 * @param level the level you want the hight score list from *can be null if not present*
-	 * @return an array containing the highscores
-	 */
-	public static HighScore[] getHighScores(int level){
-		if(scores.size()>=level){// ok we hebben al een score van dit level
-			return scores.get(level-1);
-		}
-		else{
-			return null;
-		}
-	}
+    }
 }
