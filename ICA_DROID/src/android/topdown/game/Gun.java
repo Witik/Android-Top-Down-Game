@@ -68,12 +68,15 @@ public abstract class Gun implements IAlarm {
 	/**
 	 * methode called after shooting which sets that the gun cant fire for a set amount of time
 	 */
-	public void shot(){
+	protected void shot(){
 		ammo--;
 		canShoot = false;
 		new Alarm(1, rate, this);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.gameengine.icadroids.alarms.IAlarm#alarmsActiveForThisObject()
+	 */
 	public boolean alarmsActiveForThisObject() {
 		return !canShoot;
 	}

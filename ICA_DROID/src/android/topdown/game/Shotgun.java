@@ -8,7 +8,7 @@ public class Shotgun extends Gun {
 	public static final int RATE = 35;
 
 	/**
-	 * @param ammo The amount of ammo this gun wil have
+	 * @param ammo The amount of ammo this gun will have
 	 */
 	public Shotgun(int ammo) {
 		super("shotgun", ammo, MAX_AMMO, DAMAGE, RATE);

@@ -6,18 +6,15 @@ import android.util.Log;
 public class Zombie extends LivingEntity {
 	private int damage;
 	private static int[] blockedTiles = { Level.ID_WALL };
-	/**
-	 * pointer naar de player die kan gedeelt zijn tussen alle zombies geen
-	 * issues met asycn memory acces dus dat gaat allemaal prima lukken
-	 */
+	//static pointer shared by all zombies
 	private static Player player;
-	private int numMoves, move;// voor de random movement te reguleren
+	private int numMoves, move;
 	private boolean noticedPlayer;
 
 	/**
-	 * @param hp amount of health point this zombie wil have
-	 * @param speed the speed this zombie wil have
-	 * @param damage the damage this zombie wil be able to give per attack
+	 * @param hp amount of health point this zombie will have
+	 * @param speed the speed this zombie will have
+	 * @param damage the damage this zombie will be able to give per attack
 	 * @param player a pointer to the current player so the zombie can eat his brains
 	 */
 	public Zombie(int hp, double speed, int damage, Player player) {
@@ -29,6 +26,7 @@ public class Zombie extends LivingEntity {
 		noticedPlayer = false;
 	}
 
+	//chooses a random zombie sprite
 	private String getSpriteName() {
 		switch ((int) (Math.random() * 3 + 1)) {
 		case 1:
@@ -52,6 +50,7 @@ public class Zombie extends LivingEntity {
 			makeSound();
 	}
 
+	//make a random sound
 	private void makeSound() {
 		if ((int) (Math.random() * 200) == 0)
 			switch ((int) (Math.random() * 20)) {
@@ -79,6 +78,7 @@ public class Zombie extends LivingEntity {
 			}
 	}
 
+	//decide how to move
 	private void zombieNavigation() {
 		if ((seesPlayer() && playerWithin(8)) || playerWithin(3) || noticedPlayer) {
 			clearRandom();
@@ -92,10 +92,12 @@ public class Zombie extends LivingEntity {
 		}
 	}
 
+	//clear the random move counter
 	private void clearRandom() {
 		numMoves = move = 0;
 	}
 
+	//move somewhere at random
 	private void randomMove() {
 		if (numMoves == 0) {// shit verzinnen
 			numMoves = (int) (Math.random() * 20) + 20;
@@ -119,11 +121,7 @@ public class Zombie extends LivingEntity {
 		}
 	}
 
-	/**
-	 * turn toward player
-	 * 
-	 * @return true if close enough
-	 */
+	//turn towards the player
 	private boolean turnTowardPlayer() {
 		int angle = getAngleToPlayer();
 		if (!(angle < 10 || angle > 350)) {
@@ -139,11 +137,7 @@ public class Zombie extends LivingEntity {
 		return false;
 	}
 
-	/**
-	 * can i see the player?
-	 * 
-	 * @return true = yes
-	 */
+	//returns true if the player is in front of the zombie
 	private boolean seesPlayer() {
 		if (getAngleToPlayer() > 320 || getAngleToPlayer() < 40) {
 			return true;
@@ -151,6 +145,7 @@ public class Zombie extends LivingEntity {
 		return false;
 	}
 
+	//returns true if the player is within a certain amount of tiles
 	private boolean playerWithin(int tiles) {
 		float zx = getCenterX();
 		float zy = getCenterY();
@@ -166,9 +161,7 @@ public class Zombie extends LivingEntity {
 		return false;
 	}
 
-	/**
-	 * @return the angle of this to the player
-	 */
+	//returns the angle to the player
 	private int getAngleToPlayer() {
 		float zx = getCenterX();
 		float zy = getCenterY();

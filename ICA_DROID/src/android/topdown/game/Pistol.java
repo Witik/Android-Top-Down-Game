@@ -9,7 +9,7 @@ public class Pistol extends Gun {
 	public static final int RATE = 10;
 
 	/**
-	 * @param ammo the amount of ammo this gun wil have
+	 * @param ammo the amount of ammo this gun will have
 	 */
 	public Pistol(int ammo) {
 		super("pistol", ammo, MAX_AMMO, DAMAGE, RATE);

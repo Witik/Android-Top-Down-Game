@@ -16,9 +16,12 @@ public abstract class LivingEntity extends MoveableGameObject {
 	private int[] blockedTiles;
 
 	/**
-	 * @param blockedTiles array of tiles which the entity cannot move on to
-	 * @param hp the amount of healthpoint the entity has
-	 * @param speed the movement speed for this entity
+	 * @param blockedTiles
+	 *            array of tiles which the entity cannot move on to
+	 * @param hp
+	 *            the amount of healthpoint the entity has
+	 * @param speed
+	 *            the movement speed for this entity
 	 */
 	public LivingEntity(int[] blockedTiles, int hp, double speed) {
 		this.hp = hp;
@@ -30,7 +33,9 @@ public abstract class LivingEntity extends MoveableGameObject {
 
 	/**
 	 * rotate the entity
-	 * @param rotation the amount of rotation you want
+	 * 
+	 * @param rotation
+	 *            the amount of rotation you want
 	 */
 	public void rotate(float rotation) {
 		if (this.rotation + rotation < 0) {
@@ -43,21 +48,30 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	/**
-	 * @param rot set the rotation to this amount
+	 * set the rotation to the given amount of degrees
+	 * 
+	 * @param rot
+	 *            the amount of degrees the LivingEntity will be rotated
 	 */
 	public void setRotation(float rot) {
 		this.rotation = rot % 360;
 	}
 
 	/**
-	 * @return current rotation of the entity
+	 * Returns the current rotation of the LivingEntity in degrees
+	 * 
+	 * @return The current rotation of the LivingEntity
 	 */
 	public float getRotation() {
 		return rotation;
 	}
 
-	/* (non-Javadoc)
-	 * @see android.gameengine.icadroids.objects.GameObject#drawGameObject(android.graphics.Canvas)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * android.gameengine.icadroids.objects.GameObject#drawGameObject(android
+	 * .graphics.Canvas)
 	 */
 	public void drawGameObject(Canvas canvas) {
 		AnimatedSprite sprite = getSprite();
@@ -72,31 +86,39 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	/**
-	 * @return het speed of this entity
+	 * returns the speed of the LivingEntity.
+	 * 
+	 * @return the speed of the LivingEntity
 	 */
 	public double getSpeeds() {
 		return speed;
 	}
 
 	/**
-	 * Movement speed always a positive number
-	 * @param speed the desired speed
+	 * Sets the movement speed to the absolute value of the given amount.
+	 * 
+	 * @param speed
+	 *            The new speed of the living entity
 	 */
 	public void setSpeeds(double speed) {
 		this.speed = Math.abs(speed);
 	}
 
 	/**
-	 * heal the entity
-	 * @param hp the amount the entity will be healed
+	 * Heals the entity by the given amount.
+	 * 
+	 * @param hp
+	 *            the amount the entity will be healed
 	 */
 	public void heal(int hp) {
 		this.hp += hp;
 	}
 
 	/**
-	 * hurt the entity
-	 * @param hp the amount the entity will be healed
+	 * Hurts the entity by the given amount.
+	 * 
+	 * @param hp
+	 *            the amount the entity will be hurt
 	 */
 	public void hurt(int hp) {
 		this.hp -= hp;
@@ -113,6 +135,7 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	/**
+	 * Returns the entity's current amount of hp
 	 * @return the entity's current amount of health points
 	 */
 	public int getHp() {
@@ -121,21 +144,28 @@ public abstract class LivingEntity extends MoveableGameObject {
 
 	/**
 	 * Change the entity's amount of health points
-	 * @param hp the amount you want
+	 * 
+	 * @param hp
+	 *            the amount the hp will be changed to
 	 */
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
 
 	/**
+	 * returns the maximum amount of health of the entity
 	 * @return the maximum amount of health
 	 */
 	public int getmaxHp() {
 		return maxHp;
 	}
 
-	/* (non-Javadoc)
-	 * @see android.gameengine.icadroids.objects.MoveableGameObject#collisionOccurred(java.util.List)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * android.gameengine.icadroids.objects.MoveableGameObject#collisionOccurred
+	 * (java.util.List)
 	 */
 	public void collisionOccurred(List<Tile> collidedTiles) {
 
@@ -150,7 +180,9 @@ public abstract class LivingEntity extends MoveableGameObject {
 			moveUpToTileSide(collidedTiles.get(0));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.gameengine.icadroids.objects.MoveableGameObject#update()
 	 */
 	public void update() {
@@ -159,7 +191,8 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	/**
-	 * Similar to but then to check the collision between game object
+	 * Checks the collision between game objects
+	 * 
 	 * @see android.gameengine.icadroids.objects.MoveableGameObject#collisionOccurred(java.util.List)
 	 */
 	private void gameObjectCollision() {
@@ -171,13 +204,15 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	/**
-	 * methode called upon collision with an other game object
-	 * @param g the game object we collided with
+	 * method called upon collision with an other game object
+	 * 
+	 * @param g
+	 *            the game object this object collided with
 	 */
 	protected abstract void objectCollision(GameObject g);
 
 	/**
-	 * move the entity forward relative to his facing
+	 * move the entity forward relative to its facing
 	 */
 	public void moveForward() {
 		double dx = Math.sin(Math.toRadians(getRotation())) * getSpeeds();
@@ -186,7 +221,7 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	/**
-	 * move the entity backward relative to his facing
+	 * move the entity backward relative to its facing
 	 */
 	public void moveBackward() {
 		double dx = Math.sin(Math.toRadians(getRotation())) * getSpeeds();
@@ -195,7 +230,7 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	/**
-	 * move the entity left relative to his facing
+	 * move the entity left relative to its facing
 	 */
 	public void moveLeft() {
 		double dx = Math.sin(Math.toRadians(getRotation())) * getSpeeds();
@@ -204,7 +239,7 @@ public abstract class LivingEntity extends MoveableGameObject {
 	}
 
 	/**
-	 * move the entity right relative to his facing
+	 * move the entity right relative to its facing
 	 */
 	public void moveRight() {
 		double dx = Math.sin(Math.toRadians(getRotation())) * getSpeeds();

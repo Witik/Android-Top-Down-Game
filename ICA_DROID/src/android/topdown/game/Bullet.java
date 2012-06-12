@@ -8,15 +8,17 @@ import android.gameengine.icadroids.tiles.Tile;
 import android.graphics.Canvas;
 
 public class Bullet extends MoveableGameObject {
-	/**
-	 * afstand die gereisd mag worden
-	 */
+
+	private static final int BULLET_SPEED = 20;
 	private int decay;
 	private int damage, rotation;
 
 	private static int[] blockedTiles = { Level.ID_WALL };
 
 	/**
+	 * Creates a new bullet, sets the position and speed, and rotates it to the
+	 * given angle
+	 * 
 	 * @param x
 	 *            spawn x
 	 * @param y
@@ -35,7 +37,7 @@ public class Bullet extends MoveableGameObject {
 		this.decay = decay;
 		setX(x - getFrameWidth() / 2);
 		setY(y);
-		setDirectionSpeed(rotation, 20);
+		setDirectionSpeed(rotation, BULLET_SPEED);
 		this.damage = damage;
 	}
 
@@ -71,6 +73,10 @@ public class Bullet extends MoveableGameObject {
 			this.deleteThisGameObject();
 	}
 
+	/**
+	 * returns the damage the bullet does
+	 * @return the damage the bullet does
+	 */
 	public int getDamage() {
 		return damage;
 	}
