@@ -93,6 +93,9 @@ public class MainMenu extends Activity {
 	 */
 	private void startGame(){
 		Settings.level = 1;
+		settings.open();
+		Toast.makeText(context, "Name:"+settings.getUsername()+" Place:"+settings.getTown(), Toast.LENGTH_LONG).show();
+		settings.close();
 		startActivity(new Intent(context, Game.class));
 	}
 	/**
