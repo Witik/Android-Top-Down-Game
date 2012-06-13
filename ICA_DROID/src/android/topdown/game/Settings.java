@@ -95,7 +95,10 @@ public class Settings {
     public String getUsername()
     {
     	Cursor mCursor = mDb.query(true, DATABASE_TABLE_USER, new String[] {KEY_USER}, KEY_INDEX + "=0", null,null, null, null, null);
-    	mCursor.moveToFirst();
+    	if(mCursor.getCount()!=0)
+    	{
+    		mCursor.moveToFirst();
+    	}
     	return mCursor.getString(0);
     }
     /**
@@ -105,7 +108,10 @@ public class Settings {
     public String getTown()
     {
     	Cursor mCursor = mDb.query(true, DATABASE_TABLE_USER, new String[] {KEY_TOWN}, KEY_INDEX + "=0", null,null, null, null, null);
-    	mCursor.moveToFirst();
+    	if(mCursor.getCount()!=0)
+    	{
+    		mCursor.moveToFirst();
+    	}
     	return mCursor.getString(0);
     }
     
