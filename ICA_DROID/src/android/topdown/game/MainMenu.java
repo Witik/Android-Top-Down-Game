@@ -52,12 +52,12 @@ public class MainMenu extends Activity {
 		submit.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
 				if(v.getId()==R.id.submitbuttonmainmenu){
-					settings.open();
-					settings.setUsername(naam.getText().toString());
-					settings.setTown(plaats.getText().toString());
-					settings.close();
-					if(settings.hasUser()){
+					if(naam.getText().toString().length()>0&&plaats.getText().toString().length()>0){
+						settings.open();
+						settings.setUsername(naam.getText().toString());
+						settings.setTown(plaats.getText().toString());
 						startGame();
+						settings.close();
 					}
 					else{
 						Toast.makeText(getBaseContext(), "I asked you something? Y_NO_ANSWER?", Toast.LENGTH_LONG).show();
