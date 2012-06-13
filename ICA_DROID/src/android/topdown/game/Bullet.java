@@ -39,6 +39,7 @@ public class Bullet extends MoveableGameObject {
 		setY(y);
 		setDirectionSpeed(rotation, BULLET_SPEED);
 		this.damage = damage;
+		Game.addPoints(1);
 	}
 
 	/*

@@ -99,6 +99,7 @@ public abstract class Pickup extends GameObject implements IAlarm {
 	 *            the player that pick this up
 	 */
 	public void pickupEvent(Player player) {
+		Game.addPoints(10);
 		isVisible = false;
 		pickedUp = true;
 		new Alarm(0, respawnrate, this);

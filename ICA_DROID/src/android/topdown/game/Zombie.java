@@ -265,7 +265,6 @@ public class Zombie extends LivingEntity {
 			else
 				SoundLib.play(SoundLib.FERDI_HMM);
 		}
-
-		// TODO add custom die maybe met extra corpse class idk PUNTEN!
+		Game.addPoints(25);
 	}
 }

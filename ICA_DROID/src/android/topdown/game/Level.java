@@ -1,7 +1,5 @@
 package android.topdown.game;
 
-import java.util.Vector;
-
 import android.gameengine.icadroids.objects.graphics.Sprite;
 import android.gameengine.icadroids.tiles.GameTiles;
 import android.graphics.Bitmap;

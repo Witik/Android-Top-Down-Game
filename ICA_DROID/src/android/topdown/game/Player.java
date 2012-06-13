@@ -136,20 +136,12 @@ public class Player extends LivingEntity implements IAlarm {
 	public void update() {
 		super.update();
 
-		makeSound();
-
 		movement();
 		if (getHp() > getmaxHp()) {// als we op adren zitten dan langzaam laten
 									// dalen
+			Game.addPoints(1);
 			setHp(getHp() - 1);
 		}
-	}
-
-	//makes roaming sounds
-	private void makeSound() {
-		if ((int) (Math.random() * 200) == 0)
-			if (false)
-				;
 	}
 
 	//handles the players movement
@@ -172,6 +164,7 @@ public class Player extends LivingEntity implements IAlarm {
 			rotate(7.5f);
 	}
 	
+	@SuppressWarnings("unused")
 	@Deprecated
 	//other type of control. 
 	private void isaacmovement() {
